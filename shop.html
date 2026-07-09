@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المتجر | أوبولنت سبيسز</title>
+<meta name="description" content="تصفّح مجموعة أوبولنت سبيسز الكاملة من الأثاث الفاخر — أرائك، غرف نوم، سفرة، إضاءة وأثاث خارجي.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23201E1C'/><text x='32' y='43' font-family='Georgia, serif' font-size='34' fill='%23B98D4F' text-anchor='middle'>O</text></svg>">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">OPULENT<span>SPACES</span></a>
+
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="shop.html" class="active">المتجر</a>
+      <a href="about.html">من نحن</a>
+      <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="lang-select" aria-label="اختيار اللغة">
+        <span>عربي</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="header-icons">
+        <a href="cart.html" aria-label="سلة المشتريات">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 6h2l2.4 12.2a2 2 0 002 1.8h8.4a2 2 0 002-1.8L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" id="mobileNavClose" aria-label="إغلاق القائمة">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <a href="index.html">الرئيسية</a>
+  <a href="shop.html">المتجر</a>
+  <a href="about.html">من نحن</a>
+  <a href="contact.html">تواصل معنا</a>
+</div>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=1800&auto=format&fit=crop');">
+  <div class="page-hero-content">
+    <h1>المتجر</h1>
+    <div class="breadcrumb">
+      <a href="index.html">الرئيسية</a><span>/</span><span>المتجر</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOP MAIN ============ -->
+<section>
+  <div class="container">
+
+    <div class="shop-cat-tabs reveal" id="shopTabs">
+      <button class="tab-btn active" data-cat="all">كل المنتجات</button>
+      <button class="tab-btn" data-cat="sofas">الأرائك والكراسي</button>
+      <button class="tab-btn" data-cat="bedrooms">غرف النوم</button>
+      <button class="tab-btn" data-cat="dining">السفرة</button>
+      <button class="tab-btn" data-cat="tv_tables">طاولات التلفزيون</button>
+      <button class="tab-btn" data-cat="buffets">بوفيهات</button>
+      <button class="tab-btn" data-cat="cabinets">خزائن الأحذية</button>
+      <button class="tab-btn" data-cat="lighting">الإضاءة</button>
+      <button class="tab-btn" data-cat="outdoor">أثاث خارجي</button>
+    </div>
+
+    <div class="shop-layout">
+
+      <!-- ---------- FILTER SIDEBAR ---------- -->
+      <aside class="filter-sidebar reveal" id="shopFilters">
+        <div class="filter-block">
+          <div class="filter-title">
+            <span>نطاق السعر</span>
+            <button type="button" class="filter-reset" id="resetFilters">مسح الكل</button>
+          </div>
+          <div class="price-range-display"><span>0 ر.س</span><span id="priceMaxLabel">50,000 ر.س</span></div>
+          <input type="range" class="range-slider" id="priceRange" min="200" max="50000" step="100" value="50000" aria-label="الحد الأقصى للسعر">
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">الفئة</div>
+          <label class="filter-check"><span><input type="checkbox" data-cat="sofas"> الأرائك والكراسي</span><span class="fc-count" data-count-for="sofas">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="bedrooms"> غرف النوم</span><span class="fc-count" data-count-for="bedrooms">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="dining"> السفرة</span><span class="fc-count" data-count-for="dining">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="tv_tables"> طاولات التلفزيون</span><span class="fc-count" data-count-for="tv_tables">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="buffets"> بوفيهات</span><span class="fc-count" data-count-for="buffets">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="cabinets"> خزائن الأحذية</span><span class="fc-count" data-count-for="cabinets">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="lighting"> الإضاءة</span><span class="fc-count" data-count-for="lighting">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-cat="outdoor"> أثاث خارجي</span><span class="fc-count" data-count-for="outdoor">0</span></label>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">الخامة</div>
+          <label class="filter-check"><span><input type="checkbox" data-material="خشب طبيعي"> خشب طبيعي</span><span class="fc-count" data-material-count-for="خشب طبيعي">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-material="قماش مخملي"> قماش مخملي</span><span class="fc-count" data-material-count-for="قماش مخملي">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-material="معدن"> معدن</span><span class="fc-count" data-material-count-for="معدن">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-material="رخام"> رخام</span><span class="fc-count" data-material-count-for="رخام">0</span></label>
+          <label class="filter-check"><span><input type="checkbox" data-material="راتان"> راتان</span><span class="fc-count" data-material-count-for="راتان">0</span></label>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">اللون</div>
+          <div class="swatch-row" id="colorSwatches">
+            <button type="button" class="swatch" data-color="darkbrown" style="background:#3B322A" aria-label="بني غامق" title="بني غامق"></button>
+            <button type="button" class="swatch" data-color="beige" style="background:#D9CBB4" aria-label="بيج" title="بيج"></button>
+            <button type="button" class="swatch" data-color="black" style="background:#2A2A2A" aria-label="أسود" title="أسود"></button>
+            <button type="button" class="swatch" data-color="white" style="background:#F4F1EA" aria-label="أبيض" title="أبيض"></button>
+            <button type="button" class="swatch" data-color="wood" style="background:#8C6A4A" aria-label="خشبي" title="خشبي"></button>
+            <button type="button" class="swatch" data-color="green" style="background:#6B7B6B" aria-label="أخضر" title="أخضر"></button>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-title">التوفر</div>
+          <label class="filter-check"><span><input type="checkbox" id="onSaleOnly"> عروض وتخفيضات فقط</span></label>
+        </div>
+
+        <button class="btn btn-dark filter-apply-btn" id="applyFiltersBtn">تطبيق الفلاتر</button>
+      </aside>
+
+      <!-- ---------- PRODUCT GRID ---------- -->
+      <div>
+        <div class="shop-toolbar reveal">
+          <span class="result-count" id="shopResultCount">عرض <strong>0</strong> منتج</span>
+          <select class="sort-select" id="shopSort" aria-label="ترتيب حسب">
+            <option value="newest">الأحدث</option>
+            <option value="price-asc">السعر: من الأقل للأعلى</option>
+            <option value="price-desc">السعر: من الأعلى للأقل</option>
+          </select>
+        </div>
+
+        <div class="product-grid cols-5 reveal" id="shopGrid">
+          <!-- rendered via JS (see main.js) -->
+        </div>
+
+        <div class="pagination reveal" id="shopPagination">
+          <!-- rendered via JS (see main.js) -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFFER BANNER ============ -->
+<section class="section-alt">
+  <div class="container">
+    <div class="offer-banner reveal" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop');">
+      <div class="offer-content">
+        <span class="eyebrow">خصم إضافي</span>
+        <h3>شحن مجاني للطلبات الأكثر من 555 ر.س</h3>
+        <p>استفد من التوصيل المجاني عند اكتمال شروط الطلب، على مجموعة مختارة من قطع الأثاث الفاخرة.</p>
+        <a href="shop.html" class="btn btn-gold">تسوق الآن</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="newsletter">
+      <span class="newsletter-title">اشترك في نشرتنا البريدية</span>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
+        <button type="submit" class="btn btn-gold">اشتراك</button>
+      </form>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">OPULENT<span>SPACES</span></a>
+        <p>أثاث فاخر مصنوع ليدوم، مستوحى من الأناقة الخالدة والراحة العصرية.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="إنستغرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="فيسبوك"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 9h3V6h-3a3 3 0 00-3 3v2H9v3h2v6h3v-6h3l1-3h-4v-1a1 1 0 011-1z"/></svg></a>
+          <a href="#" aria-label="بنترست"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 16.5L12 8l1.5 5.2c.3 1 1.3 1.6 2.3 1.3.9-.3 1.4-1.1 1.4-2 0-2.5-2-4.5-4.7-4.5-3 0-5.1 2.2-5.1 4.9 0 1.1.4 2 .9 2.6"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>مجموعة المتجر</h5>
+        <ul>
+          <li><a href="shop.html">المنتجات</a></li>
+          <li><a href="shop.html">العروض</a></li>
+          <li><a href="shop.html">الأكثر مبيعاً</a></li>
+          <li><a href="shop.html">وصل حديثاً</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>خدمة العملاء</h5>
+        <ul>
+          <li><a href="#">الأسئلة الشائعة</a></li>
+          <li><a href="#">الشحن والتوصيل</a></li>
+          <li><a href="#">الإرجاع والاستبدال</a></li>
+          <li><a href="#">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>ابقَ على تواصل</h5>
+        <ul>
+          <li><a href="about.html">من نحن</a></li>
+          <li><a href="contact.html">تواصل معنا</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © أوبولنت سبيسز 2025 — جميع الحقوق محفوظة
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
