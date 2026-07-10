@@ -193,9 +193,99 @@ window.OpulentCart = (function () {
   };
 })();
 
+/* ==========================================================================
+   WISHLIST
+   Persisted in localStorage like the cart, so the heart buttons across the
+   site actually save favorites instead of just toggling a visual state.
+   ========================================================================== */
+window.OpulentWishlist = (function () {
+  var STORAGE_KEY = 'opulent_wishlist_v1';
+
+  function getList() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    } catch (err) {
+      return [];
+    }
+  }
+
+  function saveList(list) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch (err) { /* storage unavailable */ }
+    renderBadges();
+    document.dispatchEvent(new CustomEvent('wishlist:change'));
+  }
+
+  function has(id) {
+    return getList().some(function (it) { return it.id === id; });
+  }
+
+  /* Adds/removes the item and returns true if it is now saved, false if it was just removed */
+  function toggle(item) {
+    var list = getList();
+    var idx = list.findIndex(function (it) { return it.id === item.id; });
+    if (idx > -1) {
+      list.splice(idx, 1);
+      saveList(list);
+      return false;
+    }
+    list.push(item);
+    saveList(list);
+    return true;
+  }
+
+  function removeItem(id) {
+    var list = getList().filter(function (it) { return it.id !== id; });
+    saveList(list);
+  }
+
+  function count() {
+    return getList().length;
+  }
+
+  function renderBadges() {
+    var n = count();
+    document.querySelectorAll('.wishlist-count').forEach(function (el) {
+      el.textContent = n;
+      el.style.display = n > 0 ? 'flex' : 'none';
+    });
+  }
+
+  return {
+    getList: getList, has: has, toggle: toggle, removeItem: removeItem,
+    count: count, renderBadges: renderBadges
+  };
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
 
   OpulentCart.renderBadges();
+  OpulentWishlist.renderBadges();
+
+  /* ---------- Wishlist: sync active state + delegated toggle (persists via localStorage) ---------- */
+  function wishlistItemFromBtn(btn) {
+    var card = btn.closest('.product-card') || btn.closest('.pdp-info');
+    if (!card) return null;
+    return OpulentCart.extractFromCard(card);
+  }
+  function syncWishlistButtons(scope) {
+    (scope || document).querySelectorAll('.wishlist-btn').forEach(function (btn) {
+      var item = wishlistItemFromBtn(btn);
+      if (item) btn.classList.toggle('active', OpulentWishlist.has(item.id));
+    });
+  }
+  syncWishlistButtons();
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.wishlist-btn');
+    if (!btn) return;
+    e.preventDefault();
+    var item = wishlistItemFromBtn(btn);
+    if (!item) return;
+    var nowSaved = OpulentWishlist.toggle(item);
+    btn.classList.toggle('active', nowSaved);
+    OpulentCart.toast(nowSaved ? 'أُضيف "' + item.name + '" إلى المفضلة' : 'أُزيل "' + item.name + '" من المفضلة');
+  });
 
   /* ---------- Site-wide "add to cart" wiring (delegated, no per-card markup needed) ---------- */
   document.addEventListener('click', function (e) {
@@ -209,6 +299,16 @@ document.addEventListener('DOMContentLoaded', function () {
       OpulentCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
     }
   });
+
+  /* ---------- Homepage: hero search redirects to shop with query ---------- */
+  var heroSearchForm = document.getElementById('heroSearchForm');
+  if (heroSearchForm) {
+    heroSearchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = document.getElementById('heroSearchInput').value.trim();
+      window.location.href = 'shop.html' + (q ? '?search=' + encodeURIComponent(q) : '');
+    });
+  }
 
   /* ---------- Contact page: send message via WhatsApp ---------- */
   var contactForm = document.getElementById('contactForm');
@@ -297,14 +397,6 @@ document.addEventListener('DOMContentLoaded', function () {
       swapDecorFeature(e.target.closest('.product-card'));
     });
   }
-
-  /* ---------- Wishlist toggle ---------- */
-  document.querySelectorAll('.wishlist-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      btn.classList.toggle('active');
-    });
-  });
 
   /* ---------- Scroll reveal ---------- */
   var revealEls = document.querySelectorAll('.reveal');
@@ -423,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var tabs = document.getElementById('categoryTabs');
   if (grid && tabs) {
     grid.innerHTML = renderProducts(categoryData.sofas);
-    grid.querySelectorAll('.wishlist-btn').forEach(bindWishlist);
+    syncWishlistButtons(grid);
 
     tabs.querySelectorAll('.tab-btn').forEach(function (tab) {
       tab.addEventListener('click', function () {
@@ -433,19 +525,12 @@ document.addEventListener('DOMContentLoaded', function () {
         grid.style.opacity = '0';
         setTimeout(function () {
           grid.innerHTML = renderProducts(categoryData[cat] || []);
-          grid.querySelectorAll('.wishlist-btn').forEach(bindWishlist);
+          syncWishlistButtons(grid);
           grid.style.opacity = '1';
         }, 180);
       });
     });
     grid.style.transition = 'opacity .25s ease';
-  }
-
-  function bindWishlist(btn) {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      btn.classList.toggle('active');
-    });
   }
 
   /* ---------- Product page: thumbnail gallery ---------- */
@@ -581,6 +666,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var priceMaxLabel = document.getElementById('priceMaxLabel');
     var onSaleOnly = document.getElementById('onSaleOnly');
     var shopSort = document.getElementById('shopSort');
+    var shopSearchInput = document.getElementById('shopSearchInput');
     var shopResultCount = document.getElementById('shopResultCount');
     var shopPagination = document.getElementById('shopPagination');
     var resetFiltersBtn = document.getElementById('resetFilters');
@@ -590,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var colorSwatches = document.querySelectorAll('#colorSwatches .swatch');
 
     var PAGE_SIZE = 15;
-    var state = { categories: [], materials: [], colors: [], sort: 'newest', page: 1 };
+    var state = { categories: [], materials: [], colors: [], sort: 'newest', page: 1, search: '' };
     var currentList = ALL_PRODUCTS.slice();
 
     function shopCardHtml(p) {
@@ -619,12 +705,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function computeFiltered() {
+      var q = state.search.trim().toLowerCase();
       return ALL_PRODUCTS.filter(function (p) {
         if (state.categories.length && state.categories.indexOf(p.catKey) === -1) return false;
         if (p.priceNum > Number(priceRange.value)) return false;
         if (state.materials.length && state.materials.indexOf(p.material) === -1) return false;
         if (state.colors.length && state.colors.indexOf(p.colorKey) === -1) return false;
         if (onSaleOnly && onSaleOnly.checked && !p.off) return false;
+        if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
         return true;
       });
     }
@@ -671,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function () {
         shopResultCount.innerHTML = 'لا توجد نتائج';
       } else {
         shopGrid.innerHTML = pageItems.map(shopCardHtml).join('');
-        shopGrid.querySelectorAll('.wishlist-btn').forEach(bindWishlist);
+        syncWishlistButtons(shopGrid);
         var from = start + 1, to = Math.min(start + PAGE_SIZE, total);
         shopResultCount.innerHTML = 'عرض <strong>' + from + '–' + to + '</strong> من أصل <strong>' + total + '</strong> منتج';
       }
@@ -703,6 +791,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('#colorSwatches .swatch.active'),
         function (el) { return el.getAttribute('data-color'); }
       );
+      state.search = shopSearchInput ? shopSearchInput.value : '';
       state.page = 1;
       syncTabsFromCategories();
       renderGrid();
@@ -746,6 +835,15 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+    /* Search box (debounced live filtering) */
+    if (shopSearchInput) {
+      var searchDebounce;
+      shopSearchInput.addEventListener('input', function () {
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(applyFilters, 200);
+      });
+    }
+
     /* Sort */
     if (shopSort) {
       shopSort.addEventListener('change', function () {
@@ -762,6 +860,7 @@ document.addEventListener('DOMContentLoaded', function () {
         materialChecks.forEach(function (c) { c.checked = false; });
         colorSwatches.forEach(function (s) { s.classList.remove('active'); s.setAttribute('aria-pressed', 'false'); });
         if (onSaleOnly) onSaleOnly.checked = false;
+        if (shopSearchInput) shopSearchInput.value = '';
         priceRange.value = priceRange.max;
         priceMaxLabel.textContent = Number(priceRange.max).toLocaleString('en-US') + ' ر.س';
         if (shopSort) shopSort.value = 'newest';
@@ -771,12 +870,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (applyFiltersBtn) applyFiltersBtn.addEventListener('click', applyFilters);
 
-    /* Initial render — read ?cat= from URL for deep-linking from other pages */
+    /* Initial render — read ?cat= and ?search= from URL for deep-linking from other pages */
     var urlParams = new URLSearchParams(window.location.search);
     var initialCat = urlParams.get('cat');
     if (initialCat && categoryData[initialCat]) {
       var initialChk = document.querySelector('#shopFilters [data-cat="' + initialCat + '"]');
       if (initialChk) initialChk.checked = true;
+    }
+    var initialSearch = urlParams.get('search');
+    if (initialSearch && shopSearchInput) {
+      shopSearchInput.value = initialSearch;
     }
     applyFilters();
   }
@@ -869,5 +972,69 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     renderCartPage();
+  }
+
+  /* ==========================================================================
+     WISHLIST PAGE — render saved products as a grid with remove + add-to-cart
+     ========================================================================== */
+  var wishlistRoot = document.getElementById('wishlistRoot');
+  if (wishlistRoot) {
+    function renderWishlistPage() {
+      var list = OpulentWishlist.getList();
+
+      if (!list.length) {
+        wishlistRoot.innerHTML =
+          '<div class="cart-empty">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg>' +
+            '<h3>مفضلتك فارغة حالياً</h3>' +
+            '<p>اضغط على أيقونة القلب في أي منتج يعجبك لحفظه هنا والرجوع إليه لاحقاً.</p>' +
+            '<a href="shop.html" class="btn btn-dark">تصفّح المتجر</a>' +
+          '</div>';
+        return;
+      }
+
+      wishlistRoot.innerHTML =
+        '<div class="product-grid cols-4">' +
+          list.map(function (it) {
+            var badge = it.off ? '<span class="badge-sale">خصم ' + it.off + '</span>' : '';
+            var priceOld = it.oldPrice ? '<span class="price-old">' + OpulentCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
+            var priceOff = it.off ? '<span class="price-off">خصم ' + it.off + '</span>' : '';
+            return (
+              '<article class="product-card shop-card" data-id="' + it.id + '">' +
+                '<div class="product-media">' +
+                  badge +
+                  '<button class="wishlist-btn active wishlist-remove-btn" aria-label="إزالة من المفضلة">' + heartIcon() + '</button>' +
+                  '<img src="' + it.img + '" alt="' + it.name + '" loading="lazy">' +
+                '</div>' +
+                '<div class="product-info">' +
+                  '<h3 class="product-name"><a href="product.html">' + it.name + '</a></h3>' +
+                  '<div class="product-price"><span class="price-now">' + OpulentCart.fmt(it.price) + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+                  '<div class="shop-card-actions">' +
+                    '<button type="button" class="btn-cart-inline wishlist-add-cart-btn">' + bagIcon() + '<span>إضافة للسلة</span></button>' +
+                  '</div>' +
+                '</div>' +
+              '</article>'
+            );
+          }).join('') +
+        '</div>';
+
+      wishlistRoot.querySelectorAll('.wishlist-add-cart-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.product-card');
+          var id = card.getAttribute('data-id');
+          var item = OpulentWishlist.getList().find(function (it) { return it.id === id; });
+          if (item) {
+            OpulentCart.addItem(item);
+            OpulentCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
+          }
+        });
+      });
+    }
+
+    renderWishlistPage();
+    /* The remove button reuses the global .wishlist-btn delegated handler (it toggles the
+       item out of storage, updates the badge, and shows a toast) — this page just needs to
+       re-render itself whenever the wishlist changes, from this button or any other on the site. */
+    document.addEventListener('wishlist:change', renderWishlistPage);
   }
 });

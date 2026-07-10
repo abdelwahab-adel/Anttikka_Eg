@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المفضلة | أوبولنت سبيسز</title>
+<meta name="description" content="راجع المنتجات التي حفظتها في المفضلة لدى أوبولنت سبيسز.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23201E1C'/><text x='32' y='43' font-family='Georgia, serif' font-size='34' fill='%23B98D4F' text-anchor='middle'>O</text></svg>">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header static-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">OPULENT<span>SPACES</span></a>
+
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="shop.html">المتجر</a>
+      <a href="about.html">من نحن</a>
+      <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="lang-select" aria-label="اختيار اللغة">
+        <span>عربي</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="header-icons">
+        <a href="wishlist.html" aria-label="المفضلة">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg>
+          <span class="cart-count wishlist-count">0</span>
+        </a>
+        <a href="cart.html" aria-label="سلة المشتريات">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 6h2l2.4 12.2a2 2 0 002 1.8h8.4a2 2 0 002-1.8L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" id="mobileNavClose" aria-label="إغلاق القائمة">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <a href="index.html">الرئيسية</a>
+  <a href="shop.html">المتجر</a>
+  <a href="about.html">من نحن</a>
+  <a href="contact.html">تواصل معنا</a>
+</div>
+
+<!-- ============ BREADCRUMB ============ -->
+<div class="breadcrumb-strip">
+  <div class="container breadcrumb">
+    <a href="index.html">الرئيسية</a><span>/</span>
+    <span class="current">المفضلة</span>
+  </div>
+</div>
+
+<!-- ============ WISHLIST ============ -->
+<section>
+  <div class="container">
+    <div class="section-head reveal" style="margin-bottom:36px;">
+      <span class="eyebrow">المفضلة</span>
+      <h2>القطع التي أعجبتك</h2>
+    </div>
+
+    <div id="wishlistRoot"><!-- rendered via JS (see main.js) --></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="newsletter">
+      <span class="newsletter-title">اشترك في نشرتنا البريدية</span>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
+        <button type="submit" class="btn btn-gold">اشتراك</button>
+      </form>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">OPULENT<span>SPACES</span></a>
+        <p>أثاث فاخر مصنوع ليدوم، مستوحى من الأناقة الخالدة والراحة العصرية.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="إنستغرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="فيسبوك"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 9h3V6h-3a3 3 0 00-3 3v2H9v3h2v6h3v-6h3l1-3h-4v-1a1 1 0 011-1z"/></svg></a>
+          <a href="#" aria-label="بنترست"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 16.5L12 8l1.5 5.2c.3 1 1.3 1.6 2.3 1.3.9-.3 1.4-1.1 1.4-2 0-2.5-2-4.5-4.7-4.5-3 0-5.1 2.2-5.1 4.9 0 1.1.4 2 .9 2.6"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>مجموعة المتجر</h5>
+        <ul>
+          <li><a href="shop.html">المنتجات</a></li>
+          <li><a href="shop.html">العروض</a></li>
+          <li><a href="shop.html">الأكثر مبيعاً</a></li>
+          <li><a href="shop.html">وصل حديثاً</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>خدمة العملاء</h5>
+        <ul>
+          <li><a href="faq.html">الأسئلة الشائعة</a></li>
+          <li><a href="shipping.html">الشحن والتوصيل</a></li>
+          <li><a href="returns.html">الإرجاع والاستبدال</a></li>
+          <li><a href="privacy.html">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>ابقَ على تواصل</h5>
+        <ul>
+          <li><a href="about.html">من نحن</a></li>
+          <li><a href="contact.html">تواصل معنا</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © أوبولنت سبيسز 2025 — جميع الحقوق محفوظة
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

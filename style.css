@@ -38,6 +38,7 @@
 
 *, *::before, *::after{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
+html{ overflow-x: hidden; }
 body{
   margin: 0;
   font-family: var(--font-body);
@@ -47,6 +48,7 @@ body{
   text-align: right;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 img{ max-width: 100%; display: block; }
 a{ color: inherit; text-decoration: none; }
@@ -194,6 +196,12 @@ section{ padding: 90px 0; }
 @media (max-width: 980px){
   .main-nav{ display:none; }
   .menu-toggle{ display:flex; }
+}
+@media (max-width: 420px){
+  .lang-select span{ display:none; }
+  .lang-select svg{ margin-inline-start:0; }
+  .header-right{ gap:14px; }
+  .header-icons{ gap:12px; }
 }
 
 /* Static/solid header variant — for inner pages with no dark hero image behind it */
@@ -435,6 +443,9 @@ section{ padding: 90px 0; }
 @media (max-width: 560px){
   .product-grid, .product-grid.cols-3, .product-grid.cols-5{ grid-template-columns: 1fr 1fr; gap:14px; }
 }
+@media (max-width: 420px){
+  .product-grid, .product-grid.cols-3, .product-grid.cols-5{ grid-template-columns: 1fr; max-width:340px; margin-inline:auto; }
+}
 
 /* ==========================================================================
    CATEGORY TABS
@@ -473,6 +484,9 @@ section{ padding: 90px 0; }
 .offer-content{ position:relative; z-index:2; padding: 50px 60px; max-width: 480px; color:#fff; }
 .offer-content h3{ color:#fff; font-size: clamp(22px,3vw,30px); margin-bottom:14px; }
 .offer-content p{ color: rgba(255,255,255,.85); margin-bottom: 24px; }
+@media (max-width: 560px){
+  .offer-content{ padding: 34px 26px; max-width:100%; }
+}
 
 /* ==========================================================================
    ROOM BANNER CARDS (large category banners)
@@ -501,6 +515,7 @@ section{ padding: 90px 0; }
   border-bottom: 1.5px solid var(--color-gold-light); padding-bottom:3px;
 }
 @media (max-width: 1000px){ .room-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px){ .room-grid{ grid-template-columns: 1fr; } }
 
 /* ==========================================================================
    WHY CHOOSE US
@@ -528,6 +543,9 @@ section{ padding: 90px 0; }
 @media (max-width: 900px){
   .why-wrap{ grid-template-columns: 1fr; }
   .why-list{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px){
+  .why-list{ grid-template-columns: 1fr; }
 }
 
 /* ==========================================================================
@@ -561,6 +579,10 @@ section{ padding: 90px 0; }
 .custom-content .eyebrow{ color: var(--color-gold-light); }
 .custom-content h3{ color:#fff; font-size:22px; margin: 6px 0 20px; }
 .custom-content .price-note{ display:block; margin-bottom:18px; color: rgba(255,255,255,.85); }
+@media (max-width: 560px){
+  .custom-banner{ min-height:300px; }
+  .custom-content{ padding: 0 26px; max-width:100%; }
+}
 
 /* ==========================================================================
    BIG BANNER (final CTA before footer)
@@ -575,6 +597,9 @@ section{ padding: 90px 0; }
 .big-banner-content{ position:relative; z-index:2; max-width:640px; margin:0 auto; }
 .big-banner h3{ color:#fff; font-size: clamp(24px,3.4vw,34px); margin-bottom:16px; }
 .big-banner p{ color: rgba(255,255,255,.85); margin-bottom: 30px; }
+@media (max-width: 560px){
+  .big-banner{ padding: 56px 26px; }
+}
 
 /* ==========================================================================
    FOOTER
@@ -780,6 +805,7 @@ section{ padding: 90px 0; }
   padding: 4px 10px; border-radius: 20px; color:#fff;
 }
 @media (max-width: 900px){ .brand-banner-grid{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 420px){ .brand-banner-grid{ grid-template-columns: 1fr; } }
 
 /* ==========================================================================
    BRAND LOGOS GRID
@@ -873,11 +899,23 @@ section{ padding: 90px 0; }
 .timeline-text h4{ font-size:16px; margin-bottom:6px; }
 .timeline-text p{ font-size:14px; color: var(--color-text-muted); margin:0; }
 
+@media (max-width: 560px){
+  .timeline::before{ display:none; }
+  .timeline-item{ flex-direction:column; gap:8px; padding-bottom:32px; }
+  .timeline-year{ width:auto; text-align:right; }
+  .timeline-year::after{ display:none; }
+}
+
 @media (max-width: 860px){
   .about-mission{ grid-template-columns:1fr; }
   .values-grid{ grid-template-columns: 1fr 1fr; }
   .stats-strip{ grid-template-columns: 1fr 1fr; }
   .stat-item{ border-bottom:1px solid rgba(255,255,255,.1); }
+}
+@media (max-width: 420px){
+  .values-grid{ grid-template-columns: 1fr; }
+  .stats-strip{ grid-template-columns: 1fr; }
+  .stat-item{ border-left:none; }
 }
 
 /* Utility */
@@ -922,6 +960,12 @@ section{ padding: 90px 0; }
 }
 .shop-toolbar .result-count{ font-size:14px; color: var(--color-text-muted); }
 .shop-toolbar .result-count strong{ color: var(--color-text); font-family: var(--font-display); }
+.shop-search-box{
+  display:flex; align-items:center; gap:10px; flex:1; min-width:220px; max-width:340px;
+  background:#fff; border:1px solid var(--color-border); border-radius:30px; padding: 10px 18px;
+}
+.shop-search-box svg{ width:16px; height:16px; stroke: var(--color-text-muted); flex-shrink:0; }
+.shop-search-box input{ border:none; outline:none; font-size:13.5px; width:100%; color: var(--color-text); background:transparent; }
 .sort-select{
   background:#fff; border:1px solid var(--color-border); border-radius:30px;
   padding: 10px 18px; font-size:13.5px; font-family: var(--font-display); font-weight:600;
@@ -1005,11 +1049,23 @@ section{ padding: 90px 0; }
 @media (max-width: 900px){
   .pdp-wrap{ grid-template-columns:1fr; }
   .pdp-thumbs{ flex-direction:row; order:2; }
+  .pdp-thumb{ width:78px; flex-shrink:0; }
   .pdp-main{ order:1; }
 }
 
 /* Accordion */
 .pdp-accordion{ max-width: 760px; margin-top: 70px; }
+.content-accordion{ max-width: 760px; margin: 0 auto; }
+
+/* Long-form policy/prose content pages */
+.policy-content{ max-width: 800px; margin: 0 auto; }
+.policy-content h3{ font-size:19px; margin: 40px 0 14px; }
+.policy-content h3:first-child{ margin-top:0; }
+.policy-content p{ color: var(--color-text-muted); font-size:15px; line-height:1.9; margin-bottom:16px; }
+.policy-content ul, .policy-content ol{ margin: 0 0 16px; padding-inline-start: 22px; color: var(--color-text-muted); font-size:15px; line-height:1.9; }
+.policy-content li{ margin-bottom:8px; }
+.policy-content strong{ color: var(--color-text); }
+.policy-updated{ font-size:13px; color: var(--color-text-muted); margin-bottom:36px; display:block; }
 .acc-item{ border-bottom: 1px solid var(--color-border); }
 .acc-header{
   width:100%; background:none; border:none; text-align:right;
@@ -1084,9 +1140,9 @@ section{ padding: 90px 0; }
   white-space:nowrap; z-index:2;
 }
 .ip-badge--top{ top:-14px; right:-38px; }
-.ip-badge--bottom{ bottom:22px; right:-52px; display:flex; align-items:center; gap:8px; line-height:1.5; text-align:right; }
+.ip-badge--bottom{ bottom:22px; right:-52px; display:flex; align-items:center; gap:8px; line-height:1.5; text-align:right; white-space:normal; max-width:230px; }
 .ip-badge--bottom svg{ width:20px; height:20px; stroke: var(--color-gold); flex-shrink:0; }
-.ip-badge small{ display:block; font-weight:400; font-size:9.5px; color: var(--color-text-muted); }
+.ip-badge small{ display:block; font-weight:400; font-size:9.5px; color: var(--color-text-muted); white-space:normal; }
 
 .installment-brand{ font-family: Georgia, 'Times New Roman', serif; font-size:36px; line-height:1; color:#fff; margin-bottom:6px; }
 .installment-brand-sub{ font-size:11px; opacity:.75; margin-bottom:22px; display:block; }
@@ -1127,6 +1183,14 @@ section{ padding: 90px 0; }
   .installment-text--light{ text-align:center; }
   .installment-pay-badges{ justify-content:center; }
 }
+@media (max-width: 420px){
+  .installment-card{ padding-inline: 22px; }
+  .ip-badge--top, .ip-badge--bottom{ left:50%; transform: translateX(-50%); right:auto; }
+  .ip-badge--bottom{ max-width: 200px; bottom:-46px; }
+  .installment-phone-wrap{ margin-bottom:46px; }
+  .installment-slices{ height:170px; }
+  .installment-big-num{ font-size:56px; }
+}
 
 /* ==========================================================================
    DECOR SPOTLIGHT — wall art grid + lifestyle feature image
@@ -1161,6 +1225,7 @@ section{ padding: 90px 0; }
 }
 @media (max-width: 640px){
   .decor-grid{ grid-template-columns: repeat(2, 1fr); }
+  .decor-feature-content{ padding: 28px; }
 }
 
 /* Cart toast notification */
@@ -1289,6 +1354,16 @@ section{ padding: 90px 0; }
   .contact-info-grid{ grid-template-columns: 1fr; }
   .form-row{ grid-template-columns: 1fr; }
   .contact-whatsapp-card{ flex-direction:column; text-align:center; }
+}
+
+/* Prevent iOS Safari's automatic zoom-on-focus for inputs smaller than 16px */
+@media (max-width: 600px){
+  .hero-search input,
+  .newsletter-form input,
+  .shop-search-box input,
+  .form-field input,
+  .form-field textarea,
+  .sort-select{ font-size: 16px; }
 }
 
 /* Mobile nav drawer */
