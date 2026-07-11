@@ -813,16 +813,75 @@
   </div>
 </section>
 
-<!-- ============ CUSTOMIZATION BANNER ============ -->
+<!-- ============ DRESSING ROOM CAROUSEL ============ -->
 <section>
   <div class="container">
-    <div class="custom-banner reveal" style="background-image:url('https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=1600&auto=format&fit=crop');">
-      <div class="custom-content">
-        <span class="eyebrow">التخصيص</span>
-        <h3>خصص مساحتك بطريقتك</h3>
-        <span class="price-note">خصص غرفة ملابسك — خصم يصل إلى 15%</span>
-        <a href="contact.html" class="btn btn-white">احجز الآن</a>
+    <div class="dc-carousel reveal" id="dcCarousel">
+
+      <div class="dc-slide active">
+        <div class="dc-media" style="background-image:url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=1200&auto=format&fit=crop');">
+          <div class="dc-product-card">
+            <span class="dc-save-badge">وفّر 11,001 ر.س</span>
+            <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=500&auto=format&fit=crop" alt="دريسنج روم مودرن SZH3">
+            <div class="dc-product-info">
+              <h4>دريسنج روم مودرن — SZH3</h4>
+              <div class="dc-price"><span class="dc-old">56,000 ر.س</span><span class="dc-now">44,999 ر.س</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dc-content">
+          <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
+          <h2>الفخامة والجرأة في تصميم واحد. كل تفصيلة في الدريسنج الأسود متصممة عشان تعكس شياكة مساحتك، مع تقسيمات ذكية</h2>
+          <span class="dc-tag"></span>
+        </div>
       </div>
+
+      <div class="dc-slide">
+        <div class="dc-media" style="background-image:url('https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=1200&auto=format&fit=crop');">
+          <div class="dc-product-card">
+            <span class="dc-save-badge">وفّر 5,451 ر.س</span>
+            <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=500&auto=format&fit=crop" alt="دريسنج روم بني SZH2">
+            <div class="dc-product-info">
+              <h4>دريسنج روم بني — SZH2</h4>
+              <div class="dc-price"><span class="dc-old">39,050 ر.س</span><span class="dc-now">33,599 ر.س</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dc-content">
+          <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
+          <h2>حوّل أوضتك لجاليري خاص يعرض تفاصيلك بشياكة، وخلي مساحة التخزين بتاعتك جزء من ديكور الأوضة</h2>
+          <span class="dc-tag">الأكثر طلباً</span>
+        </div>
+      </div>
+
+      <div class="dc-slide">
+        <div class="dc-media" style="background-image:url('https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=1200&auto=format&fit=crop');">
+          <div class="dc-product-card">
+            <span class="dc-save-badge">وفّر 5,901 ر.س</span>
+            <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=500&auto=format&fit=crop" alt="دريسنج روم بلاك SZH1">
+            <div class="dc-product-info">
+              <h4>دريسنج روم بلاك — SZH1</h4>
+              <div class="dc-price"><span class="dc-old">38,400 ر.س</span><span class="dc-now">32,499 ر.س</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dc-content">
+          <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
+          <h2>ميكس سحري بين دفا الألوان الخشبية وفخامة الزجاج. تصميم مميز ومتقسم بذكاء عشان تبدأ يومك كل يوم في مساحة رايقة ومنظمة</h2>
+          <span class="dc-tag">دفا الخشب</span>
+        </div>
+      </div>
+
+      <div class="dc-nav">
+        <button class="dc-arrow dc-prev" id="dcPrev" aria-label="السابق">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <span class="dc-counter"><span id="dcTotal">3</span>/<span id="dcCurrent">1</span></span>
+        <button class="dc-arrow dc-next" id="dcNext" aria-label="التالي">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </section>
@@ -896,6 +955,43 @@
     </div>
   </div>
 </footer>
+
+<!-- ============ QUICK VIEW MODAL ============ -->
+<div class="qv-overlay" id="qvOverlay">
+  <div class="qv-modal" role="dialog" aria-modal="true" aria-labelledby="qvTitle">
+    <button class="qv-close" id="qvClose" aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="qv-body">
+      <div class="qv-image">
+        <span class="badge-sale" id="qvBadge" style="display:none;"></span>
+        <img id="qvImg" src="" alt="">
+      </div>
+      <div class="qv-info">
+        <span class="product-cat" id="qvCat" style="display:none;"></span>
+        <h3 id="qvTitle"></h3>
+        <div class="pdp-rating">
+          <span class="stars">★★★★★</span>
+          <span class="count">(80 تقييم)</span>
+        </div>
+        <div class="pdp-price">
+          <span class="price-now" id="qvPriceNow"></span>
+          <span class="price-old" id="qvPriceOld" style="display:none;"></span>
+          <span class="price-off" id="qvPriceOff" style="display:none;"></span>
+        </div>
+        <div class="qty-box">
+          <button type="button" id="qvQtyMinus" aria-label="إنقاص الكمية">−</button>
+          <span class="qty-val" id="qvQtyVal">1</span>
+          <button type="button" id="qvQtyPlus" aria-label="زيادة الكمية">+</button>
+        </div>
+        <div class="pdp-actions">
+          <button class="btn btn-dark" id="qvAddToCart">أضف إلى السلة</button>
+          <a href="product.html" class="btn btn-gold qv-view-details">التفاصيل الكاملة</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="main.js"></script>
 </body>

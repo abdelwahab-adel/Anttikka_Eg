@@ -234,6 +234,43 @@
   </div>
 </footer>
 
+<!-- ============ QUICK VIEW MODAL ============ -->
+<div class="qv-overlay" id="qvOverlay">
+  <div class="qv-modal" role="dialog" aria-modal="true" aria-labelledby="qvTitle">
+    <button class="qv-close" id="qvClose" aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="qv-body">
+      <div class="qv-image">
+        <span class="badge-sale" id="qvBadge" style="display:none;"></span>
+        <img id="qvImg" src="" alt="">
+      </div>
+      <div class="qv-info">
+        <span class="product-cat" id="qvCat" style="display:none;"></span>
+        <h3 id="qvTitle"></h3>
+        <div class="pdp-rating">
+          <span class="stars">★★★★★</span>
+          <span class="count">(80 تقييم)</span>
+        </div>
+        <div class="pdp-price">
+          <span class="price-now" id="qvPriceNow"></span>
+          <span class="price-old" id="qvPriceOld" style="display:none;"></span>
+          <span class="price-off" id="qvPriceOff" style="display:none;"></span>
+        </div>
+        <div class="qty-box">
+          <button type="button" id="qvQtyMinus" aria-label="إنقاص الكمية">−</button>
+          <span class="qty-val" id="qvQtyVal">1</span>
+          <button type="button" id="qvQtyPlus" aria-label="زيادة الكمية">+</button>
+        </div>
+        <div class="pdp-actions">
+          <button class="btn btn-dark" id="qvAddToCart">أضف إلى السلة</button>
+          <a href="product.html" class="btn btn-gold qv-view-details">التفاصيل الكاملة</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="main.js"></script>
 </body>
 </html>

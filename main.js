@@ -170,7 +170,9 @@ window.OpulentCart = (function () {
     var oldPrice = priceOldEl ? parseFloat(priceOldEl.textContent.replace(/[^\d.]/g, '')) : null;
     var offEl = cardEl.querySelector('.price-off, .badge-sale');
     var off = offEl ? offEl.textContent.trim().replace(/^خصم\s*/, '') : null;
-    return { id: slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, qty: 1 };
+    var catEl = cardEl.querySelector('.product-cat');
+    var cat = catEl ? catEl.textContent.trim() : null;
+    return { id: slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, cat: cat, qty: 1 };
   }
 
   function toast(message) {
@@ -300,6 +302,108 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  /* ---------- Quick View modal ---------- */
+  var qvOverlay = document.getElementById('qvOverlay');
+  if (qvOverlay) {
+    var qvImg = document.getElementById('qvImg');
+    var qvBadge = document.getElementById('qvBadge');
+    var qvCat = document.getElementById('qvCat');
+    var qvTitle = document.getElementById('qvTitle');
+    var qvPriceNow = document.getElementById('qvPriceNow');
+    var qvPriceOld = document.getElementById('qvPriceOld');
+    var qvPriceOff = document.getElementById('qvPriceOff');
+    var qvQtyVal = document.getElementById('qvQtyVal');
+    var qvQtyMinus = document.getElementById('qvQtyMinus');
+    var qvQtyPlus = document.getElementById('qvQtyPlus');
+    var qvAddToCart = document.getElementById('qvAddToCart');
+    var qvClose = document.getElementById('qvClose');
+    var qvCurrentItem = null;
+
+    function openQuickView(item) {
+      qvCurrentItem = item;
+      qvImg.setAttribute('src', item.img);
+      qvImg.setAttribute('alt', item.name);
+      qvTitle.textContent = item.name;
+      qvPriceNow.textContent = OpulentCart.fmt(item.price) + ' ر.س';
+
+      if (item.cat) {
+        qvCat.textContent = item.cat;
+        qvCat.style.display = '';
+      } else {
+        qvCat.style.display = 'none';
+      }
+
+      if (item.oldPrice) {
+        qvPriceOld.textContent = OpulentCart.fmt(item.oldPrice) + ' ر.س';
+        qvPriceOld.style.display = '';
+      } else {
+        qvPriceOld.style.display = 'none';
+      }
+
+      if (item.off) {
+        qvPriceOff.textContent = 'خصم ' + item.off;
+        qvPriceOff.style.display = '';
+        qvBadge.textContent = 'خصم ' + item.off;
+        qvBadge.style.display = '';
+      } else {
+        qvPriceOff.style.display = 'none';
+        qvBadge.style.display = 'none';
+      }
+
+      qvQtyVal.textContent = '1';
+      qvOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeQuickView() {
+      qvOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.icon-btn[aria-label="عرض سريع"], .icon-btn-outline[aria-label="عرض سريع"]');
+      if (!btn) return;
+      e.preventDefault();
+      var card = btn.closest('.product-card');
+      if (!card) return;
+      var item = OpulentCart.extractFromCard(card);
+      if (item) openQuickView(item);
+    });
+
+    if (qvClose) qvClose.addEventListener('click', closeQuickView);
+    qvOverlay.addEventListener('click', function (e) {
+      if (e.target === qvOverlay) closeQuickView();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && qvOverlay.classList.contains('open')) closeQuickView();
+    });
+
+    if (qvQtyMinus) {
+      qvQtyMinus.addEventListener('click', function () {
+        var v = parseInt(qvQtyVal.textContent, 10) || 1;
+        qvQtyVal.textContent = Math.max(1, v - 1);
+      });
+    }
+    if (qvQtyPlus) {
+      qvQtyPlus.addEventListener('click', function () {
+        var v = parseInt(qvQtyVal.textContent, 10) || 1;
+        qvQtyVal.textContent = v + 1;
+      });
+    }
+    if (qvAddToCart) {
+      qvAddToCart.addEventListener('click', function () {
+        if (!qvCurrentItem) return;
+        var qty = parseInt(qvQtyVal.textContent, 10) || 1;
+        OpulentCart.addItem({
+          id: qvCurrentItem.id, name: qvCurrentItem.name, img: qvCurrentItem.img,
+          price: qvCurrentItem.price, oldPrice: qvCurrentItem.oldPrice, off: qvCurrentItem.off, qty: qty
+        });
+        OpulentCart.toast('تمت إضافة "' + qvCurrentItem.name + '" إلى السلة');
+        closeQuickView();
+      });
+    }
+  }
+
   /* ---------- Homepage: hero search redirects to shop with query ---------- */
   var heroSearchForm = document.getElementById('heroSearchForm');
   if (heroSearchForm) {
@@ -357,6 +461,26 @@ document.addEventListener('DOMContentLoaded', function () {
     mobileNav.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () { mobileNav.classList.remove('open'); });
     });
+  }
+
+  /* ---------- Homepage: dressing room carousel ---------- */
+  var dcCarousel = document.getElementById('dcCarousel');
+  if (dcCarousel) {
+    var dcSlides = dcCarousel.querySelectorAll('.dc-slide');
+    var dcCurrentEl = document.getElementById('dcCurrent');
+    var dcPrevBtn = document.getElementById('dcPrev');
+    var dcNextBtn = document.getElementById('dcNext');
+    var dcIndex = 0;
+
+    function showDcSlide(i) {
+      dcIndex = (i + dcSlides.length) % dcSlides.length;
+      dcSlides.forEach(function (s) { s.classList.remove('active'); });
+      dcSlides[dcIndex].classList.add('active');
+      if (dcCurrentEl) dcCurrentEl.textContent = dcIndex + 1;
+    }
+
+    if (dcPrevBtn) dcPrevBtn.addEventListener('click', function () { showDcSlide(dcIndex - 1); });
+    if (dcNextBtn) dcNextBtn.addEventListener('click', function () { showDcSlide(dcIndex + 1); });
   }
 
   /* ---------- Homepage: decor spotlight gallery (click a thumbnail to swap the big image) ---------- */
@@ -533,19 +657,81 @@ document.addEventListener('DOMContentLoaded', function () {
     grid.style.transition = 'opacity .25s ease';
   }
 
-  /* ---------- Product page: thumbnail gallery ---------- */
+  /* ---------- Product page: thumbnail gallery + lightbox zoom ---------- */
   var pdpThumbs = document.querySelectorAll('.pdp-thumb');
   var pdpMainImg = document.getElementById('pdpMainImg');
+  var pdpMain = document.getElementById('pdpMain');
   var pdpDots = document.querySelectorAll('.pdp-dots span');
+  var galleryImages = Array.prototype.map.call(pdpThumbs, function (t) { return t.getAttribute('data-img'); });
+  var currentImgIndex = 0;
+
+  function selectThumb(i) {
+    if (!pdpThumbs.length || i < 0 || i >= pdpThumbs.length) return;
+    currentImgIndex = i;
+    pdpThumbs.forEach(function (t) { t.classList.remove('active'); });
+    pdpThumbs[i].classList.add('active');
+    pdpMainImg.setAttribute('src', galleryImages[i]);
+    pdpDots.forEach(function (d) { d.classList.remove('active'); });
+    if (pdpDots[i]) pdpDots[i].classList.add('active');
+  }
+
   if (pdpThumbs.length && pdpMainImg) {
     pdpThumbs.forEach(function (thumb, i) {
-      thumb.addEventListener('click', function () {
-        pdpThumbs.forEach(function (t) { t.classList.remove('active'); });
-        thumb.classList.add('active');
-        pdpMainImg.setAttribute('src', thumb.getAttribute('data-img'));
-        pdpDots.forEach(function (d) { d.classList.remove('active'); });
-        if (pdpDots[i]) pdpDots[i].classList.add('active');
-      });
+      thumb.addEventListener('click', function () { selectThumb(i); });
+    });
+  }
+
+  /* Lightbox */
+  var lightboxOverlay = document.getElementById('lightboxOverlay');
+  if (lightboxOverlay && galleryImages.length) {
+    var lightboxImg = document.getElementById('lightboxImg');
+    var lightboxCounter = document.getElementById('lightboxCounter');
+    var lightboxClose = document.getElementById('lightboxClose');
+    var lightboxPrev = document.getElementById('lightboxPrev');
+    var lightboxNext = document.getElementById('lightboxNext');
+
+    function renderLightboxImage() {
+      lightboxImg.classList.remove('loaded');
+      lightboxImg.setAttribute('src', galleryImages[currentImgIndex]);
+      lightboxImg.setAttribute('alt', pdpMainImg.getAttribute('alt') || '');
+      lightboxCounter.textContent = (currentImgIndex + 1) + ' / ' + galleryImages.length;
+      /* Fallback in case the browser doesn't refire "load" for an already-cached image */
+      if (lightboxImg.complete) lightboxImg.classList.add('loaded');
+    }
+    lightboxImg.addEventListener('load', function () { lightboxImg.classList.add('loaded'); });
+
+    function openLightbox() {
+      renderLightboxImage();
+      lightboxOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function showPrev() {
+      currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
+      renderLightboxImage();
+      selectThumb(currentImgIndex);
+    }
+    function showNext() {
+      currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
+      renderLightboxImage();
+      selectThumb(currentImgIndex);
+    }
+
+    if (pdpMain) pdpMain.addEventListener('click', openLightbox);
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', function (e) {
+      if (e.target === lightboxOverlay) closeLightbox();
+    });
+    if (lightboxPrev) lightboxPrev.addEventListener('click', showPrev);
+    if (lightboxNext) lightboxNext.addEventListener('click', showNext);
+    document.addEventListener('keydown', function (e) {
+      if (!lightboxOverlay.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      else if (e.key === 'ArrowRight') showPrev();
+      else if (e.key === 'ArrowLeft') showNext();
     });
   }
 
