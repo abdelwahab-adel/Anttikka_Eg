@@ -603,6 +603,65 @@ section{ padding: 90px 0; }
 }
 
 /* ==========================================================================
+   INSTALLMENT / "0% ZEROS" PROMO BANNER
+   ========================================================================== */
+.installment-banner{
+  position:relative; overflow:hidden; border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background-size:cover; background-position:center top;
+  padding: 54px 44px 34px;
+}
+.installment-banner::before{
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(20,17,14,.35) 0%, rgba(20,17,14,.55) 55%, rgba(20,17,14,.92) 100%);
+}
+.installment-banner-top{ position:relative; z-index:2; text-align:center; }
+.installment-eyebrow{
+  display:inline-block; color: var(--color-gold-light); font-size:13px;
+  letter-spacing:.06em; margin-bottom:10px;
+}
+.installment-headline{
+  color:#fff; font-size: clamp(26px, 4vw, 42px); font-weight:700; line-height:1.25;
+  margin-bottom: 34px;
+}
+.installment-headline strong{ color: var(--color-gold); }
+.installment-stats{
+  position:relative; z-index:2;
+  display:grid; grid-template-columns: repeat(3, 1fr); gap:18px;
+  background: rgba(250,247,242,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+  padding: 26px 20px;
+  margin-bottom: 26px;
+}
+.installment-stat{ text-align:center; }
+.installment-stat .num{
+  display:block; font-size: clamp(30px, 4vw, 44px); font-weight:800; color:#fff; line-height:1;
+}
+.installment-stat .num span{ color: var(--color-gold); }
+.installment-stat .label{ display:block; margin-top:8px; font-size:13px; color: rgba(255,255,255,.75); }
+.installment-partners{
+  position:relative; z-index:2;
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px;
+}
+.installment-partners span{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.85);
+  font-size:12.5px; font-weight:600;
+  padding: 7px 16px; border-radius: 999px;
+}
+.installment-note{
+  position:relative; z-index:2; text-align:center;
+  color: rgba(255,255,255,.55); font-size:12px; margin-top:16px;
+}
+@media (max-width: 640px){
+  .installment-banner{ padding: 40px 22px 26px; }
+  .installment-stats{ grid-template-columns: 1fr; gap:14px; }
+}
+
+/* ==========================================================================
    FOOTER
    ========================================================================== */
 .site-footer{

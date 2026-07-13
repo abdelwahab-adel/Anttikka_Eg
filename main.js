@@ -289,6 +289,28 @@ document.addEventListener('DOMContentLoaded', function () {
     OpulentCart.toast(nowSaved ? 'أُضيف "' + item.name + '" إلى المفضلة' : 'أُزيل "' + item.name + '" من المفضلة');
   });
 
+  /* ---------- Product links: remember which product was clicked so product.html can render it ----------
+     Every "product.html" link across the site (featured cards, shop grid, wishlist, quick view, related
+     products...) points to the same static file. Instead of maintaining a per-card product id, we scrape
+     the same info already used for cart/wishlist (OpulentCart.extractFromCard) right as the link is
+     clicked and hand it to the product page via sessionStorage — so whichever product the user clicked
+     is the one that actually shows up on product.html. */
+  var SELECTED_PRODUCT_KEY = 'opulent_selected_product';
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href="product.html"], a[href^="product.html?"]');
+    if (!link) return;
+    var item = null;
+    var card = link.closest('.product-card');
+    if (card) {
+      item = OpulentCart.extractFromCard(card);
+    } else if (link.closest('#qvOverlay') && typeof qvCurrentItem !== 'undefined' && qvCurrentItem) {
+      item = qvCurrentItem;
+    }
+    if (item) {
+      try { sessionStorage.setItem(SELECTED_PRODUCT_KEY, JSON.stringify(item)); } catch (err) { /* storage unavailable */ }
+    }
+  });
+
   /* ---------- Site-wide "add to cart" wiring (delegated, no per-card markup needed) ---------- */
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('.icon-btn[aria-label="أضف للسلة"], .btn-cart-inline');
@@ -655,6 +677,85 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
     grid.style.transition = 'opacity .25s ease';
+  }
+
+  /* ---------- Product page: hydrate with whichever product the user actually clicked ----------
+     Reads what the click-listener above stored in sessionStorage. If nothing is there (direct
+     visit, bookmark, refreshed session) the page just keeps its hardcoded default product, so it
+     never renders empty. */
+  var pdpInfoForHydrate = document.querySelector('.pdp-info');
+  if (pdpInfoForHydrate) {
+    (function hydrateProductPage() {
+      var raw;
+      try { raw = sessionStorage.getItem(SELECTED_PRODUCT_KEY); } catch (err) { raw = null; }
+      if (!raw) return;
+      var sel;
+      try { sel = JSON.parse(raw); } catch (err) { return; }
+      if (!sel || !sel.name) return;
+
+      var h1 = pdpInfoForHydrate.querySelector('h1');
+      if (h1) h1.textContent = sel.name;
+      document.title = sel.name + ' | أوبولنت سبيسز';
+
+      var priceNow = pdpInfoForHydrate.querySelector('.price-now');
+      if (priceNow) priceNow.textContent = OpulentCart.fmt(sel.price) + ' ر.س';
+      var priceOld = pdpInfoForHydrate.querySelector('.price-old');
+      if (priceOld) {
+        if (sel.oldPrice) { priceOld.textContent = OpulentCart.fmt(sel.oldPrice) + ' ر.س'; priceOld.style.display = ''; }
+        else priceOld.style.display = 'none';
+      }
+      var priceOff = pdpInfoForHydrate.querySelector('.price-off');
+      if (priceOff) {
+        if (sel.off) { priceOff.textContent = 'خصم ' + sel.off; priceOff.style.display = ''; }
+        else priceOff.style.display = 'none';
+      }
+
+      var mainBadge = document.querySelector('#pdpMain .badge-sale');
+      if (mainBadge) {
+        if (sel.off) { mainBadge.textContent = 'خصم ' + sel.off; mainBadge.style.display = ''; }
+        else mainBadge.style.display = 'none';
+      }
+
+      if (sel.img) {
+        document.querySelectorAll('.pdp-thumb').forEach(function (t) {
+          t.setAttribute('data-img', sel.img);
+          var timg = t.querySelector('img');
+          if (timg) { timg.setAttribute('src', sel.img); timg.setAttribute('alt', sel.name); }
+        });
+        var mainImgEl = document.getElementById('pdpMainImg');
+        if (mainImgEl) { mainImgEl.setAttribute('src', sel.img); mainImgEl.setAttribute('alt', sel.name); }
+      }
+
+      var crumbLinks = document.querySelectorAll('.breadcrumb-strip .breadcrumb a');
+      if (sel.cat && crumbLinks.length) {
+        crumbLinks[crumbLinks.length - 1].textContent = sel.cat;
+      }
+      var crumbCurrent = document.querySelector('.breadcrumb-strip .current');
+      if (crumbCurrent) crumbCurrent.textContent = sel.name;
+
+      /* If the clicked product belongs to one of the main catalogue categories, swap the
+         "related products" section for real items from that same category. */
+      var relatedGrid = document.querySelector('.section-alt .product-grid');
+      if (relatedGrid && typeof categoryData !== 'undefined') {
+        var matchedCatKey = null;
+        Object.keys(categoryData).some(function (catKey) {
+          if (categoryData[catKey].some(function (p) { return p.name === sel.name; })) {
+            matchedCatKey = catKey;
+            return true;
+          }
+          return false;
+        });
+        if (matchedCatKey) {
+          var relatedItems = categoryData[matchedCatKey]
+            .filter(function (p) { return p.name !== sel.name; })
+            .slice(0, 4);
+          if (relatedItems.length) {
+            relatedGrid.innerHTML = renderProducts(relatedItems);
+            syncWishlistButtons(relatedGrid);
+          }
+        }
+      }
+    })();
   }
 
   /* ---------- Product page: thumbnail gallery + lightbox zoom ---------- */
