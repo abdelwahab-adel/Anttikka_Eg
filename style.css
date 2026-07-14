@@ -36,6 +36,16 @@
   --transition: 0.35s cubic-bezier(.4,0,.2,1);
 }
 
+/* Skip link — hidden until focused, lets keyboard users jump past the header/nav */
+.skip-link{
+  position: absolute; top: -60px; right: 16px; z-index: 1000;
+  background: var(--color-charcoal); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  padding: 12px 22px; border-radius: 0 0 10px 10px;
+  transition: top .25s ease;
+}
+.skip-link:focus{ top: 0; }
+
 *, *::before, *::after{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
 html{ overflow-x: hidden; }
@@ -403,12 +413,23 @@ section{ padding: 90px 0; }
 .product-card:hover .product-actions{ opacity:1; transform:none; }
 .icon-btn{
   width:40px; height:40px; border-radius:50%;
-  background: var(--color-charcoal); color:#fff;
+  background: var(--color-gold); color:#fff;
   border:none; display:flex; align-items:center; justify-content:center;
   transition: background var(--transition), transform var(--transition);
 }
 .icon-btn:hover{ background: var(--color-gold); transform: translateY(-2px); }
 .icon-btn svg{ width:16px; height:16px; stroke:#fff; }
+
+/* Touch devices have no :hover, so reveal these actions immediately —
+   otherwise the wishlist / quick-view / add-to-cart buttons are invisible on mobile. */
+@media (hover: none){
+  .wishlist-btn,
+  .product-actions{ opacity: 1; transform: none; }
+}
+@media (max-width: 560px){
+  .wishlist-btn{ width:40px; height:40px; }
+  .icon-btn{ width:44px; height:44px; }
+}
 
 .product-info{ padding-top: 16px; text-align: right; }
 .product-cat{ font-size:12.5px; color: var(--color-text-muted); margin-bottom:4px; display:block; }
@@ -440,7 +461,7 @@ section{ padding: 90px 0; }
 .icon-btn-outline:hover svg{ stroke:#fff; }
 .btn-cart-inline{
   flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
-  background: var(--color-charcoal); color:#fff; border:none; border-radius:30px;
+  background: var(--color-gold-light); color:#fff; border:none; border-radius:30px;
   padding: 12px 16px; font-family: var(--font-display); font-weight:700; font-size:13px;
   transition: background var(--transition);
 }
@@ -644,9 +665,6 @@ section{ padding: 90px 0; }
 .installment-stats{
   position:relative; z-index:2;
   display:grid; grid-template-columns: repeat(3, 1fr); gap:18px;
-  background: rgba(250,247,242,.06);
-  border: 1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(6px);
   border-radius: 18px;
   padding: 26px 20px;
   margin-bottom: 26px;
@@ -715,6 +733,11 @@ section{ padding: 90px 0; }
 .newsletter-form input{
   flex:1; padding: 14px 20px; border-radius:30px; border:1px solid rgba(255,255,255,.2);
   background: rgba(255,255,255,.05); color:#fff; font-size:14px;
+  transition: border-color var(--transition), background var(--transition);
+  width: 30px;
+}
+.newsletter-form input:focus{
+  outline:none; border-color: var(--color-gold); background: rgba(255,255,255,.09);
 }
 .newsletter-form input::placeholder{ color: rgba(255,255,255,.5); }
 .newsletter-title{ font-family: var(--font-display); color:#fff; font-weight:700; font-size:15px; }
@@ -833,7 +856,7 @@ section{ padding: 90px 0; }
   background: var(--color-bg-alt);
 }
 .feature-banner-img{ min-height: 380px; }
-.feature-banner-img img{ width:100%; height:100%; object-fit:cover; }
+.feature-banner-img img{ width:100%; height:100%; object-fit:cover; border-radius: 3%;}
 .feature-banner-text{
   display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
   padding: 50px 46px;
@@ -1028,7 +1051,7 @@ section{ padding: 90px 0; }
 }
 .swatch:hover, .swatch.active{ box-shadow: 0 0 0 2px var(--color-gold); }
 .swatch:focus-visible{ box-shadow: 0 0 0 2px var(--color-gold); }
-.filter-apply-btn{ width:100%; justify-content:center; margin-top: 4px; }
+.filter-apply-btn{ width:100%; justify-content:center; margin-top: 4px; background-color: var(--color-gold); }
 
 .shop-toolbar{
   display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
@@ -1056,7 +1079,7 @@ section{ padding: 90px 0; }
   font-family: var(--font-display); font-weight:700; font-size:14px; color: var(--color-text-muted);
   transition: all var(--transition);
 }
-.page-btn.active, .page-btn:hover{ background: var(--color-charcoal); color:#fff; border-color: var(--color-charcoal); }
+.page-btn.active, .page-btn:hover{ background: var(--color-gold); color:#fff; border-color: var(--color-charcoal); }
 .page-btn.arrow svg{ width:16px; height:16px; }
 
 @media (max-width: 980px){
@@ -1563,9 +1586,10 @@ section{ padding: 90px 0; }
   background-color: var(--color-charcoal);
 }
 .dc-product-card{
-  position:absolute; top:50%; transform:translateY(-50%); right:-90px; width:260px;
+  position:absolute; top:50%; transform:translateY(-50%); left:-90px; width:260px;
   background:#fff; border-radius: var(--radius-md); overflow:hidden;
-  box-shadow: 0 20px 45px rgba(20,17,14,.25); z-index:5;
+  box-shadow: 0 24px 50px rgba(20,17,14,.3); z-index:5;
+  border: 1px solid rgba(255,255,255,.6);
 }
 .dc-save-badge{
   position:absolute; top:12px; right:12px; background: var(--color-sale); color:#fff;
@@ -1594,7 +1618,7 @@ section{ padding: 90px 0; }
   position:absolute; bottom:26px; right:50px; left:auto; display:flex; align-items:center; gap:14px; z-index:6; color:#fff;
 }
 .dc-arrow{
-  width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+  width:34px; height:34px; border-radius:50%; background:#B98D4F; border:1px solid rgba(255,255,255,.3);
   display:flex; align-items:center; justify-content:center; transition: background var(--transition); flex-shrink:0;
 }
 .dc-arrow:hover{ background:rgba(255,255,255,.25); }
@@ -1608,6 +1632,7 @@ section{ padding: 90px 0; }
   .dc-content{ align-items:center; text-align:center; padding: 40px 26px 70px; }
   .dc-content h2{ max-width:100%; }
   .dc-nav{ left:50%; right:auto; transform: translateX(-50%); }
+  .dc-arrow{ width:40px; height:40px; }
 }
 @media (max-width: 480px){
   .dc-carousel{ min-height:auto; }
@@ -1646,10 +1671,11 @@ section{ padding: 90px 0; }
 .finance-promo-media{
   position: relative;
   margin: 0;
-  height: 620px;
+  height: 480px;
   border-radius: 30px;
   overflow: hidden;
   box-shadow: var(--shadow-soft);
+  margin-bottom: 30px;
 }
 .finance-promo-img{
   width: 100%; height: 100%;
@@ -1756,7 +1782,7 @@ section{ padding: 90px 0; }
 
 /* ---- Responsive ---- */
 @media (max-width: 1080px){
-  .finance-promo-media{ height: 560px; }
+  .finance-promo-media{ height: 420px; }
   .finance-promo-caption{ padding: 0 40px 168px; }
   .finance-promo-card{ margin: -100px 24px 0; padding: 28px 30px; gap: 28px; }
   .finance-promo-banks{ gap: 12px 16px; }

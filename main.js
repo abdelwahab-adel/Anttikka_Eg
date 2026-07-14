@@ -511,6 +511,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ---------- Footer newsletter forms: validate + confirm (present on every page) ---------- */
+  var newsletterForms = document.querySelectorAll('.newsletter-form');
+  newsletterForms.forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[type="email"]');
+      var email = input ? input.value.trim() : '';
+      var validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!validEmail) {
+        if (input) input.focus();
+        OpulentCart.toast('يرجى إدخال بريد إلكتروني صحيح');
+        return;
+      }
+      OpulentCart.toast('تم اشتراكك في نشرتنا البريدية بنجاح');
+      form.reset();
+    });
+  });
+
   /* ---------- Header scroll state ---------- */
   var header = document.getElementById('siteHeader');
   function onScroll() {

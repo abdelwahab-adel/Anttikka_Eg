@@ -6,10 +6,14 @@
 <title>أوبولنت سبيسز | أثاث فاخر لمساحات أنيقة</title>
 <meta name="description" content="أوبولنت سبيسز — متجر أثاث فاخر يقدم قطعاً خالدة من الأناقة والراحة لغرف المعيشة، غرف النوم، السفرة والأثاث الخارجي.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23201E1C'/><text x='32' y='43' font-family='Georgia, serif' font-size='34' fill='%23B98D4F' text-anchor='middle'>O</text></svg>">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&amp;w=1800&amp;auto=format&amp;fit=crop" fetchpriority="high">
 </head>
 <body>
+<a href="#main" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="siteHeader">
@@ -56,7 +60,7 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section id="main" class="hero">
   <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1800&auto=format&fit=crop');"></div>
   <div class="container hero-content">
     <h1>أثاث فاخر لمساحات أنيقة</h1>
@@ -84,57 +88,6 @@
   </div>
 </section>
 
-<!-- ============ FINANCE PROMOTION ============ -->
-<section class="finance-promo reveal" aria-labelledby="financePromoTitle">
-  <div class="container">
-
-    <figure class="finance-promo-media">
-      <img
-        class="finance-promo-img"
-        src="https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&amp;w=1600&amp;auto=format&amp;fit=crop"
-        alt="أريكة فاخرة بألوان ترابية دافئة في غرفة معيشة أنيقة"
-        loading="lazy" decoding="async">
-      <div class="finance-promo-scrim" aria-hidden="true"></div>
-      <figcaption class="finance-promo-caption">
-        <span class="finance-promo-eyebrow">تمويل بدون فوائد</span>
-        <h2 id="financePromoTitle" class="finance-promo-title">
-          استلم أثاثك بـ <span class="fp-accent">3</span> أصفار
-        </h2>
-      </figcaption>
-    </figure>
-
-    <div class="finance-promo-card">
-      <ul class="finance-promo-banks" aria-label="البنوك الشريكة في التمويل">
-        <li>FAB</li>
-        <li>SAIB</li>
-        <li>ADIB</li>
-        <li>KFH</li>
-        <li>AlBaraka</li>
-        <li>NBK</li>
-        <li>Banque Misr</li>
-        <li>QNB</li>
-      </ul>
-
-      <div class="finance-promo-divider" aria-hidden="true"></div>
-
-      <div class="finance-promo-stats">
-        <div class="finance-promo-stat">
-          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
-          <span class="fp-stat-label">مقدم</span>
-        </div>
-        <div class="finance-promo-stat">
-          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
-          <span class="fp-stat-label">مصاريف إدارية</span>
-        </div>
-        <div class="finance-promo-stat">
-          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
-          <span class="fp-stat-label">فوائد</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 <!-- ============ ABOUT INTRO ============ -->
 <section class="about-intro">
@@ -310,7 +263,7 @@
         </div>
       </a>
       <a href="shop.html?cat=lighting" class="promo-card">
-        <div class="promo-card-bg" style="background-image:url('https://images.unsplash.com/photo-1543198126-8a0472ce56b4?q=80&w=800&auto=format&fit=crop');"></div>
+        <div class="promo-card-bg" style="background-image:url('https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?q=80&w=700&auto=format&fit=crop');"></div>
         <div class="promo-card-body">
           <span class="promo-badge">وصل حديثاً</span>
           <h4>إضاءات مميزة لكل مساحة في منزلك</h4>
@@ -529,7 +482,7 @@
     </div>
     <div class="feature-banner reveal">
       <div class="feature-banner-img">
-        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=1200&auto=format&fit=crop" alt="غرفة معيشة دافئة بأثاث بيج وإضاءة خشبية" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=700&auto=format&fit=crop" alt="غرفة معيشة دافئة بأثاث بيج وإضاءة خشبية" loading="lazy">
       </div>
       <div class="feature-banner-text">
         <span class="eyebrow">لمسة دافئة لكل زاوية</span>
@@ -801,11 +754,11 @@
 <!-- ============ WHY CHOOSE US ============ -->
 <section>
   <div class="container why-wrap">
-    <div class="why-images reveal">
+    <div class="why-images reveal" style="margin-left: 50px;">
       <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=800&auto=format&fit=crop" alt="ديكور دائري فوق أريكة بيضاء" loading="lazy">
       <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=800&auto=format&fit=crop" alt="ركن قراءة دافئ بإضاءة خافتة" loading="lazy">
     </div>
-    <div class="reveal">
+    <div class="reveal" style=" margin-right: 40px;">
       <div class="why-heading">
         <span class="eyebrow">ما يميّزنا</span>
         <h2>لماذا تختارنا</h2>
@@ -868,6 +821,10 @@
 <!-- ============ DRESSING ROOM CAROUSEL ============ -->
 <section>
   <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">قطع تخطف الأنظار</span>
+      <h2>تصاميم تستحق مكاناً مميزاً في منزلك</h2>
+    </div>
     <div class="dc-carousel reveal" id="dcCarousel">
 
       <div class="dc-slide active">
@@ -883,7 +840,7 @@
         </div>
         <div class="dc-content">
           <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
-          <h2>الفخامة والجرأة في تصميم واحد. كل تفصيلة في الدريسنج الأسود متصممة عشان تعكس شياكة مساحتك، مع تقسيمات ذكية</h2>
+          <h2>الفخامة والجرأة في تصميم واحد. كل تفصيلة في هذه الخزانة السوداء صُمّمت لتعكس أناقة مساحتك، مع تقسيمات ذكية</h2>
           <span class="dc-tag"></span>
         </div>
       </div>
@@ -901,7 +858,7 @@
         </div>
         <div class="dc-content">
           <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
-          <h2>حوّل أوضتك لجاليري خاص يعرض تفاصيلك بشياكة، وخلي مساحة التخزين بتاعتك جزء من ديكور الأوضة</h2>
+          <h2>حوّل غرفتك إلى معرض خاص يعكس ذوقك بأناقة، واجعل مساحة التخزين جزءاً أصيلاً من ديكور الغرفة</h2>
           <span class="dc-tag">الأكثر طلباً</span>
         </div>
       </div>
@@ -919,8 +876,8 @@
         </div>
         <div class="dc-content">
           <span class="dc-eyecatch-badge">قطعة تخطف العين</span>
-          <h2>ميكس سحري بين دفا الألوان الخشبية وفخامة الزجاج. تصميم مميز ومتقسم بذكاء عشان تبدأ يومك كل يوم في مساحة رايقة ومنظمة</h2>
-          <span class="dc-tag">دفا الخشب</span>
+          <h2>مزيج ساحر بين دفء الألوان الخشبية وفخامة الزجاج. تصميم مميز ومقسّم بذكاء ليبدأ يومك كل يوم في مساحة هادئة ومنظمة</h2>
+          <span class="dc-tag">دفء الخشب</span>
         </div>
       </div>
 
@@ -928,7 +885,7 @@
         <button class="dc-arrow dc-prev" id="dcPrev" aria-label="السابق">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
         </button>
-        <span class="dc-counter"><span id="dcCurrent">1</span>/<span id="dcTotal">3</span></span>
+        <span class="dc-counter" aria-live="polite"><span id="dcCurrent">1</span>/<span id="dcTotal">3</span></span>
         <button class="dc-arrow dc-next" id="dcNext" aria-label="التالي">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
         </button>
@@ -951,39 +908,43 @@
   </div>
 </section>
 
-<!-- ============ INSTALLMENT PROMO BANNER ============ -->
-<section>
+<!-- ============ FINANCE PROMOTION ============ -->
+<section class="finance-promo reveal" style="  margin-bottom: 30px;" aria-labelledby="financePromoTitle">
   <div class="container">
-    <div class="installment-banner reveal" style="background-image:url('https://images.unsplash.com/photo-1616627988645-1a1eaef4f6d8?q=80&w=1600&auto=format&fit=crop');">
-      <div class="installment-banner-top">
-        <span class="installment-eyebrow">قسّط قطعتك المفضلة الآن</span>
-        <h3 class="installment-headline">قسّط مع <strong>OPULENT SPACES</strong> بـ 3 أصفار</h3>
-      </div>
-      <div class="installment-stats">
-        <div class="installment-stat">
-          <span class="num">0<span>%</span></span>
-          <span class="label">مقدّم</span>
+
+    <figure class="finance-promo-media">
+      <img
+        class="finance-promo-img"
+        src="images/000.jpeg"
+        alt="أريكة فاخرة بألوان ترابية دافئة في غرفة معيشة أنيقة"
+        loading="lazy" decoding="async">
+      <div class="finance-promo-scrim" aria-hidden="true"></div>
+      <figcaption class="finance-promo-caption">
+        <span class="finance-promo-eyebrow">تمويل بدون فوائد</span>
+        <h2 id="financePromoTitle" class="finance-promo-title">
+          استلم أثاثك بـ <span class="fp-accent">3</span> أصفار
+        </h2>
+      </figcaption>
+    </figure>
+
+    <div class="finance-promo-card">
+   
+
+           <div class="finance-promo-stats">
+        <div class="finance-promo-stat">
+          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
+          <span class="fp-stat-label">مقدم</span>
         </div>
-        <div class="installment-stat">
-          <span class="num">0<span>%</span></span>
-          <span class="label">مصاريف إدارية</span>
+        <div class="finance-promo-stat">
+          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
+          <span class="fp-stat-label">مصاريف إدارية</span>
         </div>
-        <div class="installment-stat">
-          <span class="num">0<span>%</span></span>
-          <span class="label">فوائد</span>
+        <div class="finance-promo-stat">
+          <span class="fp-stat-num">0<span class="fp-percent">%</span></span>
+          <span class="fp-stat-label">فوائد</span>
         </div>
       </div>
-      <div class="installment-partners">
-        <span>Tabby</span>
-        <span>Tamara</span>
-        <span>مدى</span>
-        <span>Visa</span>
-        <span>Mastercard</span>
-        <span>Apple Pay</span>
-      </div>
-      <p class="installment-note">التقسيط متاح عبر شركاء الدفع المعتمدين وفق الشروط والأهلية الخاصة بكل خدمة. تواصل معنا عبر واتساب لمعرفة التفاصيل.</p>
     </div>
-  </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
@@ -991,7 +952,7 @@
   <div class="container">
     <div class="newsletter">
       <span class="newsletter-title">اشترك في نشرتنا البريدية</span>
-      <form class="newsletter-form" onsubmit="return false;">
+      <form class="newsletter-form">
         <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
         <button type="submit" class="btn btn-gold">اشتراك</button>
       </form>
