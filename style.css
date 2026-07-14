@@ -7,7 +7,9 @@
 
 :root{
   /* Palette — warm off-white base, beige/sand/wood primaries, charcoal secondary, gold accent */
-  --color-bg:            #FAF7F2;   /* warm off-white page background */
+  /* --color-bg:            #FAF7F2;   warm off-white page background */
+  --color-bg:            #FFFFFF;   /* warm off-white page background */
+
   --color-bg-alt:        #F3ECE0;  /* soft beige section background */
   --color-sand:          #E4D8C3;
   --color-wood:          #8C6A4A;
@@ -67,7 +69,7 @@ button{ font-family: inherit; cursor: pointer; }
 input, select{ font-family: inherit; }
 :focus-visible{ outline: 2px solid var(--color-gold); outline-offset: 3px; }
 
-.container{
+.container{ 
   max-width: var(--container-w);
   margin: 0 auto;
   padding: 0 24px;
@@ -119,13 +121,13 @@ section{ padding: 90px 0; }
 .btn-gold:hover{ background: var(--color-wood-dark); transform: translateY(-2px); }
 .btn-outline{ background: transparent; border-color: var(--color-gold); color: var(--color-gold); }
 .btn-outline:hover{ background: var(--color-gold); color:#fff; }
-.btn-dark{ background: var(--color-charcoal); color:#fff; }
+.btn-dark{ background: var(--color-gold); color:#fff; }
 .btn-dark:hover{ background: var(--color-wood-dark); }
 .btn-white{ background:#fff; color: var(--color-charcoal); }
 .btn-white:hover{ background: var(--color-gold); color:#fff; }
 
 /* ==========================================================================
-   HEADER
+   HEADER 
    ========================================================================== */
 .site-header{
   position: absolute;
@@ -136,10 +138,15 @@ section{ padding: 90px 0; }
 }
 .site-header.is-scrolled{
   position: fixed;
-  background: rgba(250,247,242,0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-soft);
   padding: 14px 0;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-soft);
+    padding: 12px 0;
+    border-bottom-color: rgba(199, 154, 85, 0.22);
+
 }
 .site-header.is-scrolled .logo,
 .site-header.is-scrolled .main-nav a,
@@ -500,7 +507,7 @@ section{ padding: 90px 0; }
   transition: all var(--transition);
 }
 .tab-btn.active, .tab-btn:hover{
-  background: var(--color-charcoal); color:#fff; border-color: var(--color-charcoal);
+  background: var(--color-gold); color:#fff; 
 }
 
 /* ==========================================================================
@@ -978,7 +985,7 @@ section{ padding: 90px 0; }
 .value-card p{ font-size:13.5px; color: var(--color-text-muted); }
 
 .stats-strip{
-  background: var(--color-charcoal); border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #6E4D28 0%, #47331E 100%);; border-radius: var(--radius-lg);
   display:grid; grid-template-columns: repeat(4,1fr); color:#fff; overflow:hidden;
 }
 .stat-item{ text-align:center; padding: 44px 20px; border-left:1px solid rgba(255,255,255,.1); }
@@ -1450,7 +1457,7 @@ section{ padding: 90px 0; }
 }
 .contact-map-frame iframe{ width:100%; height:100%; min-height:260px; border:0; display:block; }
 .contact-whatsapp-card{
-  background: linear-gradient(135deg, #25543f, #16342a); border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #6E4D28 0%, #47331E 100%); border-radius: var(--radius-lg);
   padding: 30px; color:#fff; display:flex; align-items:center; gap:20px;
 }
 .contact-whatsapp-card svg{ width:42px; height:42px; flex-shrink:0; }
