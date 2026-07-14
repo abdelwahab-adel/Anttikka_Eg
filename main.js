@@ -55,6 +55,7 @@ window.OpulentCart = (function () {
   function saveCart(cart) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); } catch (err) { /* storage unavailable */ }
     renderBadges();
+    document.dispatchEvent(new CustomEvent('cart:change'));
   }
 
   function slugify(str) {
@@ -83,6 +84,7 @@ window.OpulentCart = (function () {
       });
     }
     saveCart(cart);
+    document.dispatchEvent(new CustomEvent('cart:item-added'));
     return cart;
   }
 
@@ -114,6 +116,18 @@ window.OpulentCart = (function () {
   function total(cart) {
     cart = cart || getCart();
     return cart.reduce(function (sum, it) { return sum + it.price * it.qty; }, 0);
+  }
+
+  /* Sum of "original" (pre-discount) line totals — falls back to the current price
+     for items that have no oldPrice, so items with no discount don't skew the subtotal. */
+  function subtotal(cart) {
+    cart = cart || getCart();
+    return cart.reduce(function (sum, it) { return sum + (it.oldPrice || it.price) * it.qty; }, 0);
+  }
+
+  function discountTotal(cart) {
+    cart = cart || getCart();
+    return Math.max(0, subtotal(cart) - total(cart));
   }
 
   function renderBadges() {
@@ -172,7 +186,8 @@ window.OpulentCart = (function () {
     var off = offEl ? offEl.textContent.trim().replace(/^خصم\s*/, '') : null;
     var catEl = cardEl.querySelector('.product-cat');
     var cat = catEl ? catEl.textContent.trim() : null;
-    return { id: slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, cat: cat, qty: 1 };
+    var explicitId = cardEl.getAttribute('data-id');
+    return { id: explicitId || slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, cat: cat, qty: 1 };
   }
 
   function toast(message) {
@@ -187,9 +202,19 @@ window.OpulentCart = (function () {
     }, 2200);
   }
 
+  /* Cross-tab sync: if the cart is changed in another tab/window, this tab's
+     "storage" event fires (it never fires in the same tab that made the change),
+     so badges and any open cart page pick up the update without a manual refresh. */
+  window.addEventListener('storage', function (e) {
+    if (e.key !== STORAGE_KEY) return;
+    renderBadges();
+    document.dispatchEvent(new CustomEvent('cart:change'));
+  });
+
   return {
     getCart: getCart, addItem: addItem, removeItem: removeItem, setQty: setQty,
-    clearCart: clearCart, count: count, total: total, fmt: fmt,
+    clearCart: clearCart, count: count, total: total, subtotal: subtotal,
+    discountTotal: discountTotal, fmt: fmt,
     buildMessage: buildMessage, checkoutUrl: checkoutUrl, checkout: checkout,
     extractFromCard: extractFromCard, renderBadges: renderBadges, toast: toast
   };
@@ -254,6 +279,13 @@ window.OpulentWishlist = (function () {
     });
   }
 
+  /* Cross-tab sync — see the matching listener in OpulentCart for details. */
+  window.addEventListener('storage', function (e) {
+    if (e.key !== STORAGE_KEY) return;
+    renderBadges();
+    document.dispatchEvent(new CustomEvent('wishlist:change'));
+  });
+
   return {
     getList: getList, has: has, toggle: toggle, removeItem: removeItem,
     count: count, renderBadges: renderBadges
@@ -264,6 +296,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   OpulentCart.renderBadges();
   OpulentWishlist.renderBadges();
+
+  /* ---------- Cart icon "bump" feedback on add-to-cart ---------- */
+  document.addEventListener('cart:item-added', function () {
+    document.querySelectorAll('a[href="cart.html"]').forEach(function (el) {
+      el.classList.remove('bump');
+      void el.offsetWidth;
+      el.classList.add('bump');
+      setTimeout(function () { el.classList.remove('bump'); }, 450);
+    });
+  });
 
   /* ---------- Wishlist: sync active state + delegated toggle (persists via localStorage) ---------- */
   function wishlistItemFromBtn(btn) {
@@ -278,6 +320,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
   syncWishlistButtons();
+  document.addEventListener('wishlist:change', function () { syncWishlistButtons(); });
+
+  function pulseHeart(btn) {
+    btn.classList.remove('wishlist-pulse');
+    void btn.offsetWidth; /* force reflow so the animation can restart on rapid re-clicks */
+    btn.classList.add('wishlist-pulse');
+    setTimeout(function () { btn.classList.remove('wishlist-pulse'); }, 450);
+  }
+
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('.wishlist-btn');
     if (!btn) return;
@@ -285,7 +336,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var item = wishlistItemFromBtn(btn);
     if (!item) return;
     var nowSaved = OpulentWishlist.toggle(item);
-    btn.classList.toggle('active', nowSaved);
+    syncWishlistButtons();
+    if (nowSaved) pulseHeart(btn);
     OpulentCart.toast(nowSaved ? 'أُضيف "' + item.name + '" إلى المفضلة' : 'أُزيل "' + item.name + '" من المفضلة');
   });
 
@@ -755,6 +807,11 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       }
+
+      /* The PDP's own wishlist heart was synced earlier against the placeholder product
+         (before hydration swapped in the actually-clicked product's name/price), so its
+         id has since changed — resync it now that the DOM reflects the real product. */
+      syncWishlistButtons(pdpInfoForHydrate);
     })();
   }
 
@@ -1209,7 +1266,12 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }).join('');
 
+      var subtotal = OpulentCart.subtotal(cart);
+      var discount = OpulentCart.discountTotal(cart);
       var total = OpulentCart.total(cart);
+      var discountRow = discount > 0
+        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + OpulentCart.fmt(discount) + ' ر.س</span></div>'
+        : '';
 
       cartRoot.innerHTML =
         '<div class="cart-layout">' +
@@ -1217,6 +1279,8 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="cart-summary">' +
             '<h3>ملخص الطلب</h3>' +
             '<div class="cart-summary-row"><span>عدد القطع</span><span>' + OpulentCart.count(cart) + '</span></div>' +
+            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + OpulentCart.fmt(subtotal) + ' ر.س</span></div>' +
+            discountRow +
             '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + OpulentCart.fmt(total) + ' ر.س</span></div>' +
             '<button type="button" class="btn btn-gold cart-checkout-btn" id="cartCheckoutBtn">' +
               '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>' +
@@ -1230,8 +1294,14 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
           var current = OpulentCart.getCart().find(function (c) { return c.id === id; });
-          if (current) OpulentCart.setQty(id, current.qty - 1 > 0 ? current.qty - 1 : 1);
-          renderCartPage();
+          if (!current) return;
+          if (current.qty - 1 <= 0) {
+            OpulentCart.removeItem(id);
+            OpulentCart.toast('تمت إزالة "' + current.name + '" من السلة');
+          } else {
+            OpulentCart.setQty(id, current.qty - 1);
+          }
+          /* re-render happens via the cart:change listener registered below */
         });
       });
       cartRoot.querySelectorAll('.cart-qty-plus').forEach(function (btn) {
@@ -1239,14 +1309,12 @@ document.addEventListener('DOMContentLoaded', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
           var current = OpulentCart.getCart().find(function (c) { return c.id === id; });
           if (current) OpulentCart.setQty(id, current.qty + 1);
-          renderCartPage();
         });
       });
       cartRoot.querySelectorAll('.cart-item-remove').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
           OpulentCart.removeItem(id);
-          renderCartPage();
         });
       });
 
@@ -1259,6 +1327,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     renderCartPage();
+    document.addEventListener('cart:change', renderCartPage);
   }
 
   /* ==========================================================================

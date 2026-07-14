@@ -190,6 +190,22 @@ section{ padding: 90px 0; }
   width:16px; height:16px; border-radius:50%;
   display:none; align-items:center; justify-content:center;
 }
+@keyframes cartIconBump{
+  0%{ transform: scale(1); }
+  35%{ transform: scale(1.28); }
+  65%{ transform: scale(0.94); }
+  100%{ transform: scale(1); }
+}
+.header-icons a.bump svg{ animation: cartIconBump .45s ease; }
+.header-icons a.bump .cart-count{ animation: cartIconBump .45s ease; }
+
+@keyframes wishlistHeartPulse{
+  0%{ transform: scale(1); }
+  40%{ transform: scale(1.35); }
+  100%{ transform: scale(1); }
+}
+.wishlist-btn.wishlist-pulse svg{ animation: wishlistHeartPulse .45s ease; }
+
 .menu-toggle{ display:none; background:none; border:none; color:#fff; }
 .site-header.is-scrolled .menu-toggle{ color: var(--color-text); }
 
@@ -1099,6 +1115,19 @@ section{ padding: 90px 0; }
 
 .pdp-actions{ display:flex; gap:14px; margin-bottom:26px; }
 .pdp-actions .btn{ flex:1; padding-block:16px; }
+.pdp-actions .wishlist-btn{
+  position:static; opacity:1; transform:none; flex-shrink:0;
+  width:54px; height:54px; border-radius:50%;
+  background:#fff; border:1px solid var(--color-border);
+}
+.pdp-actions .wishlist-btn svg{ width:20px; height:20px; }
+.pdp-actions .wishlist-btn:hover{ background: var(--color-gold); border-color: var(--color-gold); }
+.pdp-actions .wishlist-btn:hover svg{ stroke:#fff; }
+.pdp-actions .wishlist-btn.active svg{ fill: var(--color-sale); stroke: var(--color-sale); }
+@media (max-width: 520px){
+  .pdp-actions{ flex-wrap:wrap; }
+  .pdp-actions .wishlist-btn{ order:3; margin-inline-start:auto; }
+}
 
 .pdp-perks{
   border:1px solid var(--color-border); border-radius: var(--radius-md);
@@ -1596,3 +1625,165 @@ section{ padding: 90px 0; }
 .mobile-nav.open{ transform: translateY(0); }
 .mobile-nav a{ color:#fff; font-family: var(--font-display); font-size:20px; font-weight:600; }
 .mobile-nav-close{ position:absolute; top:26px; left:26px; background:none; border:none; color:#fff; }
+
+/* ==========================================================================
+   FINANCE PROMOTION SECTION
+   Full-bleed lifestyle image with caption, and a floating dark glass card
+   presenting 0% installment terms alongside partner bank names.
+   ========================================================================== */
+.finance-promo{
+  --fp-dark:   #3C2415;
+  --fp-dark-2: #6A3F22;
+  --fp-brown:  #8A5635;
+  --fp-gold:   #C78A42;
+  --fp-yellow: #F4B223;
+  padding-top: 70px;
+  padding-bottom: 0;
+}
+@media (max-width: 768px){ .finance-promo{ padding-top: 44px; } }
+
+/* ---- Media ---- */
+.finance-promo-media{
+  position: relative;
+  margin: 0;
+  height: 620px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.finance-promo-img{
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+  transition: transform .6s ease;
+}
+.finance-promo-media:hover .finance-promo-img{ transform: scale(1.045); }
+
+.finance-promo-scrim{
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(20,14,9,0) 38%, rgba(20,14,9,.55) 76%, rgba(15,10,6,.85) 100%);
+  pointer-events: none;
+}
+
+.finance-promo-caption{
+  position: absolute; right: 0; bottom: 0; left: 0;
+  margin: 0;
+  padding: 0 56px 186px;
+  display: flex; flex-direction: column; gap: 14px;
+  text-align: right;
+}
+.finance-promo-eyebrow{
+  display: inline-flex; width: fit-content;
+  font-family: var(--font-display); font-weight: 700; font-size: 13px;
+  letter-spacing: .04em; color: var(--fp-yellow);
+  background: rgba(20,14,9,.4);
+  border: 1px solid rgba(244,178,35,.4);
+  padding: 6px 16px; border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+.finance-promo-title{
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4.4vw, 54px);
+  line-height: 1.18;
+  color: #fff;
+  text-shadow: 0 4px 22px rgba(0,0,0,.4);
+  margin: 0;
+}
+.finance-promo-title .fp-accent{ color: var(--fp-yellow); }
+
+/* ---- Floating finance card ---- */
+.finance-promo-card{
+  position: relative;
+  z-index: 2;
+  margin: -110px 40px 0;
+  padding: 34px 40px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--fp-dark), var(--fp-dark-2));
+  border: 1px solid rgba(244,178,35,.16);
+  box-shadow: 0 24px 60px rgba(23,14,6,.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex; align-items: center; gap: 40px;
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.finance-promo-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 34px 74px rgba(23,14,6,.5);
+}
+
+.finance-promo-banks{
+  flex: 1 1 42%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px 22px;
+}
+.finance-promo-banks li{
+  color: #fff;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 15px;
+  opacity: .88;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.finance-promo-divider{
+  align-self: stretch;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.22), transparent);
+}
+
+.finance-promo-stats{
+  flex: 1 1 46%;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+}
+.finance-promo-stat{
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  flex: 1;
+}
+.fp-stat-num{
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(30px, 3vw, 44px);
+  color: var(--fp-yellow);
+  line-height: 1;
+  text-shadow: 0 3px 14px rgba(244,178,35,.25);
+}
+.fp-percent{ font-size: .5em; margin-inline-start: 1px; }
+.fp-stat-label{
+  font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+  color: rgba(255,255,255,.86);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1080px){
+  .finance-promo-media{ height: 560px; }
+  .finance-promo-caption{ padding: 0 40px 168px; }
+  .finance-promo-card{ margin: -100px 24px 0; padding: 28px 30px; gap: 28px; }
+  .finance-promo-banks{ gap: 12px 16px; }
+}
+
+@media (max-width: 860px){
+  .finance-promo-card{ flex-direction: column; align-items: stretch; gap: 24px; }
+  .finance-promo-divider{ width: 100%; height: 1px; }
+  .finance-promo-stats{ justify-content: space-between; }
+}
+
+@media (max-width: 640px){
+  .finance-promo-media{ height: 440px; border-radius: 22px; }
+  .finance-promo-caption{ padding: 0 24px 128px; text-align: center; align-items: center; }
+  .finance-promo-eyebrow{ align-self: center; }
+  .finance-promo-title{ font-size: clamp(24px, 7vw, 32px); }
+  .finance-promo-card{ margin: -92px 16px 0; padding: 22px 20px; border-radius: 20px; }
+  .finance-promo-banks{ grid-template-columns: repeat(3, 1fr); gap: 14px 10px; }
+  .finance-promo-banks li{ font-size: 12.5px; }
+  .fp-stat-num{ font-size: 26px; }
+  .fp-stat-label{ font-size: 12px; }
+}
+
+@media (max-width: 400px){
+  .finance-promo-banks{ grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .finance-promo-img, .finance-promo-card{ transition: none; }
+}
