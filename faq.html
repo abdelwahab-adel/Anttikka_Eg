@@ -12,7 +12,7 @@
 <body>
 
 <!-- ============ HEADER ============ -->
-<header class="site-header static-header" id="siteHeader">
+<header class="site-header" id="siteHeader">
   <div class="container header-inner">
     <a href="index.html" class="logo">OPULENT<span>SPACES</span></a>
 
@@ -55,56 +55,67 @@
   <a href="contact.html">تواصل معنا</a>
 </div>
 
-<!-- ============ BREADCRUMB ============ -->
-<div class="breadcrumb-strip">
-  <div class="container breadcrumb">
-    <a href="index.html">الرئيسية</a><span>/</span>
-    <span class="current">الأسئلة الشائعة</span>
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=1800&auto=format&fit=crop');">
+  <div class="page-hero-content">
+    <h1>الأسئلة الشائعة</h1>
+    <div class="breadcrumb">
+      <a href="index.html">الرئيسية</a><span>/</span><span>الأسئلة الشائعة</span>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- ============ FAQ ============ -->
+<!-- ============ QUICK HIGHLIGHTS ============ -->
 <section>
   <div class="container">
-    <div class="section-head reveal" style="margin-bottom:44px;">
+    <div class="values-grid reveal">
+      <div class="value-card">
+        <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12l3-8h8l3 8M3 12v6h16v-6M3 12h16"/></svg></span>
+        <h4>توصيل سريع</h4>
+        <p>من 2 إلى 4 أيام عمل داخل المدن الرئيسية</p>
+      </div>
+      <div class="value-card">
+        <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="15" rx="3"/><path d="M2 9h20"/><path d="M6 15h5"/></svg></span>
+        <h4>دفع مرن</h4>
+        <p>عند الاستلام، تحويل بنكي، أو تقسيط بدون فوائد</p>
+      </div>
+      <div class="value-card">
+        <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1015-6.7M3 12V6m0 6h6"/></svg></span>
+        <h4>إرجاع سهل</h4>
+        <p>خلال 7 أيام من تاريخ الاستلام</p>
+      </div>
+      <div class="value-card">
+        <span class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h4>ضمان موثوق</h4>
+        <p>يصل حتى 3 سنوات حسب المنتج</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section-alt" style="background-color: white;">
+  <div class="container">
+    <div class="section-head reveal" style="margin-bottom:32px;">
       <span class="eyebrow">مركز المساعدة</span>
-      <h2>الأسئلة الشائعة</h2>
-      <p>إجابات سريعة على أكثر الأسئلة تكراراً. لم تجد ما تبحث عنه؟ <a href="contact.html" style="color:var(--color-gold); font-weight:600;">تواصل معنا</a> مباشرة.</p>
+      <h2>لديك سؤال؟ نحن هنا للمساعدة</h2>
+      <p class="lead">إجابات سريعة على أكثر الأسئلة تكراراً حول الطلب والشحن والإرجاع. لم تجد ما تبحث عنه؟ <a href="contact.html" style="color:var(--color-gold); font-weight:600;">تواصل معنا</a> مباشرة.</p>
     </div>
 
+    <form class="faq-search-box reveal" onsubmit="return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" id="faqSearchInput" placeholder="ابحث عن سؤالك... (مثال: الشحن، الإرجاع، الضمان)" aria-label="ابحث في الأسئلة الشائعة">
+    </form>
+
     <div class="content-accordion reveal">
+
+      <span class="acc-group-title">الشحن والتوصيل</span>
+
       <div class="acc-item open">
         <button class="acc-header">كم تستغرق مدة توصيل الطلب؟ <span class="acc-plus">+</span></button>
         <div class="acc-body">
           <div class="acc-body-inner">
             <p>تُشحن معظم القطع خلال 2-4 أيام عمل داخل المدن الرئيسية. القطع المخصصة أو المصنوعة حسب الطلب قد تستغرق من أسبوعين إلى 4 أسابيع، وسنُبلغك بموعد التسليم المتوقع فور تأكيد الطلب.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <button class="acc-header">ما هي طرق الدفع المتاحة؟ <span class="acc-plus">+</span></button>
-        <div class="acc-body">
-          <div class="acc-body-inner">
-            <p>نوفر الدفع عند الاستلام، التحويل البنكي، والدفع بالتقسيط عبر خدمات معتمدة مثل Tabby وTamara. كما يمكنك إتمام طلبك مباشرة عبر واتساب وسنرشدك لأنسب وسيلة دفع.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <button class="acc-header">هل يمكنني إرجاع أو استبدال قطعة اشتريتها؟ <span class="acc-plus">+</span></button>
-        <div class="acc-body">
-          <div class="acc-body-inner">
-            <p>نعم، يمكنك طلب الإرجاع أو الاستبدال خلال 7 أيام من تاريخ الاستلام، بشرط أن تكون القطعة بحالتها الأصلية وغير مستخدمة. راجع <a href="returns.html" style="color:var(--color-gold);">سياسة الإرجاع والاستبدال</a> للتفاصيل الكاملة.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <button class="acc-header">هل تقدّمون خدمة تخصيص الأثاث حسب المقاس؟ <span class="acc-plus">+</span></button>
-        <div class="acc-body">
-          <div class="acc-body-inner">
-            <p>بالتأكيد. نوفر خدمة تخصيص كاملة للمقاسات، الألوان، والخامات لمعظم قطعنا. تواصل معنا عبر واتساب أو نموذج التواصل وأخبرنا بمتطلباتك وسنرسل لك عرض سعر مفصّل.</p>
           </div>
         </div>
       </div>
@@ -128,6 +139,55 @@
       </div>
 
       <div class="acc-item">
+        <button class="acc-header">هل تقدّمون خدمة تركيب الأثاث؟ <span class="acc-plus">+</span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>نعم، خدمة التركيب متاحة لبعض المنتجات مثل غرف النوم وخزائن الملابس مقابل تكلفة رمزية إضافية، وسيوضح لك فريق التوصيل الخيارات المتاحة عند وصول طلبك. لمزيد من التفاصيل راجع <a href="shipping.html" style="color:var(--color-gold);">صفحة الشحن والتوصيل</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <span class="acc-group-title">الطلب والدفع</span>
+
+      <div class="acc-item">
+        <button class="acc-header">ما هي طرق الدفع المتاحة؟ <span class="acc-plus">+</span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>نوفر الدفع عند الاستلام، التحويل البنكي، والدفع بالتقسيط عبر خدمات معتمدة مثل Tabby وTamara. كما يمكنك إتمام طلبك مباشرة عبر واتساب وسنرشدك لأنسب وسيلة دفع.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header">هل يمكنني تعديل أو إلغاء طلبي بعد تأكيده؟ <span class="acc-plus">+</span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>بالتأكيد، يمكنك تعديل تفاصيل الطلب (الكمية، اللون، العنوان) أو إلغاؤه دون أي رسوم طالما لم يُشحن بعد — فقط راسلنا عبر واتساب برقم طلبك. أما الطلبات التي شُحنت بالفعل فيسري عليها ما ورد في <a href="returns.html" style="color:var(--color-gold);">سياسة الإرجاع والاستبدال</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-header">هل تقدّمون خدمة تخصيص الأثاث حسب المقاس؟ <span class="acc-plus">+</span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>بالتأكيد. نوفر خدمة تخصيص كاملة للمقاسات، الألوان، والخامات لمعظم قطعنا. تواصل معنا عبر واتساب أو نموذج التواصل وأخبرنا بمتطلباتك وسنرسل لك عرض سعر مفصّل.</p>
+          </div>
+        </div>
+      </div>
+
+      <span class="acc-group-title">الإرجاع والضمان</span>
+
+      <div class="acc-item">
+        <button class="acc-header">هل يمكنني إرجاع أو استبدال قطعة اشتريتها؟ <span class="acc-plus">+</span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>نعم، يمكنك طلب الإرجاع أو الاستبدال خلال 7 أيام من تاريخ الاستلام، بشرط أن تكون القطعة بحالتها الأصلية وغير مستخدمة. راجع <a href="returns.html" style="color:var(--color-gold);">سياسة الإرجاع والاستبدال</a> للتفاصيل الكاملة.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
         <button class="acc-header">هل تقدّمون ضماناً على المنتجات؟ <span class="acc-plus">+</span></button>
         <div class="acc-body">
           <div class="acc-body-inner">
@@ -135,23 +195,13 @@
           </div>
         </div>
       </div>
+
     </div>
+
+    <p class="faq-no-results" id="faqNoResults">لم نجد أسئلة مطابقة لبحثك. جرّب كلمة أخرى، أو <a href="contact.html" style="color:var(--color-gold); font-weight:600;">تواصل معنا</a> مباشرة وسنجيبك بسرعة.</p>
   </div>
 </section>
 
-<!-- ============ CTA BANNER ============ -->
-<section class="section-alt">
-  <div class="container">
-    <div class="contact-whatsapp-card reveal" style="max-width:800px; margin:0 auto;">
-      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>
-      <div>
-        <h4>لسه محتاج مساعدة؟</h4>
-        <p>فريقنا جاهز يرد على أي سؤال مباشرة عبر واتساب.</p>
-        <a href="https://wa.me/966500000000" target="_blank" rel="noopener" class="btn">تواصل عبر واتساب</a>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">

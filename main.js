@@ -962,6 +962,60 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ---------- FAQ page: live search filter across grouped questions ---------- */
+  var faqSearchInput = document.getElementById('faqSearchInput');
+  if (faqSearchInput) {
+    var faqItems = document.querySelectorAll('.content-accordion .acc-item');
+    var faqGroups = document.querySelectorAll('.content-accordion .acc-group-title');
+    var faqNoResults = document.getElementById('faqNoResults');
+
+    faqSearchInput.addEventListener('input', function () {
+      var q = faqSearchInput.value.trim().toLowerCase();
+      var anyVisible = false;
+
+      faqItems.forEach(function (item) {
+        var match = !q || item.textContent.toLowerCase().indexOf(q) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+
+      /* Hide a category label if every question under it got filtered out */
+      faqGroups.forEach(function (group) {
+        var hasVisible = false;
+        var el = group.nextElementSibling;
+        while (el && !el.classList.contains('acc-group-title')) {
+          if (el.classList.contains('acc-item') && el.style.display !== 'none') hasVisible = true;
+          el = el.nextElementSibling;
+        }
+        group.style.display = hasVisible ? '' : 'none';
+      });
+
+      if (faqNoResults) faqNoResults.classList.toggle('show', !anyVisible);
+    });
+  }
+
+  /* ---------- Policy pages: sticky table-of-contents scrollspy ---------- */
+  var policyToc = document.querySelector('.policy-toc');
+  if (policyToc) {
+    var tocLinks = Array.prototype.slice.call(policyToc.querySelectorAll('a[href^="#"]'));
+    var tocTargets = tocLinks
+      .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+      .filter(Boolean);
+
+    function setActiveTocLink() {
+      var pos = window.scrollY + 150;
+      var current = tocTargets[0];
+      tocTargets.forEach(function (el) { if (el.offsetTop <= pos) current = el; });
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', !!current && a.getAttribute('href') === '#' + current.id);
+      });
+    }
+    if (tocTargets.length) {
+      setActiveTocLink();
+      window.addEventListener('scroll', setActiveTocLink, { passive: true });
+    }
+  }
+
   /* ==========================================================================
      SHOP PAGE — full catalogue, real filtering, sorting & pagination
      ========================================================================== */
