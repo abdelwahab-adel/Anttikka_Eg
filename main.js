@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Anttikka — main.js
+   ِAnttikka — main.js
    Header scroll state, mobile nav, category tab product grid, scroll reveal
    ========================================================================== */
 
