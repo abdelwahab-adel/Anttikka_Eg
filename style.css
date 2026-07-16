@@ -377,6 +377,14 @@ section{ padding: 90px 0; }
   .hero-filter{ flex-wrap: wrap; border-radius: 26px; }
   .filter-item{ border-left:none; border-bottom:1px solid var(--color-border); width:100%; padding:12px 10px; }
   .hero-search{ width:100%; padding-top:8px; }
+  
+}
+
+@media (max-width: 400px){
+  .hero-filter{  display: block;}
+      .hero-search input {
+        width: 10px;
+    }
 }
 
 /* ==========================================================================
@@ -1698,6 +1706,7 @@ section{ padding: 90px 0; }
   .form-field input,
   .form-field textarea,
   .sort-select{ font-size: 16px; }
+  .hero-search input{width: 10px;}
 }
 
 /* ==========================================================================
