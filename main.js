@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OPULENT SPACES — main.js
+   Anttikka — main.js
    Header scroll state, mobile nav, category tab product grid, scroll reveal
    ========================================================================== */
 
@@ -37,9 +37,9 @@
    pre-filled message containing the product details, quantities, discounts
    and total, so the store owner receives the order directly on WhatsApp.
    ========================================================================== */
-window.OpulentCart = (function () {
-  var STORAGE_KEY = 'opulent_cart_v1';
-  /* TODO: replace with the store's real WhatsApp number (international format, no + or spaces) */
+window.AnttikkaCart = (function () {
+  var STORAGE_KEY = 'Anttikka_cart_v1';
+  /* TODO: replace with the store's real WhatsApp number (international format, no + or ) */
   var STORE_WHATSAPP_NUMBER = '966500000000';
 
   function getCart() {
@@ -225,8 +225,8 @@ window.OpulentCart = (function () {
    Persisted in localStorage like the cart, so the heart buttons across the
    site actually save favorites instead of just toggling a visual state.
    ========================================================================== */
-window.OpulentWishlist = (function () {
-  var STORAGE_KEY = 'opulent_wishlist_v1';
+window.AnttikkaWishlist = (function () {
+  var STORAGE_KEY = 'Anttikka_wishlist_v1';
 
   function getList() {
     try {
@@ -279,7 +279,7 @@ window.OpulentWishlist = (function () {
     });
   }
 
-  /* Cross-tab sync — see the matching listener in OpulentCart for details. */
+  /* Cross-tab sync — see the matching listener in AnttikkaCart for details. */
   window.addEventListener('storage', function (e) {
     if (e.key !== STORAGE_KEY) return;
     renderBadges();
@@ -294,8 +294,8 @@ window.OpulentWishlist = (function () {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  OpulentCart.renderBadges();
-  OpulentWishlist.renderBadges();
+  AnttikkaCart.renderBadges();
+  AnttikkaWishlist.renderBadges();
 
   /* ---------- Cart icon "bump" feedback on add-to-cart ---------- */
   document.addEventListener('cart:item-added', function () {
@@ -311,12 +311,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function wishlistItemFromBtn(btn) {
     var card = btn.closest('.product-card') || btn.closest('.pdp-info');
     if (!card) return null;
-    return OpulentCart.extractFromCard(card);
+    return AnttikkaCart.extractFromCard(card);
   }
   function syncWishlistButtons(scope) {
     (scope || document).querySelectorAll('.wishlist-btn').forEach(function (btn) {
       var item = wishlistItemFromBtn(btn);
-      if (item) btn.classList.toggle('active', OpulentWishlist.has(item.id));
+      if (item) btn.classList.toggle('active', AnttikkaWishlist.has(item.id));
     });
   }
   syncWishlistButtons();
@@ -335,26 +335,26 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var item = wishlistItemFromBtn(btn);
     if (!item) return;
-    var nowSaved = OpulentWishlist.toggle(item);
+    var nowSaved = AnttikkaWishlist.toggle(item);
     syncWishlistButtons();
     if (nowSaved) pulseHeart(btn);
-    OpulentCart.toast(nowSaved ? 'أُضيف "' + item.name + '" إلى المفضلة' : 'أُزيل "' + item.name + '" من المفضلة');
+    AnttikkaCart.toast(nowSaved ? 'أُضيف "' + item.name + '" إلى المفضلة' : 'أُزيل "' + item.name + '" من المفضلة');
   });
 
   /* ---------- Product links: remember which product was clicked so product.html can render it ----------
      Every "product.html" link across the site (featured cards, shop grid, wishlist, quick view, related
      products...) points to the same static file. Instead of maintaining a per-card product id, we scrape
-     the same info already used for cart/wishlist (OpulentCart.extractFromCard) right as the link is
+     the same info already used for cart/wishlist (AnttikkaCart.extractFromCard) right as the link is
      clicked and hand it to the product page via sessionStorage — so whichever product the user clicked
      is the one that actually shows up on product.html. */
-  var SELECTED_PRODUCT_KEY = 'opulent_selected_product';
+  var SELECTED_PRODUCT_KEY = 'Anttikka_selected_product';
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href="product.html"], a[href^="product.html?"]');
     if (!link) return;
     var item = null;
     var card = link.closest('.product-card');
     if (card) {
-      item = OpulentCart.extractFromCard(card);
+      item = AnttikkaCart.extractFromCard(card);
     } else if (link.closest('#qvOverlay') && typeof qvCurrentItem !== 'undefined' && qvCurrentItem) {
       item = qvCurrentItem;
     }
@@ -369,10 +369,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!btn) return;
     e.preventDefault();
     var card = btn.closest('.product-card');
-    var item = OpulentCart.extractFromCard(card);
+    var item = AnttikkaCart.extractFromCard(card);
     if (item) {
-      OpulentCart.addItem(item);
-      OpulentCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
+      AnttikkaCart.addItem(item);
+      AnttikkaCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
     }
   });
 
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
       qvImg.setAttribute('src', item.img);
       qvImg.setAttribute('alt', item.name);
       qvTitle.textContent = item.name;
-      qvPriceNow.textContent = OpulentCart.fmt(item.price) + ' ر.س';
+      qvPriceNow.textContent = AnttikkaCart.fmt(item.price) + ' ر.س';
 
       if (item.cat) {
         qvCat.textContent = item.cat;
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (item.oldPrice) {
-        qvPriceOld.textContent = OpulentCart.fmt(item.oldPrice) + ' ر.س';
+        qvPriceOld.textContent = AnttikkaCart.fmt(item.oldPrice) + ' ر.س';
         qvPriceOld.style.display = '';
       } else {
         qvPriceOld.style.display = 'none';
@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       var card = btn.closest('.product-card');
       if (!card) return;
-      var item = OpulentCart.extractFromCard(card);
+      var item = AnttikkaCart.extractFromCard(card);
       if (item) openQuickView(item);
     });
 
@@ -468,11 +468,11 @@ document.addEventListener('DOMContentLoaded', function () {
       qvAddToCart.addEventListener('click', function () {
         if (!qvCurrentItem) return;
         var qty = parseInt(qvQtyVal.textContent, 10) || 1;
-        OpulentCart.addItem({
+        AnttikkaCart.addItem({
           id: qvCurrentItem.id, name: qvCurrentItem.name, img: qvCurrentItem.img,
           price: qvCurrentItem.price, oldPrice: qvCurrentItem.oldPrice, off: qvCurrentItem.off, qty: qty
         });
-        OpulentCart.toast('تمت إضافة "' + qvCurrentItem.name + '" إلى السلة');
+        AnttikkaCart.toast('تمت إضافة "' + qvCurrentItem.name + '" إلى السلة');
         closeQuickView();
       });
     }
@@ -521,10 +521,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       if (!validEmail) {
         if (input) input.focus();
-        OpulentCart.toast('يرجى إدخال بريد إلكتروني صحيح');
+        AnttikkaCart.toast('يرجى إدخال بريد إلكتروني صحيح');
         return;
       }
-      OpulentCart.toast('تم اشتراكك في نشرتنا البريدية بنجاح');
+      AnttikkaCart.toast('تم اشتراكك في نشرتنا البريدية بنجاح');
       form.reset();
     });
   });
@@ -768,10 +768,10 @@ document.addEventListener('DOMContentLoaded', function () {
       document.title = sel.name + ' | أوبولنت سبيسز';
 
       var priceNow = pdpInfoForHydrate.querySelector('.price-now');
-      if (priceNow) priceNow.textContent = OpulentCart.fmt(sel.price) + ' ر.س';
+      if (priceNow) priceNow.textContent = AnttikkaCart.fmt(sel.price) + ' ر.س';
       var priceOld = pdpInfoForHydrate.querySelector('.price-old');
       if (priceOld) {
-        if (sel.oldPrice) { priceOld.textContent = OpulentCart.fmt(sel.oldPrice) + ' ر.س'; priceOld.style.display = ''; }
+        if (sel.oldPrice) { priceOld.textContent = AnttikkaCart.fmt(sel.oldPrice) + ' ر.س'; priceOld.style.display = ''; }
         else priceOld.style.display = 'none';
       }
       var priceOff = pdpInfoForHydrate.querySelector('.price-off');
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var pdpInfo = document.querySelector('.pdp-info');
   if (pdpInfo && (pdpAddToCart || pdpBuyNow)) {
     var getPdpItem = function () {
-      var item = OpulentCart.extractFromCard(pdpInfo);
+      var item = AnttikkaCart.extractFromCard(pdpInfo);
       var mainImg = document.getElementById('pdpMainImg');
       if (mainImg) item.img = mainImg.getAttribute('src');
       item.qty = parseInt((qtyVal && qtyVal.textContent) || '1', 10) || 1;
@@ -941,13 +941,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (pdpAddToCart) {
       pdpAddToCart.addEventListener('click', function () {
         var item = getPdpItem();
-        OpulentCart.addItem(item);
-        OpulentCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
+        AnttikkaCart.addItem(item);
+        AnttikkaCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
       });
     }
     if (pdpBuyNow) {
       pdpBuyNow.addEventListener('click', function () {
-        OpulentCart.checkout([getPdpItem()]);
+        AnttikkaCart.checkout([getPdpItem()]);
       });
     }
   }
@@ -1306,7 +1306,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var cartRoot = document.getElementById('cartRoot');
   if (cartRoot) {
     function renderCartPage() {
-      var cart = OpulentCart.getCart();
+      var cart = AnttikkaCart.getCart();
 
       if (!cart.length) {
         cartRoot.innerHTML =
@@ -1320,13 +1320,13 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       var itemsHtml = cart.map(function (it) {
-        var oldHtml = it.oldPrice ? '<span class="cart-item-old">' + OpulentCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
+        var oldHtml = it.oldPrice ? '<span class="cart-item-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
         return (
           '<div class="cart-item" data-id="' + it.id + '">' +
             '<div class="cart-item-img"><img src="' + it.img + '" alt="' + it.name + '"></div>' +
             '<div class="cart-item-info">' +
               '<h4>' + it.name + '</h4>' +
-              '<div><span class="cart-item-price">' + OpulentCart.fmt(it.price) + ' ر.س</span>' + oldHtml + '</div>' +
+              '<div><span class="cart-item-price">' + AnttikkaCart.fmt(it.price) + ' ر.س</span>' + oldHtml + '</div>' +
             '</div>' +
             '<div class="cart-item-qty">' +
               '<button type="button" class="cart-qty-minus" aria-label="إنقاص الكمية">−</button>' +
@@ -1338,11 +1338,11 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }).join('');
 
-      var subtotal = OpulentCart.subtotal(cart);
-      var discount = OpulentCart.discountTotal(cart);
-      var total = OpulentCart.total(cart);
+      var subtotal = AnttikkaCart.subtotal(cart);
+      var discount = AnttikkaCart.discountTotal(cart);
+      var total = AnttikkaCart.total(cart);
       var discountRow = discount > 0
-        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + OpulentCart.fmt(discount) + ' ر.س</span></div>'
+        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + AnttikkaCart.fmt(discount) + ' ر.س</span></div>'
         : '';
 
       cartRoot.innerHTML =
@@ -1350,10 +1350,10 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="cart-items">' + itemsHtml + '</div>' +
           '<div class="cart-summary">' +
             '<h3>ملخص الطلب</h3>' +
-            '<div class="cart-summary-row"><span>عدد القطع</span><span>' + OpulentCart.count(cart) + '</span></div>' +
-            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + OpulentCart.fmt(subtotal) + ' ر.س</span></div>' +
+            '<div class="cart-summary-row"><span>عدد القطع</span><span>' + AnttikkaCart.count(cart) + '</span></div>' +
+            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ر.س</span></div>' +
             discountRow +
-            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + OpulentCart.fmt(total) + ' ر.س</span></div>' +
+            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(total) + ' ر.س</span></div>' +
             '<button type="button" class="btn btn-gold cart-checkout-btn" id="cartCheckoutBtn">' +
               '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>' +
               '<span>إتمام الطلب عبر واتساب</span>' +
@@ -1365,13 +1365,13 @@ document.addEventListener('DOMContentLoaded', function () {
       cartRoot.querySelectorAll('.cart-qty-minus').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
-          var current = OpulentCart.getCart().find(function (c) { return c.id === id; });
+          var current = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
           if (!current) return;
           if (current.qty - 1 <= 0) {
-            OpulentCart.removeItem(id);
-            OpulentCart.toast('تمت إزالة "' + current.name + '" من السلة');
+            AnttikkaCart.removeItem(id);
+            AnttikkaCart.toast('تمت إزالة "' + current.name + '" من السلة');
           } else {
-            OpulentCart.setQty(id, current.qty - 1);
+            AnttikkaCart.setQty(id, current.qty - 1);
           }
           /* re-render happens via the cart:change listener registered below */
         });
@@ -1379,21 +1379,21 @@ document.addEventListener('DOMContentLoaded', function () {
       cartRoot.querySelectorAll('.cart-qty-plus').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
-          var current = OpulentCart.getCart().find(function (c) { return c.id === id; });
-          if (current) OpulentCart.setQty(id, current.qty + 1);
+          var current = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
+          if (current) AnttikkaCart.setQty(id, current.qty + 1);
         });
       });
       cartRoot.querySelectorAll('.cart-item-remove').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.closest('.cart-item').getAttribute('data-id');
-          OpulentCart.removeItem(id);
+          AnttikkaCart.removeItem(id);
         });
       });
 
       var checkoutBtn = document.getElementById('cartCheckoutBtn');
       if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function () {
-          OpulentCart.checkout(OpulentCart.getCart());
+          AnttikkaCart.checkout(AnttikkaCart.getCart());
         });
       }
     }
@@ -1408,7 +1408,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var wishlistRoot = document.getElementById('wishlistRoot');
   if (wishlistRoot) {
     function renderWishlistPage() {
-      var list = OpulentWishlist.getList();
+      var list = AnttikkaWishlist.getList();
 
       if (!list.length) {
         wishlistRoot.innerHTML =
@@ -1425,7 +1425,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '<div class="product-grid cols-4">' +
           list.map(function (it) {
             var badge = it.off ? '<span class="badge-sale">خصم ' + it.off + '</span>' : '';
-            var priceOld = it.oldPrice ? '<span class="price-old">' + OpulentCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
+            var priceOld = it.oldPrice ? '<span class="price-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
             var priceOff = it.off ? '<span class="price-off">خصم ' + it.off + '</span>' : '';
             return (
               '<article class="product-card shop-card" data-id="' + it.id + '">' +
@@ -1436,7 +1436,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '</div>' +
                 '<div class="product-info">' +
                   '<h3 class="product-name"><a href="product.html">' + it.name + '</a></h3>' +
-                  '<div class="product-price"><span class="price-now">' + OpulentCart.fmt(it.price) + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+                  '<div class="product-price"><span class="price-now">' + AnttikkaCart.fmt(it.price) + ' ر.س</span>' + priceOld + priceOff + '</div>' +
                   '<div class="shop-card-actions">' +
                     '<button type="button" class="btn-cart-inline wishlist-add-cart-btn">' + bagIcon() + '<span>إضافة للسلة</span></button>' +
                   '</div>' +
@@ -1450,10 +1450,10 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function () {
           var card = btn.closest('.product-card');
           var id = card.getAttribute('data-id');
-          var item = OpulentWishlist.getList().find(function (it) { return it.id === id; });
+          var item = AnttikkaWishlist.getList().find(function (it) { return it.id === id; });
           if (item) {
-            OpulentCart.addItem(item);
-            OpulentCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
+            AnttikkaCart.addItem(item);
+            AnttikkaCart.toast('تمت إضافة "' + item.name + '" إلى السلة');
           }
         });
       });
@@ -1465,4 +1465,27 @@ document.addEventListener('DOMContentLoaded', function () {
        re-render itself whenever the wishlist changes, from this button or any other on the site. */
     document.addEventListener('wishlist:change', renderWishlistPage);
   }
+});
+
+
+const video = document.getElementById("processVideo");
+const playBtn = document.getElementById("processPlayBtn");
+
+playBtn.addEventListener("click", () => {
+    if (video.paused) {
+        video.play();
+        video.setAttribute("controls", "");
+        playBtn.style.display = "none";
+    } else {
+        video.pause();
+        playBtn.style.display = "flex";
+    }
+});
+
+video.addEventListener("ended", () => {
+    playBtn.style.display = "flex";
+});
+
+video.addEventListener("pause", () => {
+    playBtn.style.display = "flex";
 });
