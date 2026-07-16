@@ -380,7 +380,7 @@ section{ padding: 90px 0; }
   
 }
 
-@media (max-width: 400px){
+@media (max-width: 480px){
   .hero-filter{  display: block;}
       .hero-search input {
         width: 10px;
@@ -1858,7 +1858,7 @@ section{ padding: 90px 0; }
 @media (max-width: 900px){
   .dc-slide{ grid-template-columns:1fr; }
   .dc-media{ min-height:280px; }
-  .dc-product-card{ position:static; transform:none; width:calc(100% - 40px); margin:-40px auto 0; box-shadow: 0 14px 30px rgba(20,17,14,.2); }
+  .dc-product-card{ display: none; position:static; transform:none; width:calc(100% - 40px); margin:-40px auto 0; box-shadow: 0 14px 30px rgba(20,17,14,.2); }
   .dc-content{ align-items:center; text-align:center; padding: 40px 26px 70px; }
   .dc-content h2{ max-width:100%; }
   .dc-nav{ left:50%; right:auto; transform: translateX(-50%); }
