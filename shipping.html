@@ -47,7 +47,7 @@
           <span class="cart-count wishlist-count">0</span>
         </a>
         <a href="cart.html" aria-label="سلة المشتريات">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 6h2l2.4 12.2a2 2 0 002 1.8h8.4a2 2 0 002-1.8L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag w-10 h-10 text-muted-foreground" aria-hidden="true"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>
           <span class="cart-count">0</span>
         </a>
       </div>
@@ -58,19 +58,74 @@
   </div>
 </header>
 
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-close" id="mobileNavClose" aria-label="إغلاق القائمة">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <a href="index.html">الرئيسية</a>
-  <a href="shop.html">المتجر</a>
-  <a href="about.html">من نحن</a>
-  <a href="contact.html">تواصل معنا</a>
-  <span class="mobile-nav-divider">خدمة العملاء</span>
-  <a href="faq.html">الأسئلة الشائعة</a>
-  <a href="shipping.html">الشحن والتوصيل</a>
-  <a href="returns.html">الإرجاع والاستبدال</a>
-  <a href="privacy.html">سياسة الخصوصية</a>
+<div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="القائمة الرئيسية">
+  <div class="mn-head">
+    <a href="index.html" class="logo mn-logo">Anttikka<span></span></a>
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="إغلاق القائمة">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="mn-body">
+    <nav class="mn-links">
+      <a href="index.html" class="mn-link">
+        <span class="mn-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6.5h5V21"/></svg></span>
+        <span class="mn-link-text">الرئيسية</span>
+        <svg class="mn-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </a>
+      <a href="shop.html" class="mn-link">
+        <span class="mn-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg></span>
+        <span class="mn-link-text">المتجر</span>
+        <svg class="mn-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </a>
+      <a href="about.html" class="mn-link">
+        <span class="mn-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><circle cx="12" cy="8.2" r="1"/></svg></span>
+        <span class="mn-link-text">من نحن</span>
+        <svg class="mn-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </a>
+      <a href="contact.html" class="mn-link">
+        <span class="mn-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg></span>
+        <span class="mn-link-text">تواصل معنا</span>
+        <svg class="mn-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </a>
+
+      <div class="mn-accordion">
+        <button type="button" class="mn-link mn-accordion-toggle" id="mnServiceToggle" aria-expanded="false" aria-controls="mnServicePanel">
+          <span class="mn-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 14v-1.5a9 9 0 0 1 18 0V14"/><path d="M21 14.5a2.2 2.2 0 0 1-2.2 2.2H18v-5.4h1a2.2 2.2 0 0 1 2 1.4z"/><path d="M3 14.5a2.2 2.2 0 0 0 2.2 2.2H6V11.3H5a2.2 2.2 0 0 0-2 1.4z"/></svg></span>
+          <span class="mn-link-text">خدمة العملاء</span>
+          <svg class="mn-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="mn-accordion-panel" id="mnServicePanel">
+          <div class="mn-accordion-inner">
+            <a href="faq.html">الأسئلة الشائعة</a>
+            <a href="shipping.html">الشحن والتوصيل</a>
+            <a href="returns.html">الإرجاع والاستبدال</a>
+            <a href="privacy.html">سياسة الخصوصية</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="mn-lang-row">
+      <span class="mn-lang-label">اللغة</span>
+      <button class="lang-select mn-lang-select" aria-label="اختيار اللغة">
+        <span>عربي</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <a href="https://wa.me/201068300432" target="_blank" rel="noopener" class="mn-whatsapp-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>
+      <span>تواصل عبر واتساب</span>
+    </a>
+
+    <div class="mn-socials">
+      <a href="#" aria-label="تويتر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+      <a href="#" aria-label="فيسبوك"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 9h3V6h-3a3 3 0 00-3 3v2H9v3h2v6h3v-6h3l1-3h-4v-1a1 1 0 011-1z"/></svg></a>
+      <a href="#" aria-label="إنستغرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+    </div>
+  </div>
 </div>
 
 <!-- ============ PAGE HERO ============ -->
@@ -97,10 +152,87 @@
 
       <div class="policy-content">
         <span class="policy-updated">آخر تحديث: يوليو 2026</span>
-        <p class="lead">نغطي جميع مناطق المملكة، ونحرص على وصول قطعتك بأمان وفي الوقت المناسب. إليك كل تفاصيل الشحن والتوصيل.</p>
 
-        <h3 id="delivery-areas">مناطق التوصيل</h3>
-        <p>نوصّل حالياً إلى جميع مناطق المملكة العربية السعودية. تختلف مدة التوصيل حسب المدينة والمسافة عن أقرب مستودع لدينا.</p>
+        <div class="policy-intro">
+          <span class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+          </span>
+          <h3 style="margin-bottom:10px;">شحن مجاني للطلبات الكبرى</h3>
+          <p>تمتع بشحن وتوصيل مجاني لجميع طلباتك التي تتجاوز قيمتها 555 ر.س في جميع أنحاء المملكة. نغطي جميع مناطق المملكة، ونحرص على وصول قطعتك بأمان وفي الوقت المناسب.</p>
+        </div>
+
+        <h3 id="delivery-areas">مناطق وأوقات التوصيل</h3>
+        <div class="policy-table-wrap">
+          <table class="policy-table">
+            <thead>
+              <tr><th>المنطقة</th><th>المدة المتوقعة</th><th>تكلفة الشحن</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="policy-table-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                    منطقة الرياض
+                  </span>
+                </td>
+                <td>2-3 أيام عمل</td>
+                <td>مجاني فوق 555 ر.س (أو 99 ر.س)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="policy-table-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                    المدن الرئيسية
+                  </span>
+                </td>
+                <td>3-4 أيام عمل</td>
+                <td>مجاني فوق 555 ر.س (أو 99 ر.س)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="policy-table-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                    باقي مناطق المملكة
+                  </span>
+                </td>
+                <td>4-7 أيام عمل</td>
+                <td>مجاني فوق 555 ر.س (أو 99 ر.س)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="delivery-process">آلية التوصيل خطوة بخطوة</h3>
+        <div class="ship-steps-grid">
+          <div class="ship-step">
+            <span class="ship-step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+            </span>
+            <h4>تأكيد الطلب</h4>
+            <p>تصلك رسالة تأكيد فور إتمام طلبك بنجاح.</p>
+          </div>
+          <div class="ship-step">
+            <span class="ship-step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg>
+            </span>
+            <h4>التجهيز والتغليف</h4>
+            <p>يتم فحص وتغليف منتجاتك بعناية فائقة لضمان سلامتها.</p>
+          </div>
+          <div class="ship-step">
+            <span class="ship-step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+            </span>
+            <h4>الشحن</h4>
+            <p>تسليم الطلب لشركة الشحن وتزويدك برقم التتبع.</p>
+          </div>
+          <div class="ship-step">
+            <span class="ship-step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </span>
+            <h4>الاستلام</h4>
+            <p>يتواصل معك المندوب لتحديد الوقت المناسب للتسليم.</p>
+          </div>
+        </div>
 
         <h3 id="shipping-duration">مدة الشحن</h3>
         <ul>
@@ -128,6 +260,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
           <p><strong>يرجى الانتباه:</strong> تأكد من توفر شخص لاستلام الطلب في الموعد المحدد، حتى لا تتأخر عملية التسليم أو تحتاج لإعادة جدولتها.</p>
         </div>
+
+        <h3 id="important-tips">ملاحظات هامة</h3>
+        <ul>
+          <li>أيام العمل لا تشمل يوم الجمعة وأيام العطل الرسمية والأعياد.</li>
+          <li>في مواسم التخفيضات الكبرى، قد يضاف من 2-4 أيام إضافية لمدة التوصيل المعتادة.</li>
+          <li>يرجى التأكد من أن جميع المداخل والممرات في موقع التسليم تتسع لمرور قطع الأثاث المطلوبة قبل إتمام الطلب.</li>
+          <li>خدمة التوصيل لا تشمل التركيب للقطع التي تتطلب فنيين متخصصين خارج مدينة الرياض، وسيتم توضيح ذلك في صفحة المنتج إذا لزم الأمر.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -137,22 +277,14 @@
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="container">
-    <div class="newsletter">
-      <span class="newsletter-title">اشترك في نشرتنا البريدية</span>
-      <form class="newsletter-form" onsubmit="return false;">
-        <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
-        <button type="submit" class="btn btn-gold">اشتراك</button>
-      </form>
-    </div>
-
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="logo">Anttikka<span></span></a>
         <p>أثاث فاخر مصنوع ليدوم، مستوحى من الأناقة الخالدة والراحة العصرية.</p>
         <div class="footer-social">
-          <a href="#" aria-label="إنستغرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="تويتر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
           <a href="#" aria-label="فيسبوك"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 9h3V6h-3a3 3 0 00-3 3v2H9v3h2v6h3v-6h3l1-3h-4v-1a1 1 0 011-1z"/></svg></a>
-          <a href="#" aria-label="بنترست"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 16.5L12 8l1.5 5.2c.3 1 1.3 1.6 2.3 1.3.9-.3 1.4-1.1 1.4-2 0-2.5-2-4.5-4.7-4.5-3 0-5.1 2.2-5.1 4.9 0 1.1.4 2 .9 2.6"/></svg></a>
+          <a href="#" aria-label="إنستغرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
         </div>
       </div>
 
@@ -176,20 +308,88 @@
         </ul>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col footer-contact-col">
         <h5>ابقَ على تواصل</h5>
-        <ul>
-          <li><a href="about.html">من نحن</a></li>
-          <li><a href="contact.html">تواصل معنا</a></li>
+        <ul class="footer-contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>طريق الملك فهد، حي العليا<br>الرياض، المملكة العربية السعودية</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .7 3a2 2 0 01-.4 2.1L8 10.1a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c1 .4 2 .6 3 .7a2 2 0 011.6 2z"/></svg>
+            <a href="tel:+201068300432" dir="ltr">+20 10 68300432</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+            <a href="mailto:hello@Anttikka.example">hello@Anttikka.example</a>
+          </li>
         </ul>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
+          <button type="submit" class="btn btn-gold">اشتراك</button>
+        </form>
       </div>
     </div>
 
     <div class="footer-bottom">
-      © أوبولنت سبيسز 2025 — جميع الحقوق محفوظة
+      <span>© أوبولنت سبيسز 2025 — جميع الحقوق محفوظة</span>
+      <div class="footer-payments">
+        <span>طرق الدفع:</span>
+        <span class="payment-icon">Visa</span>
+        <span class="payment-icon">Mada</span>
+        <span class="payment-icon">Tabby</span>
+        <span class="payment-icon">Tamara</span>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- ============ FLOATING CHAT BUTTON ============ -->
+<a href="https://wa.me/201068300432" target="_blank" rel="noopener" class="floating-chat-btn" aria-label="تواصل معنا عبر واتساب">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle" aria-hidden="true"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
+</a>
+
+<!-- ============ BOTTOM NAVIGATION (mobile) ============ -->
+<nav class="bottom-nav" id="bottomNav" aria-label="التنقل السفلي">
+  <a href="index.html" class="bn-item" data-page="index">
+    <span class="bn-icon-wrap"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6.5h5V21"/></svg></span>
+    <span class="bn-label">الرئيسية</span>
+  </a>
+  <a href="shop.html" class="bn-item" data-page="shop">
+    <span class="bn-icon-wrap"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg></span>
+    <span class="bn-label">المتجر</span>
+  </a>
+  <button type="button" class="bn-item" id="bottomNavSearchBtn" data-page="search" aria-label="بحث">
+    <span class="bn-icon-wrap"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+    <span class="bn-label">البحث</span>
+  </button>
+  <a href="wishlist.html" class="bn-item" data-page="wishlist">
+    <span class="bn-icon-wrap">
+      <svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg>
+      <span class="bn-count wishlist-count">0</span>
+    </span>
+    <span class="bn-label">المفضلة</span>
+  </a>
+  <a href="cart.html" class="bn-item" data-page="cart">
+    <span class="bn-icon-wrap">
+      <svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="bn-count cart-count">0</span>
+    </span>
+    <span class="bn-label">السلة</span>
+  </a>
+</nav>
+
+<!-- ============ MOBILE SEARCH SHEET ============ -->
+<div class="sheet-backdrop" id="searchSheetBackdrop"></div>
+<div class="search-sheet" id="searchSheet" role="dialog" aria-modal="true" aria-label="بحث">
+  <form id="bottomSearchForm" class="search-sheet-form">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="bottomSearchInput" placeholder="ابحث في المتجر..." aria-label="ابحث في المتجر">
+    <button type="button" class="search-sheet-close" id="searchSheetClose" aria-label="إغلاق البحث">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </form>
+</div>
 
 <script src="main.js"></script>
 </body>

@@ -39,8 +39,8 @@
    ========================================================================== */
 window.AnttikkaCart = (function () {
   var STORAGE_KEY = 'Anttikka_cart_v1';
-  /* TODO: replace with the store's real WhatsApp number (international format, no + or ) */
-  var STORE_WHATSAPP_NUMBER = '966500000000';
+  /* Store's WhatsApp number, international format, no + or spaces */
+  var STORE_WHATSAPP_NUMBER = '201068300432';
 
   function getCart() {
     try {
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function () {
       lines.push('الرسالة:');
       lines.push(message);
 
-      var url = 'https://wa.me/966500000000?text=' + encodeURIComponent(lines.join('\n'));
+      var url = 'https://wa.me/201068300432?text=' + encodeURIComponent(lines.join('\n'));
       window.open(url, '_blank', 'noopener');
     });
   }
@@ -529,6 +529,110 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ---------- Shared body-scroll lock (drawer / bottom sheets) ---------- */
+  var openOverlaysCount = 0;
+  function lockScroll() {
+    openOverlaysCount++;
+    document.body.classList.add('no-scroll');
+  }
+  function unlockScroll() {
+    openOverlaysCount = Math.max(0, openOverlaysCount - 1);
+    if (openOverlaysCount === 0) document.body.classList.remove('no-scroll');
+  }
+
+  /* ---------- Mobile nav drawer ---------- */
+  var menuToggle = document.getElementById('menuToggle');
+  var mobileNav = document.getElementById('mobileNav');
+  var mobileNavClose = document.getElementById('mobileNavClose');
+  var mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+
+  function openMobileNav() {
+    if (!mobileNav) return;
+    mobileNav.classList.add('open');
+    if (mobileNavBackdrop) mobileNavBackdrop.classList.add('open');
+    lockScroll();
+  }
+  function closeMobileNav() {
+    if (!mobileNav || !mobileNav.classList.contains('open')) return;
+    mobileNav.classList.remove('open');
+    if (mobileNavBackdrop) mobileNavBackdrop.classList.remove('open');
+    unlockScroll();
+  }
+  if (menuToggle && mobileNav) {
+    menuToggle.addEventListener('click', openMobileNav);
+  }
+  if (mobileNavClose && mobileNav) {
+    mobileNavClose.addEventListener('click', closeMobileNav);
+  }
+  if (mobileNavBackdrop) {
+    mobileNavBackdrop.addEventListener('click', closeMobileNav);
+  }
+  if (mobileNav) {
+    mobileNav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMobileNav);
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMobileNav();
+  });
+
+  /* Customer-service accordion inside the drawer */
+  var mnServiceToggle = document.getElementById('mnServiceToggle');
+  var mnServicePanel = document.getElementById('mnServicePanel');
+  if (mnServiceToggle && mnServicePanel) {
+    mnServiceToggle.addEventListener('click', function () {
+      var isOpen = mnServicePanel.classList.toggle('open');
+      mnServiceToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- Bottom navigation: active state + search sheet ---------- */
+  var bottomNav = document.getElementById('bottomNav');
+  if (bottomNav) {
+    var currentFile = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (currentFile === '' || currentFile === '/') currentFile = 'index.html';
+    var pageMap = { 'index.html': 'index', 'shop.html': 'shop', 'wishlist.html': 'wishlist', 'cart.html': 'cart' };
+    var activePage = pageMap[currentFile];
+    if (activePage) {
+      var activeItem = bottomNav.querySelector('.bn-item[data-page="' + activePage + '"]');
+      if (activeItem) activeItem.classList.add('active');
+    }
+  }
+
+  var bottomNavSearchBtn = document.getElementById('bottomNavSearchBtn');
+  var searchSheet = document.getElementById('searchSheet');
+  var searchSheetBackdrop = document.getElementById('searchSheetBackdrop');
+  var searchSheetClose = document.getElementById('searchSheetClose');
+  var bottomSearchForm = document.getElementById('bottomSearchForm');
+  var bottomSearchInput = document.getElementById('bottomSearchInput');
+
+  function openSearchSheet() {
+    if (!searchSheet) return;
+    searchSheet.classList.add('open');
+    if (searchSheetBackdrop) searchSheetBackdrop.classList.add('open');
+    lockScroll();
+    setTimeout(function () { if (bottomSearchInput) bottomSearchInput.focus(); }, 260);
+  }
+  function closeSearchSheet() {
+    if (!searchSheet || !searchSheet.classList.contains('open')) return;
+    searchSheet.classList.remove('open');
+    if (searchSheetBackdrop) searchSheetBackdrop.classList.remove('open');
+    unlockScroll();
+  }
+  if (bottomNavSearchBtn) bottomNavSearchBtn.addEventListener('click', openSearchSheet);
+  if (searchSheetClose) searchSheetClose.addEventListener('click', closeSearchSheet);
+  if (searchSheetBackdrop) searchSheetBackdrop.addEventListener('click', closeSearchSheet);
+  if (bottomSearchForm) {
+    bottomSearchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = (bottomSearchInput && bottomSearchInput.value || '').trim();
+      window.location.href = 'shop.html' + (q ? '?search=' + encodeURIComponent(q) : '');
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSearchSheet();
+  });
+
   /* ---------- Header scroll state ---------- */
   var header = document.getElementById('siteHeader');
   function onScroll() {
@@ -539,21 +643,6 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- Mobile nav drawer ---------- */
-  var menuToggle = document.getElementById('menuToggle');
-  var mobileNav = document.getElementById('mobileNav');
-  var mobileNavClose = document.getElementById('mobileNavClose');
-  if (menuToggle && mobileNav) {
-    menuToggle.addEventListener('click', function () { mobileNav.classList.add('open'); });
-  }
-  if (mobileNavClose && mobileNav) {
-    mobileNavClose.addEventListener('click', function () { mobileNav.classList.remove('open'); });
-  }
-  if (mobileNav) {
-    mobileNav.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () { mobileNav.classList.remove('open'); });
-    });
-  }
 
   /* ---------- Homepage: dressing room carousel ---------- */
   var dcCarousel = document.getElementById('dcCarousel');
@@ -697,7 +786,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
   }
   function bagIcon() {
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h2l2.4 12.2a2 2 0 002 1.8h8.4a2 2 0 002-1.8L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>';
+  }
+  /* Full-width "add to cart" button shown only on mobile, placed under the price
+     (the on-image btn-cart-inline pill is hidden on touch widths via CSS).
+     Shares the .btn-cart-inline class so the existing delegated click handler
+     (site-wide "add to cart" wiring) picks it up automatically — no extra JS needed. */
+  function mobileCartBtnHtml() {
+    return '<button type="button" class="btn-cart-inline mobile-add-cart-btn" aria-label="أضف للسلة">' + bagIcon() + '<span>أضف للسلة</span></button>';
   }
 
   function renderProducts(list) {
@@ -712,8 +808,8 @@ document.addEventListener('DOMContentLoaded', function () {
             '<button class="wishlist-btn" aria-label="أضف للمفضلة">' + heartIcon() + '</button>' +
             '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">' +
             '<div class="product-actions">' +
-              '<button class="icon-btn" aria-label="عرض سريع">' + eyeIcon() + '</button>' +
-              '<button class="icon-btn" aria-label="أضف للسلة">' + bagIcon() + '</button>' +
+              '<button class="icon-btn-outline" aria-label="عرض سريع">' + eyeIcon() + '</button>' +
+              '<button class="btn-cart-inline" aria-label="أضف للسلة"><span>أضف للسلة</span></button>' +
             '</div>' +
           '</div>' +
           '<div class="product-info">' +
@@ -721,6 +817,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<h3 class="product-name"><a href="product.html">' + p.name + '</a></h3>' +
             '<div class="product-rating"><span class="stars">★★★★★</span><span class="count">(80)</span></div>' +
             '<div class="product-price"><span class="price-now">' + p.price + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+            mobileCartBtnHtml() +
           '</div>' +
         '</article>'
       );
@@ -1048,9 +1145,27 @@ document.addEventListener('DOMContentLoaded', function () {
       outdoor: ['darkbrown', 'beige', 'green']
     };
 
+    /* Deterministic pseudo "rating" / "reviews" / "sold" — hashed from the product name so
+       they're stable across reloads (not random) and give the "الأكثر مبيعاً" / "الأعلى تقييماً"
+       sort options something real to sort by, without needing a backend. */
+    function hashStr(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+      return h;
+    }
+    function pseudoStatsFor(name) {
+      var h = hashStr(name);
+      return {
+        rating: Math.round((4.3 + (h % 71) / 100) * 10) / 10, /* 4.3 – 5.0 */
+        reviews: 18 + (h % 320),                                /* 18 – 337 */
+        sold: 12 + ((h >> 3) % 480)                             /* 12 – 491 */
+      };
+    }
+
     var ALL_PRODUCTS = [];
     Object.keys(categoryData).forEach(function (cat) {
       categoryData[cat].forEach(function (p, i) {
+        var stats = pseudoStatsFor(p.name);
         ALL_PRODUCTS.push({
           id: cat + '-' + i,
           catKey: cat,
@@ -1062,7 +1177,10 @@ document.addEventListener('DOMContentLoaded', function () {
           old: p.old,
           off: p.off,
           material: materialMap[cat](i),
-          colorKey: colorMap[cat][i % colorMap[cat].length]
+          colorKey: colorMap[cat][i % colorMap[cat].length],
+          rating: stats.rating,
+          reviews: stats.reviews,
+          sold: stats.sold
         });
       });
     });
@@ -1083,7 +1201,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var onSaleOnly = document.getElementById('onSaleOnly');
     var shopSort = document.getElementById('shopSort');
     var shopSearchInput = document.getElementById('shopSearchInput');
+    var shopSearchInputMobile = document.getElementById('shopSearchInputMobile');
     var shopResultCount = document.getElementById('shopResultCount');
+    var mobileResultCount = document.getElementById('mobileResultCount');
     var shopPagination = document.getElementById('shopPagination');
     var resetFiltersBtn = document.getElementById('resetFilters');
     var applyFiltersBtn = document.getElementById('applyFiltersBtn');
@@ -1105,16 +1225,17 @@ document.addEventListener('DOMContentLoaded', function () {
             badge +
             '<button class="wishlist-btn" aria-label="أضف للمفضلة">' + heartIcon() + '</button>' +
             '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">' +
+            '<div class="product-actions">' +
+              '<button class="icon-btn-outline" aria-label="عرض سريع">' + eyeIcon() + '</button>' +
+              '<button class="btn-cart-inline" aria-label="أضف للسلة"><span>أضف للسلة</span></button>' +
+            '</div>' +
           '</div>' +
           '<div class="product-info">' +
             '<span class="product-cat">' + p.catLabel + '</span>' +
             '<h3 class="product-name"><a href="product.html">' + p.name + '</a></h3>' +
-            '<div class="product-rating"><span class="stars">★★★★★</span><span class="count">(80)</span></div>' +
+            '<div class="product-rating"><span class="stars">★★★★★</span><span class="count">(' + p.reviews + ')</span></div>' +
             '<div class="product-price"><span class="price-now">' + p.price + ' ر.س</span>' + priceOld + priceOff + '</div>' +
-            '<div class="shop-card-actions">' +
-              '<button class="icon-btn-outline" aria-label="عرض سريع">' + eyeIcon() + '</button>' +
-              '<button class="btn-cart-inline">' + bagIcon() + '<span>إضافة للسلة</span></button>' +
-            '</div>' +
+            mobileCartBtnHtml() +
           '</div>' +
         '</article>'
       );
@@ -1137,6 +1258,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var sorted = list.slice();
       if (state.sort === 'price-asc') sorted.sort(function (a, b) { return a.priceNum - b.priceNum; });
       else if (state.sort === 'price-desc') sorted.sort(function (a, b) { return b.priceNum - a.priceNum; });
+      else if (state.sort === 'bestselling') sorted.sort(function (a, b) { return b.sold - a.sold; });
+      else if (state.sort === 'rating-desc') sorted.sort(function (a, b) { return b.rating - a.rating || b.reviews - a.reviews; });
       return sorted;
     }
 
@@ -1179,6 +1302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var from = start + 1, to = Math.min(start + PAGE_SIZE, total);
         shopResultCount.innerHTML = 'عرض <strong>' + from + '–' + to + '</strong> من أصل <strong>' + total + '</strong> منتج';
       }
+      if (mobileResultCount) mobileResultCount.innerHTML = shopResultCount.innerHTML;
       renderPagination(totalPages);
     }
 
@@ -1211,6 +1335,12 @@ document.addEventListener('DOMContentLoaded', function () {
       state.page = 1;
       syncTabsFromCategories();
       renderGrid();
+      var mobileFilterBtnEl = document.getElementById('mobileFilterBtn');
+      if (mobileFilterBtnEl) {
+        var hasActiveFilters = !!(state.categories.length || state.materials.length || state.colors.length ||
+          (onSaleOnly && onSaleOnly.checked) || (priceRange && Number(priceRange.value) < Number(priceRange.max)));
+        mobileFilterBtnEl.classList.toggle('has-active', hasActiveFilters);
+      }
     }
 
     /* Tabs */
@@ -1255,8 +1385,20 @@ document.addEventListener('DOMContentLoaded', function () {
     if (shopSearchInput) {
       var searchDebounce;
       shopSearchInput.addEventListener('input', function () {
+        if (shopSearchInputMobile && shopSearchInputMobile.value !== shopSearchInput.value) {
+          shopSearchInputMobile.value = shopSearchInput.value;
+        }
         clearTimeout(searchDebounce);
         searchDebounce = setTimeout(applyFilters, 200);
+      });
+    }
+    /* Mobile persistent search box — mirrors into the (hidden-on-mobile) desktop input and
+       dispatches its native "input" event so it reuses the exact same debounced handler above,
+       instead of duplicating the filtering logic. */
+    if (shopSearchInputMobile && shopSearchInput) {
+      shopSearchInputMobile.addEventListener('input', function () {
+        shopSearchInput.value = shopSearchInputMobile.value;
+        shopSearchInput.dispatchEvent(new Event('input'));
       });
     }
 
@@ -1277,6 +1419,7 @@ document.addEventListener('DOMContentLoaded', function () {
         colorSwatches.forEach(function (s) { s.classList.remove('active'); s.setAttribute('aria-pressed', 'false'); });
         if (onSaleOnly) onSaleOnly.checked = false;
         if (shopSearchInput) shopSearchInput.value = '';
+        if (shopSearchInputMobile) shopSearchInputMobile.value = '';
         priceRange.value = priceRange.max;
         priceMaxLabel.textContent = Number(priceRange.max).toLocaleString('en-US') + ' ر.س';
         if (shopSort) shopSort.value = 'newest';
@@ -1285,6 +1428,80 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
     if (applyFiltersBtn) applyFiltersBtn.addEventListener('click', applyFilters);
+
+    /* ---------- Mobile: filter bottom sheet ---------- */
+    var mobileFilterBtn = document.getElementById('mobileFilterBtn');
+    var filterSheetClose = document.getElementById('filterSheetClose');
+    var shopFiltersAside = document.getElementById('shopFilters');
+    var mobileSheetBackdrop = document.getElementById('mobileSheetBackdrop');
+    var mobileSortBtn = document.getElementById('mobileSortBtn');
+    var sortSheet = document.getElementById('sortSheet');
+    var sortSheetClose = document.getElementById('sortSheetClose');
+
+    function closeAllShopSheets() {
+      if (shopFiltersAside) shopFiltersAside.classList.remove('sheet-open');
+      if (sortSheet) sortSheet.classList.remove('open');
+      if (mobileSheetBackdrop && mobileSheetBackdrop.classList.contains('open')) {
+        mobileSheetBackdrop.classList.remove('open');
+        unlockScroll();
+      }
+      if (mobileFilterBtn) mobileFilterBtn.setAttribute('aria-expanded', 'false');
+      if (mobileSortBtn) mobileSortBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    if (mobileFilterBtn && shopFiltersAside && mobileSheetBackdrop) {
+      mobileFilterBtn.addEventListener('click', function () {
+        var isOpen = shopFiltersAside.classList.contains('sheet-open');
+        closeAllShopSheets();
+        if (!isOpen) {
+          shopFiltersAside.classList.add('sheet-open');
+          mobileSheetBackdrop.classList.add('open');
+          mobileFilterBtn.setAttribute('aria-expanded', 'true');
+          lockScroll();
+        }
+      });
+    }
+    if (filterSheetClose) filterSheetClose.addEventListener('click', closeAllShopSheets);
+    /* Applying filters on mobile also closes the sheet so the updated grid is visible */
+    if (applyFiltersBtn) applyFiltersBtn.addEventListener('click', closeAllShopSheets);
+
+    /* ---------- Mobile: sort bottom sheet ---------- */
+    function setActiveSortOption(value) {
+      if (!sortSheet) return;
+      sortSheet.querySelectorAll('.sort-option').forEach(function (opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-sort') === value);
+      });
+      if (mobileSortBtn) mobileSortBtn.classList.toggle('has-active', value !== 'newest');
+    }
+    if (mobileSortBtn && sortSheet && mobileSheetBackdrop) {
+      mobileSortBtn.addEventListener('click', function () {
+        var isOpen = sortSheet.classList.contains('open');
+        closeAllShopSheets();
+        if (!isOpen) {
+          setActiveSortOption(state.sort);
+          sortSheet.classList.add('open');
+          mobileSheetBackdrop.classList.add('open');
+          mobileSortBtn.setAttribute('aria-expanded', 'true');
+          lockScroll();
+        }
+      });
+      sortSheet.querySelectorAll('.sort-option').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          var val = opt.getAttribute('data-sort');
+          if (shopSort) shopSort.value = val;
+          state.sort = val;
+          state.page = 1;
+          setActiveSortOption(val);
+          renderGrid();
+          closeAllShopSheets();
+        });
+      });
+    }
+    if (sortSheetClose) sortSheetClose.addEventListener('click', closeAllShopSheets);
+    if (mobileSheetBackdrop) mobileSheetBackdrop.addEventListener('click', closeAllShopSheets);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAllShopSheets();
+    });
 
     /* Initial render — read ?cat= and ?search= from URL for deep-linking from other pages */
     var urlParams = new URLSearchParams(window.location.search);
@@ -1296,6 +1513,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var initialSearch = urlParams.get('search');
     if (initialSearch && shopSearchInput) {
       shopSearchInput.value = initialSearch;
+      if (shopSearchInputMobile) shopSearchInputMobile.value = initialSearch;
     }
     applyFilters();
   }
@@ -1311,7 +1529,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!cart.length) {
         cartRoot.innerHTML =
           '<div class="cart-empty">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 6h2l2.4 12.2a2 2 0 002 1.8h8.4a2 2 0 002-1.8L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>' +
             '<h3>سلتك فارغة حالياً</h3>' +
             '<p>لم تتم إضافة أي منتجات بعد. تصفّح المتجر واختر ما يناسب مساحتك.</p>' +
             '<a href="shop.html" class="btn btn-dark">تصفّح المتجر</a>' +
@@ -1433,13 +1651,15 @@ document.addEventListener('DOMContentLoaded', function () {
                   badge +
                   '<button class="wishlist-btn active wishlist-remove-btn" aria-label="إزالة من المفضلة">' + heartIcon() + '</button>' +
                   '<img src="' + it.img + '" alt="' + it.name + '" loading="lazy">' +
+                  '<div class="product-actions">' +
+                    '<button type="button" class="icon-btn-outline" aria-label="عرض سريع">' + eyeIcon() + '</button>' +
+                    '<button type="button" class="btn-cart-inline wishlist-add-cart-btn" aria-label="أضف للسلة"><span>أضف للسلة</span></button>' +
+                  '</div>' +
                 '</div>' +
                 '<div class="product-info">' +
                   '<h3 class="product-name"><a href="product.html">' + it.name + '</a></h3>' +
                   '<div class="product-price"><span class="price-now">' + AnttikkaCart.fmt(it.price) + ' ر.س</span>' + priceOld + priceOff + '</div>' +
-                  '<div class="shop-card-actions">' +
-                    '<button type="button" class="btn-cart-inline wishlist-add-cart-btn">' + bagIcon() + '<span>إضافة للسلة</span></button>' +
-                  '</div>' +
+                  '<button type="button" class="btn-cart-inline mobile-add-cart-btn wishlist-add-cart-btn" aria-label="أضف للسلة">' + bagIcon() + '<span>أضف للسلة</span></button>' +
                 '</div>' +
               '</article>'
             );
@@ -1471,21 +1691,23 @@ document.addEventListener('DOMContentLoaded', function () {
 const video = document.getElementById("processVideo");
 const playBtn = document.getElementById("processPlayBtn");
 
-playBtn.addEventListener("click", () => {
-    if (video.paused) {
-        video.play();
-        video.setAttribute("controls", "");
-        playBtn.style.display = "none";
-    } else {
-        video.pause();
-        playBtn.style.display = "flex";
-    }
-});
+if (video && playBtn) {
+  playBtn.addEventListener("click", () => {
+      if (video.paused) {
+          video.play();
+          video.setAttribute("controls", "");
+          playBtn.style.display = "none";
+      } else {
+          video.pause();
+          playBtn.style.display = "flex";
+      }
+  });
 
-video.addEventListener("ended", () => {
-    playBtn.style.display = "flex";
-});
+  video.addEventListener("ended", () => {
+      playBtn.style.display = "flex";
+  });
 
-video.addEventListener("pause", () => {
-    playBtn.style.display = "flex";
-});
+  video.addEventListener("pause", () => {
+      playBtn.style.display = "flex";
+  });
+}
