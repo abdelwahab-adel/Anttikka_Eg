@@ -511,24 +511,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---------- Footer newsletter forms: validate + confirm (present on every page) ---------- */
-  var newsletterForms = document.querySelectorAll('.newsletter-form');
-  newsletterForms.forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var input = form.querySelector('input[type="email"]');
-      var email = input ? input.value.trim() : '';
-      var validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!validEmail) {
-        if (input) input.focus();
-        AnttikkaCart.toast('يرجى إدخال بريد إلكتروني صحيح');
-        return;
-      }
-      AnttikkaCart.toast('تم اشتراكك في نشرتنا البريدية بنجاح');
-      form.reset();
-    });
-  });
-
   /* ---------- Shared body-scroll lock (drawer / bottom sheets) ---------- */
   var openOverlaysCount = 0;
   function lockScroll() {
@@ -1536,7 +1518,6 @@ document.addEventListener('DOMContentLoaded', function () {
       'الغربية','المنوفية','القليوبية','البحيرة','كفر الشيخ','دمياط','بني سويف','الفيوم','المنيا',
       'أسيوط','سوهاج','قنا','البحر الأحمر','الوادي الجديد','مطروح','شمال سيناء','جنوب سيناء'
     ];
-    var VAT_RATE = 0.14; /* Egypt standard VAT — shown as already-included-in-price, matching the site's displayed prices */
 
     function renderCartPage() {
       var cart = AnttikkaCart.getCart();
@@ -1555,23 +1536,29 @@ document.addEventListener('DOMContentLoaded', function () {
       var summaryItemsHtml = cart.map(function (it) {
         var variantHtml = it.cat ? '<span class="summary-item-variant">' + it.cat + '</span>' : '';
         return (
-          '<div class="summary-item">' +
+          '<div class="summary-item" data-id="' + it.id + '">' +
             '<div class="summary-item-media">' +
               '<img src="' + it.img + '" alt="' + it.name + '" loading="lazy">' +
-              '<span class="summary-item-qty-badge">' + it.qty + '</span>' +
             '</div>' +
             '<div class="summary-item-info">' +
               '<span class="summary-item-name">' + it.name + '</span>' +
               variantHtml +
+              '<div class="summary-item-qty">' +
+                '<button type="button" data-qty-minus="' + it.id + '" aria-label="إنقاص الكمية">' + minusIcon() + '</button>' +
+                '<span class="qty-num">' + it.qty + '</span>' +
+                '<button type="button" data-qty-plus="' + it.id + '" aria-label="زيادة الكمية">' + plusIcon() + '</button>' +
+              '</div>' +
             '</div>' +
-            '<span class="summary-item-price">' + AnttikkaCart.fmt(it.price * it.qty) + ' ج.م</span>' +
+            '<div class="summary-item-right">' +
+              '<button type="button" class="summary-item-remove" data-remove="' + it.id + '" aria-label="حذف من السلة">' + xSmallIcon() + '</button>' +
+              '<span class="summary-item-price">' + AnttikkaCart.fmt(it.price * it.qty) + ' ج.م</span>' +
+            '</div>' +
           '</div>'
         );
       }).join('');
 
       var subtotal = AnttikkaCart.total(cart);
       var grandTotal = AnttikkaCart.total(cart);
-      var taxIncluded = Math.round(grandTotal * VAT_RATE / (1 + VAT_RATE) * 100) / 100;
 
       var govOptionsHtml = EGYPT_GOVERNORATES.map(function (g) {
         return '<option' + (g === 'أسوان' ? ' selected' : '') + '>' + g + '</option>';
@@ -1608,30 +1595,24 @@ document.addEventListener('DOMContentLoaded', function () {
             '</div>' +
 
             '<div class="checkout-section">' +
-              '<h3>طريقة الشحن</h3>' +
-              '<label class="checkout-radio checkout-option is-selected">' +
-                '<input type="radio" name="ckShipping" checked>' +
-                '<span class="checkout-radio-label">التوصيل القياسي</span>' +
-                '<span class="checkout-option-note">مجاني</span>' +
-              '</label>' +
-            '</div>' +
-
-            '<div class="checkout-section">' +
               '<h3>الدفع</h3>' +
               '<p class="checkout-muted">جميع المعاملات آمنة ومشفّرة بالكامل.</p>' +
+              '<p class="checkout-muted checkout-deposit-note">المقدم 25%</p>' +
               '<label class="checkout-radio checkout-option is-selected">' +
-                '<input type="radio" name="ckPayment" checked>' +
-                '<span class="checkout-radio-label">الدفع عند الاستلام (COD)</span>' +
+                '<input type="radio" name="ckPayment" value="InstaPay" checked>' +
+                '<span class="checkout-radio-label">InstaPay</span>' +
               '</label>' +
-            '</div>' +
-
-            '<div class="checkout-section">' +
-              '<h3>عنوان الفوترة</h3>' +
-              '<label class="checkout-radio is-selected">' +
-                '<input type="radio" name="ckBilling" checked><span>نفس عنوان التوصيل</span>' +
+              '<label class="checkout-radio checkout-option">' +
+                '<input type="radio" name="ckPayment" value="Vodafone Cash">' +
+                '<span class="checkout-radio-label">Vodafone Cash</span>' +
               '</label>' +
-              '<label class="checkout-radio">' +
-                '<input type="radio" name="ckBilling"><span>استخدام عنوان فوترة مختلف</span>' +
+              '<label class="checkout-radio checkout-option">' +
+                '<input type="radio" name="ckPayment" value="Sympl">' +
+                '<span class="checkout-radio-label">Sympl</span>' +
+              '</label>' +
+              '<label class="checkout-radio checkout-option">' +
+                '<input type="radio" name="ckPayment" value="Souhoola">' +
+                '<span class="checkout-radio-label">Souhoola</span>' +
               '</label>' +
             '</div>' +
 
@@ -1645,7 +1626,6 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ج.م</span></div>' +
             '<div class="cart-summary-row"><span>الشحن</span><span class="cart-shipping-free">مجاني</span></div>' +
             '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(grandTotal) + ' ج.م</span></div>' +
-            '<p class="checkout-tax-note">شامل ' + AnttikkaCart.fmt(taxIncluded) + ' ج.م ضريبة قيمة مضافة</p>' +
             '<a href="shop.html" class="btn btn-outline cart-continue-link">متابعة التسوق</a>' +
             '<div class="cart-trust">' +
               '<div class="cart-trust-badges">' +
@@ -1660,9 +1640,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
         '</div>';
 
-      /* Selecting the "different billing address" radio just toggles the visual
-         selected state between the two options — no extra fields, kept simple
-         since billing always mirrors delivery in this store's checkout flow. */
+      cartRoot.querySelectorAll('[data-qty-plus]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-qty-plus');
+          var item = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
+          AnttikkaCart.setQty(id, (item ? item.qty : 1) + 1);
+          renderCartPage();
+        });
+      });
+      cartRoot.querySelectorAll('[data-qty-minus]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-qty-minus');
+          var item = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
+          if (item && item.qty <= 1) { AnttikkaCart.removeItem(id); }
+          else { AnttikkaCart.setQty(id, (item ? item.qty : 1) - 1); }
+          renderCartPage();
+        });
+      });
+      cartRoot.querySelectorAll('[data-remove]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          AnttikkaCart.removeItem(btn.getAttribute('data-remove'));
+          renderCartPage();
+        });
+      });
+
+      /* Keeps the visual "selected" state in sync across all checkout radio
+         groups (currently just payment method) as the user clicks between them. */
       cartRoot.querySelectorAll('.checkout-radio input').forEach(function (radio) {
         radio.addEventListener('change', function () {
           cartRoot.querySelectorAll('.checkout-radio').forEach(function (label) {
@@ -1675,12 +1678,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function () {
           var currentCart = AnttikkaCart.getCart();
+          var selectedPayment = (cartRoot.querySelector('input[name="ckPayment"]:checked') || {}).value || '—';
           var contactInfo =
             '\nالتواصل: ' + ((document.getElementById('ckContact') || {}).value || '—') +
             '\nالاسم: ' + ((document.getElementById('ckFirstName') || {}).value || '') + ' ' + ((document.getElementById('ckLastName') || {}).value || '') +
             '\nالعنوان: ' + ((document.getElementById('ckAddress') || {}).value || '—') + '، ' + ((document.getElementById('ckCity') || {}).value || '') + '، ' + ((document.getElementById('ckGov') || {}).value || '') +
             '\nالهاتف: ' + ((document.getElementById('ckPhone') || {}).value || '—') +
-            '\nطريقة الدفع: الدفع عند الاستلام (COD)';
+            '\nطريقة الدفع: ' + selectedPayment;
 
           var msg = AnttikkaCart.buildMessage(currentCart) + '\n' + contactInfo;
           window.open('https://wa.me/' + STORE_WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
