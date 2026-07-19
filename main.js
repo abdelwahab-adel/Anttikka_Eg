@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ِAnttikka — main.js
+   Anttikka (Anttikka) — main.js
    Header scroll state, mobile nav, category tab product grid, scroll reveal
    ========================================================================== */
 
@@ -144,20 +144,20 @@ window.AnttikkaCart = (function () {
 
   /* Builds the Arabic order message sent to the store's WhatsApp */
   function buildMessage(items) {
-    var lines = ['مرحباً، أرغب في إتمام طلب من متجر أوبولنت سبيسز:', ''];
+    var lines = ['مرحباً، أرغب في إتمام طلب من متجر Anttikka:', ''];
     items.forEach(function (it, i) {
       lines.push((i + 1) + '. ' + it.name);
       lines.push('   الكمية: ' + it.qty);
       if (it.off && it.oldPrice) {
-        lines.push('   السعر: ' + fmt(it.price) + ' ر.س للقطعة (بعد خصم ' + it.off + '، السعر الأصلي ' + fmt(it.oldPrice) + ' ر.س)');
+        lines.push('   السعر: ' + fmt(it.price) + ' ج.م للقطعة (بعد خصم ' + it.off + '، السعر الأصلي ' + fmt(it.oldPrice) + ' ج.م)');
       } else {
-        lines.push('   السعر: ' + fmt(it.price) + ' ر.س للقطعة');
+        lines.push('   السعر: ' + fmt(it.price) + ' ج.م للقطعة');
       }
-      lines.push('   الإجمالي الفرعي: ' + fmt(it.price * it.qty) + ' ر.س');
+      lines.push('   الإجمالي الفرعي: ' + fmt(it.price * it.qty) + ' ج.م');
       lines.push('');
     });
     lines.push('---');
-    lines.push('الإجمالي الكلي: ' + fmt(total(items)) + ' ر.س');
+    lines.push('الإجمالي الكلي: ' + fmt(total(items)) + ' ج.م');
     return lines.join('\n');
   }
 
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
       qvImg.setAttribute('src', item.img);
       qvImg.setAttribute('alt', item.name);
       qvTitle.textContent = item.name;
-      qvPriceNow.textContent = AnttikkaCart.fmt(item.price) + ' ر.س';
+      qvPriceNow.textContent = AnttikkaCart.fmt(item.price) + ' ج.م';
 
       if (item.cat) {
         qvCat.textContent = item.cat;
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (item.oldPrice) {
-        qvPriceOld.textContent = AnttikkaCart.fmt(item.oldPrice) + ' ر.س';
+        qvPriceOld.textContent = AnttikkaCart.fmt(item.oldPrice) + ' ج.م';
         qvPriceOld.style.display = '';
       } else {
         qvPriceOld.style.display = 'none';
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var subject = document.getElementById('cfSubject').value.trim();
       var message = document.getElementById('cfMessage').value.trim();
 
-      var lines = ['رسالة جديدة من نموذج التواصل — أوبولنت سبيسز', ''];
+      var lines = ['رسالة جديدة من نموذج التواصل — Anttikka', ''];
       lines.push('الاسم: ' + name);
       lines.push('الهاتف: ' + phone);
       if (subject) lines.push('الموضوع: ' + subject);
@@ -799,7 +799,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderProducts(list) {
     return list.map(function (p) {
       var badge = p.off ? '<span class="badge-sale">خصم ' + p.off + '</span>' : '';
-      var priceOld = p.old ? '<span class="price-old">' + p.old + ' ر.س</span>' : '';
+      var priceOld = p.old ? '<span class="price-old">' + p.old + ' ج.م</span>' : '';
       var priceOff = p.off ? '<span class="price-off">خصم ' + p.off + '</span>' : '';
       return (
         '<article class="product-card">' +
@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<span class="product-cat">' + p.cat + '</span>' +
             '<h3 class="product-name"><a href="product.html">' + p.name + '</a></h3>' +
             '<div class="product-rating"><span class="stars">★★★★★</span><span class="count">(80)</span></div>' +
-            '<div class="product-price"><span class="price-now">' + p.price + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+            '<div class="product-price"><span class="price-now">' + p.price + ' ج.م</span>' + priceOld + priceOff + '</div>' +
             mobileCartBtnHtml() +
           '</div>' +
         '</article>'
@@ -862,13 +862,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var h1 = pdpInfoForHydrate.querySelector('h1');
       if (h1) h1.textContent = sel.name;
-      document.title = sel.name + ' | أوبولنت سبيسز';
+      document.title = sel.name + ' | Anttikka';
 
       var priceNow = pdpInfoForHydrate.querySelector('.price-now');
-      if (priceNow) priceNow.textContent = AnttikkaCart.fmt(sel.price) + ' ر.س';
+      if (priceNow) priceNow.textContent = AnttikkaCart.fmt(sel.price) + ' ج.م';
       var priceOld = pdpInfoForHydrate.querySelector('.price-old');
       if (priceOld) {
-        if (sel.oldPrice) { priceOld.textContent = AnttikkaCart.fmt(sel.oldPrice) + ' ر.س'; priceOld.style.display = ''; }
+        if (sel.oldPrice) { priceOld.textContent = AnttikkaCart.fmt(sel.oldPrice) + ' ج.م'; priceOld.style.display = ''; }
         else priceOld.style.display = 'none';
       }
       var priceOff = pdpInfoForHydrate.querySelector('.price-off');
@@ -1217,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function shopCardHtml(p) {
       var badge = p.off ? '<span class="badge-sale">خصم ' + p.off + '</span>' : '';
-      var priceOld = p.old ? '<span class="price-old">' + p.old + ' ر.س</span>' : '';
+      var priceOld = p.old ? '<span class="price-old">' + p.old + ' ج.م</span>' : '';
       var priceOff = p.off ? '<span class="price-off">خصم ' + p.off + '</span>' : '';
       return (
         '<article class="product-card shop-card">' +
@@ -1234,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<span class="product-cat">' + p.catLabel + '</span>' +
             '<h3 class="product-name"><a href="product.html">' + p.name + '</a></h3>' +
             '<div class="product-rating"><span class="stars">★★★★★</span><span class="count">(' + p.reviews + ')</span></div>' +
-            '<div class="product-price"><span class="price-now">' + p.price + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+            '<div class="product-price"><span class="price-now">' + p.price + ' ج.م</span>' + priceOld + priceOff + '</div>' +
             mobileCartBtnHtml() +
           '</div>' +
         '</article>'
@@ -1363,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Price range */
     if (priceRange && priceMaxLabel) {
       priceRange.addEventListener('input', function () {
-        priceMaxLabel.textContent = Number(priceRange.value).toLocaleString('en-US') + ' ر.س';
+        priceMaxLabel.textContent = Number(priceRange.value).toLocaleString('en-US') + ' ج.م';
       });
       priceRange.addEventListener('change', applyFilters);
     }
@@ -1421,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (shopSearchInput) shopSearchInput.value = '';
         if (shopSearchInputMobile) shopSearchInputMobile.value = '';
         priceRange.value = priceRange.max;
-        priceMaxLabel.textContent = Number(priceRange.max).toLocaleString('en-US') + ' ر.س';
+        priceMaxLabel.textContent = Number(priceRange.max).toLocaleString('en-US') + ' ج.م';
         if (shopSort) shopSort.value = 'newest';
         state.sort = 'newest';
         applyFilters();
@@ -1538,13 +1538,13 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       var itemsHtml = cart.map(function (it) {
-        var oldHtml = it.oldPrice ? '<span class="cart-item-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
+        var oldHtml = it.oldPrice ? '<span class="cart-item-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ج.م</span>' : '';
         return (
           '<div class="cart-item" data-id="' + it.id + '">' +
             '<div class="cart-item-img"><img src="' + it.img + '" alt="' + it.name + '"></div>' +
             '<div class="cart-item-info">' +
               '<h4>' + it.name + '</h4>' +
-              '<div><span class="cart-item-price">' + AnttikkaCart.fmt(it.price) + ' ر.س</span>' + oldHtml + '</div>' +
+              '<div><span class="cart-item-price">' + AnttikkaCart.fmt(it.price) + ' ج.م</span>' + oldHtml + '</div>' +
             '</div>' +
             '<div class="cart-item-qty">' +
               '<button type="button" class="cart-qty-minus" aria-label="إنقاص الكمية">−</button>' +
@@ -1560,7 +1560,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var discount = AnttikkaCart.discountTotal(cart);
       var total = AnttikkaCart.total(cart);
       var discountRow = discount > 0
-        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + AnttikkaCart.fmt(discount) + ' ر.س</span></div>'
+        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + AnttikkaCart.fmt(discount) + ' ج.م</span></div>'
         : '';
 
       cartRoot.innerHTML =
@@ -1569,9 +1569,9 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="cart-summary">' +
             '<h3>ملخص الطلب</h3>' +
             '<div class="cart-summary-row"><span>عدد القطع</span><span>' + AnttikkaCart.count(cart) + '</span></div>' +
-            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ر.س</span></div>' +
+            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ج.م</span></div>' +
             discountRow +
-            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(total) + ' ر.س</span></div>' +
+            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(total) + ' ج.م</span></div>' +
             '<button type="button" class="btn btn-gold cart-checkout-btn" id="cartCheckoutBtn">' +
               '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>' +
               '<span>إتمام الطلب عبر واتساب</span>' +
@@ -1643,7 +1643,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '<div class="product-grid cols-4">' +
           list.map(function (it) {
             var badge = it.off ? '<span class="badge-sale">خصم ' + it.off + '</span>' : '';
-            var priceOld = it.oldPrice ? '<span class="price-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ر.س</span>' : '';
+            var priceOld = it.oldPrice ? '<span class="price-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ج.م</span>' : '';
             var priceOff = it.off ? '<span class="price-off">خصم ' + it.off + '</span>' : '';
             return (
               '<article class="product-card shop-card" data-id="' + it.id + '">' +
@@ -1658,7 +1658,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '</div>' +
                 '<div class="product-info">' +
                   '<h3 class="product-name"><a href="product.html">' + it.name + '</a></h3>' +
-                  '<div class="product-price"><span class="price-now">' + AnttikkaCart.fmt(it.price) + ' ر.س</span>' + priceOld + priceOff + '</div>' +
+                  '<div class="product-price"><span class="price-now">' + AnttikkaCart.fmt(it.price) + ' ج.م</span>' + priceOld + priceOff + '</div>' +
                   '<button type="button" class="btn-cart-inline mobile-add-cart-btn wishlist-add-cart-btn" aria-label="أضف للسلة">' + bagIcon() + '<span>أضف للسلة</span></button>' +
                 '</div>' +
               '</article>'
