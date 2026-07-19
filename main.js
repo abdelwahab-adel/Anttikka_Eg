@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function () {
       { img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة نور المخملية', price: '22,500', old: '27,900', off: '19%' },
       { img: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة زاوية ريفا', price: '31,200', old: null, off: null },
       { img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي بيرش المنجّد', price: '9,850', old: '12,300', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي لونا الجانبي', price: '19,999', old: '24,999', off: '20%' },
+      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي لونا الجانبي', price: '1,399', old: '1,699', off: '20%' },
       { img: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة بوهو ثلاثية', price: '26,400', old: null, off: null }
     ],
     bedrooms: [
@@ -721,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function () {
       { img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة أوك', price: '24,900', old: null, off: null },
       { img: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'كرسي سفرة تلمار', price: '3,650', old: '4,400', off: '17%' },
       { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'بوفيه فينزو', price: '16,800', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة مستديرة', price: '19,999', old: '24,999', off: '20%' },
+      { img: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة مستديرة', price: '5,399', old: '24,999', off: '20%' },
       { img: 'https://images.unsplash.com/photo-1533090368676-1fd25485db88?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'خزانة أطباق كريستال', price: '21,300', old: null, off: null }
     ],
     cabinets: [
