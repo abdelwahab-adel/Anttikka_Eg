@@ -827,7 +827,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var grid = document.getElementById('categoryGrid');
   var tabs = document.getElementById('categoryTabs');
   if (grid && tabs) {
-    grid.innerHTML = renderProducts(categoryData.sofas);
+    grid.innerHTML = renderProducts(categoryData.sofas.slice(0, 4));
     syncWishlistButtons(grid);
 
     tabs.querySelectorAll('.tab-btn').forEach(function (tab) {
@@ -837,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var cat = tab.getAttribute('data-cat');
         grid.style.opacity = '0';
         setTimeout(function () {
-          grid.innerHTML = renderProducts(categoryData[cat] || []);
+          grid.innerHTML = renderProducts((categoryData[cat] || []).slice(0, 4));
           syncWishlistButtons(grid);
           grid.style.opacity = '1';
         }, 180);
@@ -1523,13 +1523,28 @@ document.addEventListener('DOMContentLoaded', function () {
      ========================================================================== */
   var cartRoot = document.getElementById('cartRoot');
   if (cartRoot) {
+    var STORE_WA_NUMBER = '201068300432';
+
+    function minusIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>'; }
+    function plusIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'; }
+    function lockIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/></svg>'; }
+    function removeIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>'; }
+    function xSmallIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'; }
+
+    var EGYPT_GOVERNORATES = [
+      'القاهرة','الجيزة','الإسكندرية','أسوان','الأقصر','بورسعيد','السويس','الدقهلية','الشرقية',
+      'الغربية','المنوفية','القليوبية','البحيرة','كفر الشيخ','دمياط','بني سويف','الفيوم','المنيا',
+      'أسيوط','سوهاج','قنا','البحر الأحمر','الوادي الجديد','مطروح','شمال سيناء','جنوب سيناء'
+    ];
+    var VAT_RATE = 0.14; /* Egypt standard VAT — shown as already-included-in-price, matching the site's displayed prices */
+
     function renderCartPage() {
       var cart = AnttikkaCart.getCart();
 
       if (!cart.length) {
         cartRoot.innerHTML =
           '<div class="cart-empty">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>' +
+            '<span class="cart-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg></span>' +
             '<h3>سلتك فارغة حالياً</h3>' +
             '<p>لم تتم إضافة أي منتجات بعد. تصفّح المتجر واختر ما يناسب مساحتك.</p>' +
             '<a href="shop.html" class="btn btn-dark">تصفّح المتجر</a>' +
@@ -1537,81 +1552,138 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      var itemsHtml = cart.map(function (it) {
-        var oldHtml = it.oldPrice ? '<span class="cart-item-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ج.م</span>' : '';
+      var summaryItemsHtml = cart.map(function (it) {
+        var variantHtml = it.cat ? '<span class="summary-item-variant">' + it.cat + '</span>' : '';
         return (
-          '<div class="cart-item" data-id="' + it.id + '">' +
-            '<div class="cart-item-img"><img src="' + it.img + '" alt="' + it.name + '"></div>' +
-            '<div class="cart-item-info">' +
-              '<h4>' + it.name + '</h4>' +
-              '<div><span class="cart-item-price">' + AnttikkaCart.fmt(it.price) + ' ج.م</span>' + oldHtml + '</div>' +
+          '<div class="summary-item">' +
+            '<div class="summary-item-media">' +
+              '<img src="' + it.img + '" alt="' + it.name + '" loading="lazy">' +
+              '<span class="summary-item-qty-badge">' + it.qty + '</span>' +
             '</div>' +
-            '<div class="cart-item-qty">' +
-              '<button type="button" class="cart-qty-minus" aria-label="إنقاص الكمية">−</button>' +
-              '<span class="qty-num">' + it.qty + '</span>' +
-              '<button type="button" class="cart-qty-plus" aria-label="زيادة الكمية">+</button>' +
+            '<div class="summary-item-info">' +
+              '<span class="summary-item-name">' + it.name + '</span>' +
+              variantHtml +
             '</div>' +
-            '<button type="button" class="cart-item-remove" aria-label="إزالة من السلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+            '<span class="summary-item-price">' + AnttikkaCart.fmt(it.price * it.qty) + ' ج.م</span>' +
           '</div>'
         );
       }).join('');
 
-      var subtotal = AnttikkaCart.subtotal(cart);
-      var discount = AnttikkaCart.discountTotal(cart);
-      var total = AnttikkaCart.total(cart);
-      var discountRow = discount > 0
-        ? '<div class="cart-summary-row"><span>الخصم</span><span>−' + AnttikkaCart.fmt(discount) + ' ج.م</span></div>'
-        : '';
+      var subtotal = AnttikkaCart.total(cart);
+      var grandTotal = AnttikkaCart.total(cart);
+      var taxIncluded = Math.round(grandTotal * VAT_RATE / (1 + VAT_RATE) * 100) / 100;
+
+      var govOptionsHtml = EGYPT_GOVERNORATES.map(function (g) {
+        return '<option' + (g === 'أسوان' ? ' selected' : '') + '>' + g + '</option>';
+      }).join('');
 
       cartRoot.innerHTML =
-        '<div class="cart-layout">' +
-          '<div class="cart-items">' + itemsHtml + '</div>' +
-          '<div class="cart-summary">' +
-            '<h3>ملخص الطلب</h3>' +
-            '<div class="cart-summary-row"><span>عدد القطع</span><span>' + AnttikkaCart.count(cart) + '</span></div>' +
-            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ج.م</span></div>' +
-            discountRow +
-            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(total) + ' ج.م</span></div>' +
-            '<button type="button" class="btn btn-gold cart-checkout-btn" id="cartCheckoutBtn">' +
-              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.8 1c-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.7 2.6 4.1 3.6.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>' +
-              '<span>إتمام الطلب عبر واتساب</span>' +
-            '</button>' +
-            '<a href="shop.html" class="cart-continue-link">متابعة التسوق</a>' +
+        '<div class="cart-layout checkout-layout">' +
+
+          '<div class="checkout-form">' +
+
+            '<div class="checkout-section">' +
+              '<h3>معلومات التواصل</h3>' +
+              '<div class="checkout-field"><input type="text" id="ckContact" placeholder="البريد الإلكتروني أو رقم الهاتف"></div>' +
+              '<label class="checkout-check"><input type="checkbox" id="ckNews"><span>راسلني بالعروض والأخبار</span></label>' +
+            '</div>' +
+
+            '<div class="checkout-section">' +
+              '<h3>عنوان التوصيل</h3>' +
+              '<div class="checkout-field">' +
+                '<select id="ckCountry" disabled><option selected>مصر</option></select>' +
+              '</div>' +
+              '<div class="checkout-row-2">' +
+                '<input type="text" id="ckFirstName" placeholder="الاسم الأول">' +
+                '<input type="text" id="ckLastName" placeholder="اسم العائلة">' +
+              '</div>' +
+              '<div class="checkout-field"><input type="text" id="ckAddress" placeholder="العنوان"></div>' +
+              '<div class="checkout-row-3">' +
+                '<input type="text" id="ckCity" placeholder="المدينة">' +
+                '<select id="ckGov">' + govOptionsHtml + '</select>' +
+                '<input type="text" id="ckPostal" placeholder="الرمز البريدي (اختياري)">' +
+              '</div>' +
+              '<div class="checkout-field"><input type="tel" id="ckPhone" placeholder="رقم الهاتف"></div>' +
+              '<label class="checkout-check"><input type="checkbox" id="ckSaveInfo"><span>احفظ هذه المعلومات للمرة القادمة</span></label>' +
+            '</div>' +
+
+            '<div class="checkout-section">' +
+              '<h3>طريقة الشحن</h3>' +
+              '<label class="checkout-radio checkout-option is-selected">' +
+                '<input type="radio" name="ckShipping" checked>' +
+                '<span class="checkout-radio-label">التوصيل القياسي</span>' +
+                '<span class="checkout-option-note">مجاني</span>' +
+              '</label>' +
+            '</div>' +
+
+            '<div class="checkout-section">' +
+              '<h3>الدفع</h3>' +
+              '<p class="checkout-muted">جميع المعاملات آمنة ومشفّرة بالكامل.</p>' +
+              '<label class="checkout-radio checkout-option is-selected">' +
+                '<input type="radio" name="ckPayment" checked>' +
+                '<span class="checkout-radio-label">الدفع عند الاستلام (COD)</span>' +
+              '</label>' +
+            '</div>' +
+
+            '<div class="checkout-section">' +
+              '<h3>عنوان الفوترة</h3>' +
+              '<label class="checkout-radio is-selected">' +
+                '<input type="radio" name="ckBilling" checked><span>نفس عنوان التوصيل</span>' +
+              '</label>' +
+              '<label class="checkout-radio">' +
+                '<input type="radio" name="ckBilling"><span>استخدام عنوان فوترة مختلف</span>' +
+              '</label>' +
+            '</div>' +
+
+            '<button type="button" class="btn btn-gold checkout-complete-btn" id="cartCheckoutBtn">إتمام الطلب</button>' +
+            '<a href="privacy.html" class="checkout-privacy-link">سياسة الخصوصية</a>' +
+
           '</div>' +
+
+          '<aside class="cart-summary checkout-summary" aria-label="ملخص الطلب">' +
+            '<div class="summary-items">' + summaryItemsHtml + '</div>' +
+            '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ج.م</span></div>' +
+            '<div class="cart-summary-row"><span>الشحن</span><span class="cart-shipping-free">مجاني</span></div>' +
+            '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(grandTotal) + ' ج.م</span></div>' +
+            '<p class="checkout-tax-note">شامل ' + AnttikkaCart.fmt(taxIncluded) + ' ج.م ضريبة قيمة مضافة</p>' +
+            '<a href="shop.html" class="btn btn-outline cart-continue-link">متابعة التسوق</a>' +
+            '<div class="cart-trust">' +
+              '<div class="cart-trust-badges">' +
+                '<span class="payment-icon">InstaPay</span>' +
+                '<span class="payment-icon">Vodafone Cash</span>' +
+                '<span class="payment-icon">Sympl</span>' +
+                '<span class="payment-icon">Souhoola</span>' +
+              '</div>' +
+              '<p class="cart-trust-msg">' + lockIcon() + '<span>الدفع آمن ومشفّر بالكامل — بياناتك محمية دائماً.</span></p>' +
+            '</div>' +
+          '</aside>' +
+
         '</div>';
 
-      cartRoot.querySelectorAll('.cart-qty-minus').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var id = btn.closest('.cart-item').getAttribute('data-id');
-          var current = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
-          if (!current) return;
-          if (current.qty - 1 <= 0) {
-            AnttikkaCart.removeItem(id);
-            AnttikkaCart.toast('تمت إزالة "' + current.name + '" من السلة');
-          } else {
-            AnttikkaCart.setQty(id, current.qty - 1);
-          }
-          /* re-render happens via the cart:change listener registered below */
-        });
-      });
-      cartRoot.querySelectorAll('.cart-qty-plus').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var id = btn.closest('.cart-item').getAttribute('data-id');
-          var current = AnttikkaCart.getCart().find(function (c) { return c.id === id; });
-          if (current) AnttikkaCart.setQty(id, current.qty + 1);
-        });
-      });
-      cartRoot.querySelectorAll('.cart-item-remove').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var id = btn.closest('.cart-item').getAttribute('data-id');
-          AnttikkaCart.removeItem(id);
+      /* Selecting the "different billing address" radio just toggles the visual
+         selected state between the two options — no extra fields, kept simple
+         since billing always mirrors delivery in this store's checkout flow. */
+      cartRoot.querySelectorAll('.checkout-radio input').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          cartRoot.querySelectorAll('.checkout-radio').forEach(function (label) {
+            label.classList.toggle('is-selected', label.contains(radio) ? radio.checked : label.querySelector('input').checked);
+          });
         });
       });
 
       var checkoutBtn = document.getElementById('cartCheckoutBtn');
       if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function () {
-          AnttikkaCart.checkout(AnttikkaCart.getCart());
+          var currentCart = AnttikkaCart.getCart();
+          var contactInfo =
+            '\nالتواصل: ' + ((document.getElementById('ckContact') || {}).value || '—') +
+            '\nالاسم: ' + ((document.getElementById('ckFirstName') || {}).value || '') + ' ' + ((document.getElementById('ckLastName') || {}).value || '') +
+            '\nالعنوان: ' + ((document.getElementById('ckAddress') || {}).value || '—') + '، ' + ((document.getElementById('ckCity') || {}).value || '') + '، ' + ((document.getElementById('ckGov') || {}).value || '') +
+            '\nالهاتف: ' + ((document.getElementById('ckPhone') || {}).value || '—') +
+            '\nطريقة الدفع: الدفع عند الاستلام (COD)';
+
+          var msg = AnttikkaCart.buildMessage(currentCart) + '\n' + contactInfo;
+          window.open('https://wa.me/' + STORE_WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
         });
       }
     }
