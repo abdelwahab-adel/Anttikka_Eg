@@ -3,41 +3,41 @@
    Design tokens for the Anttikka storefront
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
 :root{
-  /* Palette v2 — premium warm-neutral base, refined gold primary, deep charcoal, muted terracotta accent.
+  /* Palette v3 — warm luxury furniture-brand palette (per brand brief).
      NOTE: variable NAMES are unchanged on purpose (only their values were upgraded) so every existing
      rule across this file — and every class/id referenced from main.js — keeps working exactly as before. */
-  --color-bg:            #FAF8F5;   /* warm off-white page background (premium "Background") */
+  --color-bg:            #F8F6F2;   /* Background — soft warm white */
 
-  --color-bg-alt:        #F3ECE0;  /* soft beige section background, tuned to sit on the new bg */
-  --color-sand:          #E7DBC7;
-  --color-wood:          #8C6A4A;
-  --color-wood-dark:     #9E7440;  /* primary hover tone */
-  --color-charcoal:      #1F1F1F;  /* premium "Dark" */
-  --color-charcoal-soft: #2A2825;
-  --color-gold:          #B58A52;  /* premium "Primary" */
-  --color-gold-light:    #C79A55;  /* premium "Accent" */
-  --color-text:          #201E1C;
-  --color-text-muted:    #6E6E6E;  /* premium "Secondary Text" */
-  --color-border:        #E9E4DD;  /* premium "Borders" */
-  --color-white:         #FFFFFF;  /* premium "Surface" */
-  --color-sale:          #C1583A;  /* refined, less-neon terracotta for sale accents */
-  --color-success:       #2E8B57;  /* premium "Success" — new token, additive only */
+  --color-bg-alt:        #EFE7DB;  /* Secondary Background — light beige */
+  --color-sand:          #D8C3A5;  /* Secondary — sand beige */
+  --color-wood:          #8B5E3C;  /* Primary — walnut brown */
+  --color-wood-dark:     #71492E;  /* deeper walnut, hover tone for primary/accent elements */
+  --color-charcoal:      #222222;  /* Headings — dark charcoal (also used for deep contrast sections) */
+  --color-charcoal-soft: #332B24;  /* warm-dark, used for gradients in place of a cold black */
+  --color-gold:          #B07A45;  /* Accent — elegant bronze */
+  --color-gold-light:    #C79A62;  /* lighter bronze for subtle hovers/highlights */
+  --color-text:          #222222;  /* Headings */
+  --color-text-muted:    #555555;  /* Body Text */
+  --color-border:        #E6E0D8;  /* Borders */
+  --color-white:         #FFFFFF;  /* Surface */
+  --color-sale:          #A6452F;  /* warm, muted terracotta-red for sale accents (kept off neon-red) */
+  --color-success:       #4E7A5D;  /* Success — natural green */
 
-  /* Type */
-  --font-display: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
-  --font-body:    'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+  /* Type — an elegant serif display paired with a clean, highly-legible Arabic sans for body copy */
+  --font-display: 'Noto Serif Arabic', 'IBM Plex Sans Arabic', serif;
+  --font-body:    'IBM Plex Sans Arabic', 'Noto Serif Arabic', sans-serif;
 
   /* Layout */
   --container-w: 1360px;
   --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --shadow-soft: 0 10px 34px rgba(31,31,31,0.07);
-  --shadow-card: 0 8px 24px rgba(31,31,31,0.08);
-  --shadow-card-hover: 0 20px 44px rgba(31,31,31,0.14);
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --shadow-soft: 0 12px 40px rgba(34,26,18,0.07);
+  --shadow-card: 0 10px 28px rgba(34,26,18,0.08);
+  --shadow-card-hover: 0 24px 50px rgba(34,26,18,0.16);
   --ease: cubic-bezier(.4,0,.2,1);
   --transition: 0.3s var(--ease);       /* kept within the 200–350ms premium motion range */
   --transition-fast: 0.2s var(--ease);
@@ -191,10 +191,8 @@ section{ padding: 90px 0; }
   position: fixed;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-soft);
   padding: 14px 0;
     backdrop-filter: blur(10px);
-    /* box-shadow: var(--shadow-soft); */
     padding: 12px 0;
     border-bottom-color: rgba(199, 154, 85, 0.22);
 
@@ -334,7 +332,6 @@ section{ padding: 90px 0; }
   position: sticky;
   top: 0;
   background: rgba(250,247,242,0.98);
-  box-shadow: var(--shadow-soft);
   padding: 14px 0;
 }
 .site-header.static-header .logo,
@@ -357,7 +354,7 @@ section{ padding: 90px 0; }
   isolation: isolate;
 }
 .hero-bg{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position:absolute; inset:0;
   background-size: cover; background-position: center;
   transform: scale(1.06);
@@ -794,7 +791,7 @@ section{ padding: 90px 0; }
    OFFER / DISCOUNT BANNER
    ========================================================================== */
 .offer-banner{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
@@ -999,7 +996,7 @@ section{ padding: 90px 0; }
    CUSTOMIZATION BANNER
    ========================================================================== */
 .custom-banner{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position:relative; border-radius: var(--radius-lg); overflow:hidden;
   min-height: 360px; background-size:cover; background-position:center;
   display:flex; align-items:center;
@@ -1018,7 +1015,7 @@ section{ padding: 90px 0; }
    BIG BANNER (final CTA before footer)
    ========================================================================== */
 .big-banner{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position:relative; border-radius: var(--radius-lg); overflow:hidden;
   background-size:cover; background-position:center;
   padding: 90px 40px; text-align:center; color:#fff;
@@ -1036,7 +1033,7 @@ section{ padding: 90px 0; }
    ========================================================================== */
 .installment-banner{
   position:relative; overflow:hidden; border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   background-size:cover; background-position:center top;
   padding: 54px 44px 34px;
 }
@@ -1389,7 +1386,7 @@ section{ padding: 90px 0; }
    PAGE HERO (inner pages e.g. About)
    ========================================================================== */
 .page-hero{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position: relative;
   min-height: 46vh;
   display:flex; align-items:center; justify-content:center;
@@ -1844,7 +1841,7 @@ section{ padding: 90px 0; }
    STAT PROMO BANNER — bold percentage-figure promotional banner
    ========================================================================== */
 .stat-promo-banner{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position:relative; border-radius: var(--radius-lg); overflow:hidden;
   min-height: 360px; display:flex; align-items:center;
   background-size:cover; background-position:center;
@@ -1963,7 +1960,7 @@ section{ padding: 90px 0; }
   border-radius: var(--radius-md);
 }
 .decor-feature{
-  background: linear-gradient(135deg, #2b2723, var(--color-charcoal));
+  background: linear-gradient(135deg, #2E2015, var(--color-charcoal));
   position:relative; border-radius: var(--radius-lg); overflow:hidden;
   background-size:cover; background-position:center; display:flex; align-items:flex-end; min-height:100%;
   transition: opacity .28s ease;
@@ -2033,7 +2030,7 @@ section{ padding: 90px 0; }
   transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 .cart-item-remove svg{ width:15px; height:15px; stroke: var(--color-text-muted); transition: stroke var(--transition-fast); }
-.cart-item-remove:hover{ background:#C0392B; border-color:#C0392B; transform: scale(1.06); }
+.cart-item-remove:hover{ background:var(--color-sale); border-color:var(--color-sale); transform: scale(1.06); }
 .cart-item-remove:hover svg{ stroke:#fff; }
 .cart-item-remove:focus-visible{ outline:2px solid var(--color-gold); outline-offset:2px; }
 
@@ -2080,36 +2077,6 @@ section{ padding: 90px 0; }
 }
 .cart-summary-row.total span:last-child{ color: var(--color-gold); font-size:19px; }
 
-/* Coupon */
-.cart-coupon{ margin-bottom:20px; }
-.cart-coupon-row{ display:flex; gap:8px; }
-.cart-coupon-row input{
-  flex:1; min-width:0; height:44px; padding:0 16px; border-radius:24px;
-  border:1px solid var(--color-border); background: var(--color-bg-alt);
-  font-family: var(--font-body); font-size:13.5px; color: var(--color-text);
-  transition: border-color var(--transition-fast), background var(--transition-fast);
-}
-.cart-coupon-row input::placeholder{ color: var(--color-text-muted); }
-.cart-coupon-row input:focus{ outline:none; border-color: var(--color-gold); background:#fff; }
-.cart-coupon-btn{
-  height:44px; padding:0 20px; border-radius:24px; font-size:13px; white-space:nowrap; flex-shrink:0;
-}
-.cart-coupon-msg{ font-size:12px; margin:8px 2px 0; min-height:16px; }
-.cart-coupon-msg.is-error{ color: var(--color-sale); }
-.cart-coupon-applied{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  background: rgba(46,139,87,.08); border:1px solid rgba(46,139,87,.3); color: var(--color-success);
-  border-radius:24px; padding:10px 16px; font-size:13px; font-weight:600;
-}
-.cart-coupon-applied strong{ font-family: var(--font-display); }
-.cart-coupon-applied button{
-  width:24px; height:24px; border-radius:50%; border:none; background:rgba(46,139,87,.15);
-  color: var(--color-success); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
-  transition: background var(--transition-fast);
-}
-.cart-coupon-applied button svg{ width:12px; height:12px; }
-.cart-coupon-applied button:hover{ background:rgba(46,139,87,.28); }
-
 .cart-checkout-btn{ width:100%; justify-content:center; gap:10px; margin-bottom:12px; }
 .cart-checkout-btn svg{ width:18px; height:18px; }
 .cart-continue-link{ width:100%; justify-content:center; margin-bottom:24px; }
@@ -2149,8 +2116,6 @@ section{ padding: 90px 0; }
   .cart-item-footer{ flex-direction:column; align-items:stretch; gap:12px; }
   .cart-item-qty{ justify-content:center; }
   .cart-item-linetotal{ text-align:center; }
-  .cart-coupon-row{ flex-direction:column; }
-  .cart-coupon-btn{ width:100%; }
 }
 
 /* ==========================================================================
@@ -2275,7 +2240,7 @@ section{ padding: 90px 0; }
   transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 .summary-item-remove svg{ width:10px; height:10px; stroke: var(--color-text-muted); }
-.summary-item-remove:hover{ background:#C0392B; border-color:#C0392B; }
+.summary-item-remove:hover{ background:var(--color-sale); border-color:var(--color-sale); }
 .summary-item-remove:hover svg{ stroke:#fff; }
 
 .checkout-tax-note{ font-size:12px; color: var(--color-text-muted); margin: -14px 0 20px; }
@@ -2977,6 +2942,14 @@ body.no-scroll{ overflow:hidden; height:100%; }
 
   .shop-layout{ display:block; }
 
+  /* Product grid -> same ".reveal" scroll-fade problem as the filter sidebar below:
+     on mobile the grid collapses to fewer columns and gets much taller, so the
+     12%-of-element IntersectionObserver threshold isn't met until the user has
+     scrolled well past it — products stay invisible (opacity:0) far longer than
+     on desktop, reading as a load "delay" that isn't really there. Force it visible
+     immediately on mobile instead of waiting on scroll position. */
+  #shopGrid.reveal{ opacity:1 !important; transform:none !important; }
+
   /* Filter sidebar -> bottom sheet
      NOTE: this element also carries the site-wide ".reveal" scroll-fade class
      (".reveal.in{ opacity:1; transform:none }") for its desktop entrance animation.
@@ -3088,7 +3061,7 @@ body.no-scroll{ overflow:hidden; height:100%; }
 }
 
 .product-card:hover .mobile-add-cart-btn {
-  background-color: #F17B54;
+  background-color: var(--color-gold);
     opacity: 1;
     visibility: visible;
     transform: translateY(0);

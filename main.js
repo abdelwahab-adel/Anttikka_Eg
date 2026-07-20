@@ -80,6 +80,7 @@ window.AnttikkaCart = (function () {
         oldPrice: item.oldPrice ? Number(item.oldPrice) : null,
         off: item.off || null,
         img: item.img || '',
+        cat: item.cat || null,
         qty: item.qty || 1
       });
     }
@@ -1557,8 +1558,12 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }).join('');
 
-      var subtotal = AnttikkaCart.total(cart);
+      var subtotal = AnttikkaCart.subtotal(cart);
       var grandTotal = AnttikkaCart.total(cart);
+      var discount = AnttikkaCart.discountTotal(cart);
+      var discountRowHtml = discount > 0
+        ? '<div class="cart-summary-row cart-summary-discount"><span>الخصم</span><span class="cart-summary-neg">-' + AnttikkaCart.fmt(discount) + ' ج.م</span></div>'
+        : '';
 
       var govOptionsHtml = EGYPT_GOVERNORATES.map(function (g) {
         return '<option' + (g === 'أسوان' ? ' selected' : '') + '>' + g + '</option>';
@@ -1624,6 +1629,7 @@ document.addEventListener('DOMContentLoaded', function () {
           '<aside class="cart-summary checkout-summary" aria-label="ملخص الطلب">' +
             '<div class="summary-items">' + summaryItemsHtml + '</div>' +
             '<div class="cart-summary-row"><span>الإجمالي الفرعي</span><span>' + AnttikkaCart.fmt(subtotal) + ' ج.م</span></div>' +
+            discountRowHtml +
             '<div class="cart-summary-row"><span>الشحن</span><span class="cart-shipping-free">مجاني</span></div>' +
             '<div class="cart-summary-row total"><span>الإجمالي</span><span>' + AnttikkaCart.fmt(grandTotal) + ' ج.م</span></div>' +
             '<a href="shop.html" class="btn btn-outline cart-continue-link">متابعة التسوق</a>' +
