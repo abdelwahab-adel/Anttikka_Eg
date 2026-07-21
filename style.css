@@ -923,6 +923,33 @@ section{ padding: 90px 0; }
   background: linear-gradient(0deg, rgba(32,30,28,.78), transparent);
   color:#fff; font-family: var(--font-display); font-size:13.5px;
 }
+
+/* ---------- Site-wide floating video widget (bottom-left, PiP style) ---------- */
+.floating-video-widget{
+  position:fixed; left:22px; bottom:22px; z-index:560;
+  width:180px; aspect-ratio: 350 / 600;
+  border-radius: var(--radius-md); overflow:hidden;
+  background:#000; box-shadow: var(--shadow-card-hover);
+  opacity:0; transform: translateY(16px) scale(.96);
+  transition: opacity .4s ease, transform .4s cubic-bezier(.22,.9,.35,1);
+  pointer-events:none;
+}
+.floating-video-widget.open{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.floating-video-widget video{
+  display:block; width:100%; height:100%; object-fit:cover; background:#000;
+}
+.floating-video-widget-close{
+  position:absolute; top:8px; left:8px; z-index:2; width:28px; height:28px; border-radius:50%;
+  background: rgba(15,13,11,.55); border:1px solid rgba(255,255,255,.35);
+  display:flex; align-items:center; justify-content:center;
+  transition: background var(--transition);
+}
+.floating-video-widget-close svg{ width:13px; height:13px; stroke:#fff; }
+.floating-video-widget-close:hover{ background: rgba(15,13,11,.8); }
+.floating-video-widget-close:focus-visible{ outline:2px solid var(--color-gold); outline-offset:2px; }
+@media (max-width:640px){
+  .floating-video-widget{ left:14px; bottom:86px; width:132px; }
+}
 .process-steps{ display:flex; flex-direction:column; gap:24px; }
 .process-step{ display:flex; gap:16px; align-items:flex-start; }
 .process-step-num{

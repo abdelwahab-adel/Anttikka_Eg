@@ -1793,3 +1793,54 @@ if (video && playBtn) {
       playBtn.style.display = "flex";
   });
 }
+
+/* ---------- Site-wide floating video widget (bottom-left, PiP style, auto-opens on every page) ---------- */
+(function () {
+  var path = window.location.pathname.split("/").pop();
+  var isHome = path === "" || path === "index.html";
+  if (!isHome) return;
+
+  var VIDEO_SRC = "images/WhatsApp Video 2026-07-15 at 12.53.35 PM.mp4";
+
+  var widget = document.createElement("div");
+  widget.className = "floating-video-widget";
+  widget.setAttribute("role", "complementary");
+  widget.setAttribute("aria-label", "فيديو مصغّر: استكشف مجموعتنا الفاخرة");
+
+  var closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "floating-video-widget-close";
+  closeBtn.setAttribute("aria-label", "إغلاق الفيديو المصغّر");
+  closeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+  var vid = document.createElement("video");
+  vid.src = VIDEO_SRC;
+  vid.muted = true;
+  vid.loop = true;
+  vid.playsInline = true;
+  vid.preload = "metadata";
+  vid.setAttribute("aria-hidden", "true");
+  vid.tabIndex = -1;
+
+  widget.appendChild(closeBtn);
+  widget.appendChild(vid);
+  document.body.appendChild(widget);
+
+  function closeWidget() {
+    widget.classList.remove("open");
+    vid.pause();
+    window.setTimeout(function () {
+      if (widget.parentNode) widget.parentNode.removeChild(widget);
+    }, 420);
+  }
+
+  closeBtn.addEventListener("click", closeWidget);
+  closeBtn.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeWidget();
+  });
+
+  window.setTimeout(function () {
+    widget.classList.add("open");
+    vid.play().catch(function () { /* autoplay may be blocked by the browser; widget still shows */ });
+  }, 900);
+})();
