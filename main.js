@@ -1800,7 +1800,7 @@ if (video && playBtn) {
   var isHome = path === "" || path === "index.html";
   if (!isHome) return;
 
-  var VIDEO_SRC = "images/WhatsApp Video 2026-07-15 at 12.53.35 PM.mp4";
+  var VIDEO_SRC = "images/Video.mp4";
 
   var widget = document.createElement("div");
   widget.className = "floating-video-widget";
