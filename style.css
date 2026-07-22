@@ -2081,7 +2081,9 @@ section{ padding: 90px 0; }
 @media (max-width: 420px){
   .installment-card{ padding-inline: 22px; }
   .ip-badge--top, .ip-badge--bottom{ left:50%; transform: translateX(-50%); right:auto; }
-  .ip-badge--bottom{ max-width: 200px; bottom:-46px; }
+  .ip-badge--bottom{ max-width: 200px; bottom: -79px;
+        right: -152px;
+        left: -10px;}
   .installment-phone-wrap{ margin-bottom:46px; }
   .installment-slices{ height:170px; }
   .installment-big-num{ font-size:56px; }
@@ -3448,4 +3450,11 @@ img, video, svg{ max-width: 100%; height: auto; }
   .summer-promo-corner{ display: none; }
 }
 
+#mm{
+grid-template-columns:repeat(6,1fr);
+}
 
+@media (max-width: 860px){
+#mm{
+grid-template-columns:repeat(3,1fr);
+}}
