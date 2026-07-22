@@ -705,7 +705,7 @@ section{ padding: 90px 0; }
   gap: 26px;
 }
 .product-grid.cols-3{ grid-template-columns: repeat(3,1fr); }
-.product-grid.cols-5{ grid-template-columns: repeat(5,1fr); }
+.product-grid.cols-5{ grid-template-columns: repeat(4,1fr); }
 
 .product-card{
   position: relative;
@@ -1992,7 +1992,7 @@ section{ padding: 90px 0; }
   line-height:1.18; margin-bottom:20px; color:#fff;
 }
 .bundle-promo-title-accent{
-  display:block; font-style:italic; color: var(--color-gold-light);
+  display:block; color: var(--color-gold-light);
 }
 .bundle-promo-sub{
   font-size:16.5px; line-height:1.7; max-width:460px;
