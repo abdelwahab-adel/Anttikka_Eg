@@ -11,6 +11,39 @@
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23201E1C'/><text x='32' y='43' font-family='Georgia, serif' font-size='34' fill='%23B98D4F' text-anchor='middle'>A</text></svg>">
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&amp;w=1800&amp;auto=format&amp;fit=crop" fetchpriority="high">
+<style>
+/* تصغير ارتفاع كروت المنتجات في هذه الصفحة فقط */
+.product-media{ aspect-ratio: 4/3.1; }
+.product-info{ padding: 14px 16px 16px; }
+.product-name{ font-size: 16px; margin-bottom: 6px; }
+.product-rating{ margin-bottom: 8px; }
+.product-cat{ margin-bottom: 4px; }
+
+/* قسم اللوحات الجدارية: رجّع الصور لحجمها الأصلي الأكبر، وصغّر المحتوى النصي أكتر */
+.decor-grid .product-media{ aspect-ratio: 3/4; }
+.decor-grid .product-info{ padding: 10px 4px 0; }
+.decor-grid .product-name{ font-size: 10px; margin-bottom: 11px; }
+.decor-grid .product-name a{ display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+.decor-grid .product-price{ font-size: 12.5px; gap:10px; }
+.decor-grid .price-now{ font-size: 13px; }
+.decor-grid .product-cat{ display:none; }
+
+/* بانر عروض الباقات: يمتد بعرض الشاشة بالكامل (full-bleed) */
+.bundle-promo-section{ padding: 0; }
+.bundle-promo-banner{
+  width: 100%;
+  min-height: 620px;
+  border-radius: 0;
+}
+.bundle-promo-content{
+  padding: 70px max(24px, calc((100% - 1360px) / 2 + 64px));
+  max-width: 640px;
+}
+@media (max-width: 640px){
+  .bundle-promo-banner{ min-height: 480px; }
+  .bundle-promo-content{ padding: 40px 24px; max-width: 100%; }
+}
+</style>
 </head>
 <body>
 <a href="#main" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -410,7 +443,7 @@
 <!-- ============ CATEGORY TABS + GRID ============ -->
 <section class="section-alt">
   <div class="container">
-    <div class="section-head reveal">
+    <div class="section-head reveal category-section-head">
       <span class="eyebrow">تسوّق حسب الفئة</span>
       <h2>تصفّح مجموعاتنا</h2>
     </div>
@@ -534,24 +567,22 @@
 </section>
 
 <!-- ============ BUNDLE DEALS PROMO BANNER ============ -->
-<section>
-  <div class="container">
-    <div class="bundle-promo-banner reveal" style="background-image:url('https://images.unsplash.com/photo-1519974719765-e6559eac2575?q=80&w=1600&auto=format&fit=crop');">
-      <span class="bundle-promo-tag bundle-promo-tag--left">حصرية</span>
-      <span class="bundle-promo-tag bundle-promo-tag--right">عروض الباقات</span>
+<section class="bundle-promo-section">
+  <div class="bundle-promo-banner reveal" style="background-image:url('https://images.unsplash.com/photo-1519974719765-e6559eac2575?q=80&w=1600&auto=format&fit=crop');">
+    <span class="bundle-promo-tag bundle-promo-tag--left">حصرية</span>
+    <span class="bundle-promo-tag bundle-promo-tag--right">عروض الباقات</span>
 
-      <div class="bundle-promo-content">
-        <span class="bundle-promo-badge">BUNDLE DEALS</span>
-        <h2 class="bundle-promo-title">تطابق مثالي<br><span class="bundle-promo-title-accent">في باقة واحدة</span></h2>
-        <p class="bundle-promo-sub">وفّر أكثر عند شراء مجموعات متكاملة من الأثاث الخارجي، السفرة، وغرف المعيشة.</p>
-        <a href="shop.html?cat=bundles" class="bundle-promo-cta">
-          <span class="bundle-promo-cta-text">اكتشف العروض</span>
-          <span class="bundle-promo-cta-divider" aria-hidden="true"></span>
-          <span class="bundle-promo-cta-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 6l-6 6 6 6"/></svg>
-          </span>
-        </a>
-      </div>
+    <div class="bundle-promo-content">
+      <span class="bundle-promo-badge">BUNDLE DEALS</span>
+      <h2 class="bundle-promo-title">تطابق مثالي<br><span class="bundle-promo-title-accent">في باقة واحدة</span></h2>
+      <p class="bundle-promo-sub">وفّر أكثر عند شراء مجموعات متكاملة من الأثاث الخارجي، السفرة، وغرف المعيشة.</p>
+      <a href="shop.html?cat=bundles" class="bundle-promo-cta">
+        <span class="bundle-promo-cta-text">اكتشف العروض</span>
+        <span class="bundle-promo-cta-divider" aria-hidden="true"></span>
+        <span class="bundle-promo-cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 6l-6 6 6 6"/></svg>
+        </span>
+      </a>
     </div>
   </div>
 </section>
