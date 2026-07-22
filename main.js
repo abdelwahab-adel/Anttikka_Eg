@@ -188,7 +188,8 @@ window.AnttikkaCart = (function () {
     var catEl = cardEl.querySelector('.product-cat');
     var cat = catEl ? catEl.textContent.trim() : null;
     var explicitId = cardEl.getAttribute('data-id');
-    return { id: explicitId || slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, cat: cat, qty: 1 };
+    var desc = cardEl.getAttribute('data-desc') || null;
+    return { id: explicitId || slugify(name), name: name, img: img, price: price || 0, oldPrice: oldPrice, off: off, cat: cat, desc: desc, qty: 1 };
   }
 
   function toast(message) {
@@ -384,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var qvBadge = document.getElementById('qvBadge');
     var qvCat = document.getElementById('qvCat');
     var qvTitle = document.getElementById('qvTitle');
+    var qvDesc = document.getElementById('qvDesc');
     var qvPriceNow = document.getElementById('qvPriceNow');
     var qvPriceOld = document.getElementById('qvPriceOld');
     var qvPriceOff = document.getElementById('qvPriceOff');
@@ -400,6 +402,15 @@ document.addEventListener('DOMContentLoaded', function () {
       qvImg.setAttribute('alt', item.name);
       qvTitle.textContent = item.name;
       qvPriceNow.textContent = AnttikkaCart.fmt(item.price) + ' ج.م';
+
+      if (qvDesc) {
+        if (item.desc) {
+          qvDesc.textContent = item.desc;
+          qvDesc.style.display = '';
+        } else {
+          qvDesc.style.display = 'none';
+        }
+      }
 
       if (item.cat) {
         qvCat.textContent = item.cat;
@@ -705,62 +716,71 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- Category tabs product data ---------- */
   var categoryData = {
     sofas: [
-      { img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة نور المخملية', price: '22,500', old: '27,900', off: '19%' },
-      { img: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة زاوية ريفا', price: '31,200', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي بيرش المنجّد', price: '9,850', old: '12,300', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي لونا الجانبي', price: '1,399', old: '1,699', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة بوهو ثلاثية', price: '26,400', old: null, off: null }
+      { img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة نور المخملية', price: '22,500', old: '27,900', off: '19%', desc: 'أريكة فاخرة بتنجيد مخملي ناعم وخطوط منحنية أنيقة، هيكلها من خشب الزان الصلب وحشوة عالية الكثافة توفّر راحة وثبات لسنوات طويلة.' },
+      { img: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة زاوية ريفا', price: '31,200', old: null, off: null, desc: 'أريكة زاوية واسعة بتصميم عصري، مثالية لتجمعات العائلة، بتنجيد متين مقاوم للاهتراء وهيكل خشبي صلب يتحمل الاستخدام اليومي.' },
+      { img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي بيرش المنجّد', price: '9,850', old: '12,300', off: '20%', desc: 'كرسي منجّد بخطوط دائرية ناعمة، حشوة سخية ومسند ظهر مريح، يضيف لمسة دافئة لأي ركن جلوس أو غرفة قراءة.' },
+      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'كراسي', name: 'كرسي لونا الجانبي', price: '1,399', old: '1,699', off: '20%', desc: 'كرسي جانبي بتصميم عصري وخطوط ناعمة منحنية، جلسة مبطنة توفّر راحة تدوم طويلاً وتناسب المساحات الصغيرة.' },
+      { img: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?q=80&w=700&auto=format&fit=crop', cat: 'أرائك', name: 'أريكة بوهو ثلاثية', price: '26,400', old: null, off: null, desc: 'أريكة ثلاثية بطابع بوهيمي دافئ، أقمشة طبيعية الملمس وتفاصيل حرفية تمنح غرفة المعيشة طابعاً مميزاً.' }
     ],
     bedrooms: [
-      { img: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'سرير أوما الخشبي', price: '18,750', old: '22,900', off: '18%' },
-      { img: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'خزانة ملابس فيلانو', price: '27,300', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'طاولة زينة كلارا', price: '7,400', old: '9,100', off: '19%' },
-      { img: 'https://images.unsplash.com/photo-1616627988645-1a1eaef4f6d8?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'كومودينو نوكس', price: '4,600', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'مقعد نهاية السرير', price: '5,950', old: '7,200', off: '17%' }
+      { img: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'سرير أوما الخشبي', price: '18,750', old: '22,900', off: '18%', desc: 'سرير بهيكل خشبي صلب وتصميم بسيط أنيق، رأسية مرتفعة توفّر إسناداً مريحاً، مناسب لغرف النوم العصرية والكلاسيكية.' },
+      { img: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'خزانة ملابس فيلانو', price: '27,300', old: null, off: null, desc: 'خزانة ملابس واسعة بأرفف وأدراج داخلية منظمة، تشطيب خشبي فاخر يدوم طويلاً مع سهولة في الاستخدام اليومي.' },
+      { img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'طاولة زينة كلارا', price: '7,400', old: '9,100', off: '19%', desc: 'طاولة زينة أنيقة بمرآة مدمجة وأدراج تخزين، تصميم عصري يضيف لمسة رقي لغرفة النوم.' },
+      { img: 'https://images.unsplash.com/photo-1616627988645-1a1eaef4f6d8?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'كومودينو نوكس', price: '4,600', old: null, off: null, desc: 'كومودينو مدمج بجانب السرير بدرج وحيز تخزين سفلي، تصميم بسيط يناسب مختلف ديكورات غرفة النوم.' },
+      { img: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=700&auto=format&fit=crop', cat: 'غرف نوم', name: 'مقعد نهاية السرير', price: '5,950', old: '7,200', off: '17%', desc: 'مقعد منجّد يوضع عند نهاية السرير، عملي لارتداء الأحذية أو كقطعة ديكور إضافية بمقاس متوسط أنيق.' }
     ],
     dining: [
-      { img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة أوك', price: '24,900', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'كرسي سفرة تلمار', price: '3,650', old: '4,400', off: '17%' },
-      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'بوفيه فينزو', price: '16,800', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة مستديرة', price: '5,399', old: '24,999', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1533090368676-1fd25485db88?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'خزانة أطباق كريستال', price: '21,300', old: null, off: null }
+      { img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة أوك', price: '24,900', old: null, off: null, desc: 'طاولة سفرة من خشب الأوك الطبيعي، سطح متين يتحمل الاستخدام اليومي وتصميم كلاسيكي يناسب العائلات الكبيرة.' },
+      { img: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'كرسي سفرة تلمار', price: '3,650', old: '4,400', off: '17%', desc: 'كرسي سفرة بتصميم مريح وهيكل خشبي متين، تنجيد ناعم يكمل طاولات السفرة الكلاسيكية والعصرية.' },
+      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'بوفيه فينزو', price: '16,800', old: null, off: null, desc: 'بوفيه سفرة بمساحة تخزين واسعة وأدراج وأبواب منسقة، تشطيب خشبي أنيق يناسب صالة السفرة.' },
+      { img: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'طاولة سفرة مستديرة', price: '5,399', old: '24,999', off: '20%', desc: 'طاولة سفرة مستديرة عصرية تناسب المساحات المتوسطة، تصميم أنيق يسهّل التجمع والحديث حول الطاولة.' },
+      { img: 'https://images.unsplash.com/photo-1533090368676-1fd25485db88?q=80&w=700&auto=format&fit=crop', cat: 'سفرة', name: 'خزانة أطباق كريستال', price: '21,300', old: null, off: null, desc: 'خزانة عرض بواجهات زجاجية لعرض أطقم الأطباق والكريستال، تصميم فاخر يضيف لمسة رقي لصالة السفرة.' }
     ],
     cabinets: [
-      { img: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية 4 أبواب', price: '490', old: '620', off: '21%' },
-      { img: 'https://images.unsplash.com/photo-1631048305493-b23dceb8b6c3?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية موجية', price: '475', old: '650', off: '27%' },
-      { img: 'https://images.unsplash.com/photo-1618221639331-4de74ce5b830?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية باين أدوار', price: '307', old: '450', off: '32%' },
-      { img: 'https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية مودرن', price: '399', old: '549', off: '27%' },
-      { img: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية خشبية مزدوجة', price: '520', old: '690', off: '24%' }
+      { img: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية 4 أبواب', price: '490', old: '620', off: '21%', desc: 'خزانة أحذية بأربعة أبواب وأدراج داخلية منظمة، تستوعب عدداً كبيراً من الأحذية بتصميم عملي موفّر للمساحة.' },
+      { img: 'https://images.unsplash.com/photo-1631048305493-b23dceb8b6c3?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية موجية', price: '475', old: '650', off: '27%', desc: 'خزانة أحذية بتصميم موجي عصري وواجهة أنيقة، مناسبة لمداخل المنازل بمساحة محدودة.' },
+      { img: 'https://images.unsplash.com/photo-1618221639331-4de74ce5b830?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية باين أدوار', price: '307', old: '450', off: '32%', desc: 'خزانة أحذية متعددة الأدوار من خشب الباين، خفيفة وسهلة النقل، مثالية للشقق الصغيرة.' },
+      { img: 'https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية مودرن', price: '399', old: '549', off: '27%', desc: 'خزانة أحذية بتصميم مودرن بسيط وخطوط نظيفة، تناسب مداخل المنازل والشقق العصرية.' },
+      { img: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=700&auto=format&fit=crop', cat: 'خزائن أحذية', name: 'خزانة أحذية خشبية مزدوجة', price: '520', old: '690', off: '24%', desc: 'خزانة أحذية مزدوجة الأبواب بسعة تخزين كبيرة، خشب متين وتشطيب أنيق يدوم لسنوات.' }
     ],
     lighting: [
-      { img: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'ثريا القبة الذهبية', price: '14,999', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'مصباح أرضي أوركا', price: '5,200', old: '6,500', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'ثريا كريستال فينوس', price: '32,000', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1543198126-8a0472ce56b4?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'مصباح طاولة أمبر', price: '2,150', old: '2,700', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1544457070-4cd773b4d71e?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'إضاءة معلقة ثلاثية', price: '6,800', old: null, off: null }
+      { img: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'ثريا القبة الذهبية', price: '14,999', old: null, off: null, desc: 'ثريا معلقة بتصميم قبابي ذهبي فاخر، تمنح المساحة إضاءة دافئة ولمسة فخامة تليق بصالات الاستقبال.' },
+      { img: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'مصباح أرضي أوركا', price: '5,200', old: '6,500', off: '20%', desc: 'مصباح أرضي بتصميم عصري وقاعدة معدنية متينة، إضاءة مريحة للعين تناسب أركان القراءة والجلوس.' },
+      { img: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'ثريا كريستال فينوس', price: '32,000', old: null, off: null, desc: 'ثريا كريستال فاخرة بتفاصيل لامعة دقيقة، قطعة مركزية تضفي فخامة استثنائية على أي صالة.' },
+      { img: 'https://images.unsplash.com/photo-1543198126-8a0472ce56b4?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'مصباح طاولة أمبر', price: '2,150', old: '2,700', off: '20%', desc: 'مصباح طاولة بلون كهرماني دافئ وتصميم أنيق، مثالي لطاولات الجانب وغرف النوم.' },
+      { img: 'https://images.unsplash.com/photo-1544457070-4cd773b4d71e?q=80&w=700&auto=format&fit=crop', cat: 'إضاءة', name: 'إضاءة معلقة ثلاثية', price: '6,800', old: null, off: null, desc: 'مجموعة إضاءة معلقة ثلاثية بتصميم عنقودي عصري، تناسب فوق طاولات السفرة والمطابخ المفتوحة.' }
     ],
     tv_tables: [
-      { img: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون خشب مقاس 200 سم', price: '345', old: '580', off: '41%' },
-      { img: 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون مع أرفف جدارية', price: '519', old: '950', off: '45%' },
-      { img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون زجاج وخشب', price: '448.99', old: '580', off: '23%' },
-      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون مودرن', name: 'طاولة تلفزيون ماليزي رمادي', price: '345', old: '448.99', off: '23%' },
-      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون مودرن', name: 'طاولة تلفزيون مقاس 140 سم', price: '385', old: '490', off: '21%' }
+      { img: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون خشب مقاس 200 سم', price: '345', old: '580', off: '41%', desc: 'طاولة تلفزيون بمقاس كبير 200 سم وأدراج تخزين واسعة، خشب متين يناسب صالات المعيشة الكبيرة.' },
+      { img: 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون مع أرفف جدارية', price: '519', old: '950', off: '45%', desc: 'طاولة تلفزيون مع أرفف جدارية إضافية لتنظيم الأجهزة والديكورات، تصميم عملي وموفّر للمساحة.' },
+      { img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون', name: 'طاولة تلفزيون زجاج وخشب', price: '448.99', old: '580', off: '23%', desc: 'طاولة تلفزيون بمزيج من الزجاج والخشب، تصميم عصري خفيف يضيف لمسة أناقة لغرفة المعيشة.' },
+      { img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون مودرن', name: 'طاولة تلفزيون ماليزي رمادي', price: '345', old: '448.99', off: '23%', desc: 'طاولة تلفزيون بتصميم ماليزي عصري ولون رمادي أنيق، مساحة تخزين مناسبة للأجهزة والملحقات.' },
+      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'طاولة تلفزيون مودرن', name: 'طاولة تلفزيون مقاس 140 سم', price: '385', old: '490', off: '21%', desc: 'طاولة تلفزيون بمقاس متوسط 140 سم، تصميم بسيط ومتين يناسب معظم أحجام غرف المعيشة.' }
     ],
     buffets: [
-      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه مودرن', name: 'بوفيه مودرن 140×80 سم خشب وزجاج', price: '995', old: '1250', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1533090368676-1fd25485db88?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه مودرن', name: 'بوفيه مودرن قاعدة معدنية رمادي', price: '995', old: '1250', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1618221639331-4de74ce5b830?q=80&w=700&auto=format&fit=crop', cat: 'بوفية معدنية', name: 'خزانة حديد متعددة الاستعمال', price: '529', old: '599', off: '12%' },
-      { img: 'https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=700&auto=format&fit=crop', cat: 'دولاب بوفية سيراميك', name: 'دولاب بوفية سيراميك 160 سم', price: '949', old: '1299.99', off: '27%' },
-      { img: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه تخزين', name: 'بوفيه تخزين 80 سم بأبواب زجاج', price: '399', old: '549', off: '27%' }
+      { img: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه مودرن', name: 'بوفيه مودرن 140×80 سم خشب وزجاج', price: '995', old: '1250', off: '20%', desc: 'بوفيه مودرن بمزيج خشب وزجاج، مساحة تخزين وعرض مثالية لصالة السفرة أو غرفة المعيشة.' },
+      { img: 'https://images.unsplash.com/photo-1533090368676-1fd25485db88?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه مودرن', name: 'بوفيه مودرن قاعدة معدنية رمادي', price: '995', old: '1250', off: '20%', desc: 'بوفيه بقاعدة معدنية متينة ولون رمادي عصري، يجمع بين المتانة والأناقة في قطعة واحدة.' },
+      { img: 'https://images.unsplash.com/photo-1618221639331-4de74ce5b830?q=80&w=700&auto=format&fit=crop', cat: 'بوفية معدنية', name: 'خزانة حديد متعددة الاستعمال', price: '529', old: '599', off: '12%', desc: 'خزانة حديد متينة متعددة الاستخدامات، مناسبة للتخزين المكتبي أو المنزلي بتصميم عملي.' },
+      { img: 'https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=700&auto=format&fit=crop', cat: 'دولاب بوفية سيراميك', name: 'دولاب بوفية سيراميك 160 سم', price: '949', old: '1299.99', off: '27%', desc: 'دولاب بوفيه بواجهة سيراميك فاخرة ومقاس واسع 160 سم، قطعة أنيقة تجمع بين الفخامة والعملية.' },
+      { img: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=700&auto=format&fit=crop', cat: 'بوفيه تخزين', name: 'بوفيه تخزين 80 سم بأبواب زجاج', price: '399', old: '549', off: '27%', desc: 'بوفيه تخزين مدمج بأبواب زجاجية لعرض المقتنيات، مقاس 80 سم مناسب للمساحات المتوسطة.' }
     ],
     outdoor: [
-      { img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'جلسة راتان خارجية', price: '28,900', old: '36,000', off: '20%' },
-      { img: 'https://images.unsplash.com/photo-1519974719765-e6559eac2575?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'طاولة حديقة تيك', price: '11,400', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'كرسي استرخاء خارجي', price: '6,300', old: '7,800', off: '19%' },
-      { img: 'https://images.unsplash.com/photo-1601918774946-25832a4be0d6?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'أرجوحة حديقة خشبية', price: '9,999', old: null, off: null },
-      { img: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'مظلة حديقة قماشية', price: '13,500', old: '16,900', off: '20%' }
+      { img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'جلسة راتان خارجية', price: '28,900', old: '36,000', off: '20%', desc: 'جلسة راتان خارجية متكاملة مقاومة للعوامل الجوية، مثالية للحدائق والتراسات العائلية.' },
+      { img: 'https://images.unsplash.com/photo-1519974719765-e6559eac2575?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'طاولة حديقة تيك', price: '11,400', old: null, off: null, desc: 'طاولة حديقة من خشب التيك الطبيعي المقاوم للرطوبة، تصميم متين يدوم لسنوات في الأجواء الخارجية.' },
+      { img: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'كرسي استرخاء خارجي', price: '6,300', old: '7,800', off: '19%', desc: 'كرسي استرخاء خارجي مقاوم للعوامل الجوية، تصميم مريح يناسب أوقات الاسترخاء في الحديقة.' },
+      { img: 'https://images.unsplash.com/photo-1601918774946-25832a4be0d6?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'أرجوحة حديقة خشبية', price: '9,999', old: null, off: null, desc: 'أرجوحة حديقة من الخشب الطبيعي المعالج، مساحة جلوس مريحة تناسب العائلات في الهواء الطلق.' },
+      { img: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=700&auto=format&fit=crop', cat: 'أثاث خارجي', name: 'مظلة حديقة قماشية', price: '13,500', old: '16,900', off: '20%', desc: 'مظلة حديقة قماشية مقاومة للماء والأشعة، توفّر ظلاً مريحاً لجلسات الحديقة والتراس.' }
     ]
   };
+
+  /* Small helper to safely embed product text inside an HTML attribute (used for data-desc). */
+  function escAttr(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
 
   function heartIcon() {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg>';
@@ -785,7 +805,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var priceOld = p.old ? '<span class="price-old">' + p.old + ' ج.م</span>' : '';
       var priceOff = p.off ? '<span class="price-off">خصم ' + p.off + '</span>' : '';
       return (
-        '<article class="product-card">' +
+        '<article class="product-card" data-desc="' + escAttr(p.desc) + '">' +
           '<div class="product-media">' +
             badge +
             '<button class="wishlist-btn" aria-label="أضف للمفضلة">' + heartIcon() + '</button>' +
@@ -1155,6 +1175,7 @@ document.addEventListener('DOMContentLoaded', function () {
           catLabel: catLabels[cat] || p.cat,
           img: p.img,
           name: p.name,
+          desc: p.desc,
           price: p.price,
           priceNum: parseFloat(String(p.price).replace(/,/g, '')) || 0,
           old: p.old,
@@ -1203,7 +1224,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var priceOld = p.old ? '<span class="price-old">' + p.old + ' ج.م</span>' : '';
       var priceOff = p.off ? '<span class="price-off">خصم ' + p.off + '</span>' : '';
       return (
-        '<article class="product-card shop-card">' +
+        '<article class="product-card shop-card" data-desc="' + escAttr(p.desc) + '">' +
           '<div class="product-media">' +
             badge +
             '<button class="wishlist-btn" aria-label="أضف للمفضلة">' + heartIcon() + '</button>' +
@@ -1728,7 +1749,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var priceOld = it.oldPrice ? '<span class="price-old">' + AnttikkaCart.fmt(it.oldPrice) + ' ج.م</span>' : '';
             var priceOff = it.off ? '<span class="price-off">خصم ' + it.off + '</span>' : '';
             return (
-              '<article class="product-card shop-card" data-id="' + it.id + '">' +
+              '<article class="product-card shop-card" data-id="' + it.id + '" data-desc="' + escAttr(it.desc) + '">' +
                 '<div class="product-media">' +
                   badge +
                   '<button class="wishlist-btn active wishlist-remove-btn" aria-label="إزالة من المفضلة">' + heartIcon() + '</button>' +

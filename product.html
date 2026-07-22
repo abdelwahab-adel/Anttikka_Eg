@@ -12,7 +12,7 @@
 <body>
 
 <!-- ============ HEADER ============ -->
-<header class="site-header static-header" id="siteHeader">
+<header class="site-header" id="siteHeader">
   <div class="container header-inner">
     <a href="index.html" class="logo">Anttikka<span></span></a>
 
@@ -279,7 +279,7 @@
     </div>
 
     <div class="product-grid reveal">
-      <article class="product-card">
+      <article class="product-card" data-desc="كرسي بهيكل خشبي متين وتصميم بسيط أنيق، يجمع بين الطابع الطبيعي والراحة العملية.">
         <div class="product-media">
           <span class="badge-sale">خصم 20%</span>
           <button class="wishlist-btn" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
@@ -302,7 +302,7 @@
         </div>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" data-desc="كرسي منجّد بخطوط دائرية ناعمة، حشوة سخية ومسند ظهر مريح، يضيف لمسة دافئة لأي ركن جلوس أو غرفة قراءة.">
         <div class="product-media">
           <button class="wishlist-btn" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
           <img src="https://images.unsplash.com/photo-1550254478-ead40cc54513?q=80&w=800&auto=format&fit=crop" alt="كرسي بيرش المنجّد" loading="lazy">
@@ -322,7 +322,7 @@
         </div>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" data-desc="كرسي بمسند ظهر دائري مميز وتصميم عصري جريء، قطعة تُضفي طابعاً فنياً على أي مساحة.">
         <div class="product-media">
           <button class="wishlist-btn" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
           <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=800&auto=format&fit=crop" alt="كرسي الظهر الدائري" loading="lazy">
@@ -342,7 +342,7 @@
         </div>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" data-desc="أريكة فاخرة بتنجيد مخملي ناعم وخطوط منحنية أنيقة، هيكلها من خشب الزان الصلب وحشوة عالية الكثافة توفّر راحة وثبات لسنوات طويلة.">
         <div class="product-media">
           <span class="badge-sale">خصم 19%</span>
           <button class="wishlist-btn" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
@@ -467,6 +467,7 @@
       <div class="qv-info">
         <span class="product-cat" id="qvCat" style="display:none;"></span>
         <h3 id="qvTitle"></h3>
+        <p class="qv-desc" id="qvDesc" style="display:none;"></p>
         <div class="pdp-rating">
           <span class="stars">★★★★★</span>
           <span class="count">(80 تقييم)</span>
