@@ -327,6 +327,11 @@ section{ padding: 90px 0; }
   .header-icons{ gap:12px; }
 }
 
+
+@media (max-width: 860px){
+  .header-icons{ display: none;}
+
+}
 /* Static/solid header variant — for inner pages with no dark hero image behind it */
 .site-header.static-header{
   position: sticky;
