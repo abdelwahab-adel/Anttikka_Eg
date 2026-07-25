@@ -385,15 +385,7 @@ section{ padding: 90px 0; }
   width:440px; height:440px; bottom:-180px; right:-100px;
   background: radial-gradient(circle, rgba(181,138,82,.4), transparent 70%);
 }
-.hero-ring{
-  position:absolute; top:14%; right:8%;
-  width:230px; height:230px; border-radius:50%;
-  border:1px solid rgba(255,255,255,.14);
-}
-.hero-ring::before{
-  content:''; position:absolute; inset:22px; border-radius:50%;
-  border:1px solid rgba(199,154,85,.22);
-}
+
 
 .hero-content{
   position: relative;
