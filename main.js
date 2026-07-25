@@ -882,7 +882,6 @@ document.addEventListener('DOMContentLoaded', function () {
       { img: 'images/prodact/طقم أثاث خارجي ستيل، 4 قطع.jpg', cat: 'أثاث خارجي', name: 'طقم أثاث خارجي ستيل، 4 قطع', price: '13,500', old: '16,900', off: '20%', desc: 'جلسة راتان خارجية متكاملة مقاومة للعوامل الجوية، مثالية للحدائق والتراسات العائلية.' }
     ]
   };
-
   /* Small helper to safely embed product text inside an HTML attribute (used for data-desc). */
   function escAttr(str) {
     return String(str == null ? '' : str)
@@ -1241,6 +1240,12 @@ document.addEventListener('DOMContentLoaded', function () {
       tv_tables: 'طاولة تلفزيون', buffets: 'بوفيه', cabinets: 'خزائن أحذية',
       lighting: 'إضاءة', outdoor: 'أثاث خارجي'
     };
+    /* NOTE: material & color used to be guessed per-category (e.g. every "sofas" item forced to
+       'قماش مخملي' via a function, colors cycled blindly through a fixed list) — that meant items
+       that didn't actually match (like the wall-art pieces mixed into this category) got the wrong
+       filter values. Each product in categoryData now carries its own real material/color, read
+       directly below; materialMap/colorMap are kept only as a safety-net fallback if a product is
+       ever added without them. */
     var materialMap = {
       sofas: function () { return 'قماش مخملي'; },
       bedrooms: function () { return 'خشب طبيعي'; },
@@ -1249,7 +1254,8 @@ document.addEventListener('DOMContentLoaded', function () {
       lighting: function () { return 'معدن'; },
       tv_tables: function (i) { return i % 2 === 0 ? 'خشب طبيعي' : 'معدن'; },
       buffets: function (i) { var m = ['خشب طبيعي', 'معدن', 'رخام']; return m[i % m.length]; },
-      outdoor: function () { return 'راتان'; }
+      outdoor: function (i) { return i % 2 === 0 ? 'راتان' : 'خشب طبيعي' ; }
+    
     };
     var colorMap = {
       sofas: ['beige', 'darkbrown', 'black'],
@@ -1294,8 +1300,8 @@ document.addEventListener('DOMContentLoaded', function () {
           priceNum: parseFloat(String(p.price).replace(/,/g, '')) || 0,
           old: p.old,
           off: p.off,
-          material: materialMap[cat](i),
-          colorKey: colorMap[cat][i % colorMap[cat].length],
+          material: p.material || (materialMap[cat] ? materialMap[cat](i) : ''),
+          colorKey: p.color || (colorMap[cat] ? colorMap[cat][i % colorMap[cat].length] : ''),
           rating: stats.rating,
           reviews: stats.reviews,
           sold: stats.sold
@@ -1621,7 +1627,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key === 'Escape') closeAllShopSheets();
     });
 
-    /* Initial render — read ?cat= and ?search= from URL for deep-linking from other pages */
+    /* Initial render — read ?cat=, ?search=, ?sale= and ?sort= from URL for deep-linking
+       from other pages (e.g. footer "العروض" / "الأكثر مبيعاً" / "وصل حديثاً" links) */
     var urlParams = new URLSearchParams(window.location.search);
     var initialCat = urlParams.get('cat');
     if (initialCat && categoryData[initialCat]) {
@@ -1632,6 +1639,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (initialSearch && shopSearchInput) {
       shopSearchInput.value = initialSearch;
       if (shopSearchInputMobile) shopSearchInputMobile.value = initialSearch;
+    }
+    var initialSale = urlParams.get('sale');
+    if (initialSale === '1' && onSaleOnly) {
+      onSaleOnly.checked = true;
+    }
+    var initialSort = urlParams.get('sort');
+    var validSorts = ['bestselling', 'newest', 'rating-desc', 'price-asc', 'price-desc'];
+    if (initialSort && validSorts.indexOf(initialSort) !== -1) {
+      state.sort = initialSort;
+      if (shopSort) shopSort.value = initialSort;
+      setActiveSortOption(initialSort);
     }
     applyFilters();
   }
@@ -1755,15 +1773,15 @@ document.addEventListener('DOMContentLoaded', function () {
               '<p class="checkout-muted checkout-deposit-note">المقدم 25%</p>' +
               '<label class="checkout-radio checkout-option is-selected">' +
                 '<input type="radio" name="ckPayment" value="InstaPay" checked>' +
-                '<span class="checkout-radio-label">InstaPay</span>' +
+                '<span class="checkout-radio-label"><span class="payment-icon"><img style="width: 100px;" src="images/payments/instapay.png" alt="InstaPay" loading="lazy"></span></span>' +
               '</label>' +
               '<label class="checkout-radio checkout-option">' +
                 '<input type="radio" name="ckPayment" value="Vodafone Cash">' +
-                '<span class="checkout-radio-label">Vodafone Cash</span>' +
+                '<span class="checkout-radio-label"> <span class="payment-icon"><img style="width: 100px; height: 30px;"  src="images/payments/mobile-wallets.jpg" alt="الدفع عبر محافظ الموبايل" loading="lazy"></span></span>' +
               '</label>' +
               '<label class="checkout-radio checkout-option">' +
                 '<input type="radio" name="ckPayment" value="Souhoola">' +
-                '<span class="checkout-radio-label">Souhoola</span>' +
+                '<span class="checkout-radio-label"><span class="payment-icon"><img style="width: 100px;"  src="images/payments/souhoola.png" alt="Souhoola" loading="lazy"></span></span>' +
               '</label>' +
             '</div>' +
 
