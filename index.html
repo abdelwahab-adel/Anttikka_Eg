@@ -97,10 +97,24 @@
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.4 2 5 5.3 5c2 0 3.4 1.1 4.2 2.3.3.5 1.3 2 1.3 2s1-1.5 1.3-2C13 6.1 14.5 5 16.4 5c3.3 0 5 3.4 3.4 6.8C19.5 16.4 12 21 12 21z"/></svg>
           <span class="cart-count wishlist-count">0</span>
         </a>
-        <a href="cart.html" aria-label="سلة المشتريات">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag w-10 h-10 text-muted-foreground" aria-hidden="true"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>
-          <span class="cart-count">0</span>
-        </a>
+          <a href="cart.html" aria-label="سلة المشتريات">
+        <span class="bn-icon-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="#000"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+    </svg>
+
+    <span class="bn-count cart-count">0</span>
+</span></a>
       </div>
       <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -411,7 +425,7 @@
       <span class="bundle-promo-badge">BUNDLE DEALS</span>
       <h2 class="bundle-promo-title">تطابق مثالي<br><span class="bundle-promo-title-accent">في باقة واحدة</span></h2>
       <p class="bundle-promo-sub">وفّر أكثر عند شراء مجموعات متكاملة من الأثاث الخارجي، السفرة، وغرف المعيشة.</p>
-      <a href="shop.html?cat=bundles" class="bundle-promo-cta">
+      <a href="shop.html?sale=1" class="bundle-promo-cta">
         <span class="bundle-promo-cta-text">اكتشف العروض</span>
         <span class="bundle-promo-cta-divider" aria-hidden="true"></span>
         <span class="bundle-promo-cta-icon" aria-hidden="true">
@@ -899,13 +913,13 @@
 
       <div class="dc-slide active">
         <div class="dc-media" style="background-image:url('images/دريسنج3.jpg');">
-          <div class="dc-product-card">
+          <a class="dc-product-card" href="product.html?id=%D8%AF%D8%B1%D9%8A%D8%B3%D9%86%D8%AC-%D8%B1%D9%88%D9%85-%D9%85%D9%88%D8%AF%D8%B1%D9%86-szh3">
             <img src="images/دريسنج3.jpg" alt="دريسنج روم مودرن SZH3">
             <div class="dc-product-info">
-              <h4>دريسنج روم مودرن — SZH3</h4>
+              <h4>دريسنج روم مودرن SZH3</h4>
               <div class="dc-price"><span class="dc-old">56,000 ج.م</span><span class="dc-now">44,999 ج.م</span></div>
             </div>
-          </div>
+          </a>
           <span class="dc-save-badge">وفّر 11,001 ج.م</span>
         </div>
         <div class="dc-content">
@@ -917,13 +931,13 @@
 
       <div class="dc-slide">
         <div class="dc-media" style="background-image:url('images/dr1.jpg');">
-          <div class="dc-product-card">
+          <a class="dc-product-card" href="product.html?id=%D8%AF%D8%B1%D9%8A%D8%B3%D9%86%D8%AC-%D8%B1%D9%88%D9%85-%D8%A8%D9%86%D9%8A-szh2">
             <img src="images/dr1.jpg" alt="دريسنج روم بني SZH2">
             <div class="dc-product-info">
-              <h4>دريسنج روم بني — SZH2</h4>
+              <h4>دريسنج روم بني SZH2</h4>
               <div class="dc-price"><span class="dc-old">29,050 ج.م</span><span class="dc-now">23,599 ج.م</span></div>
             </div>
-          </div>
+          </a>
           <span class="dc-save-badge">وفّر 5,451 ج.م</span>
         </div>
         <div class="dc-content">
@@ -935,13 +949,13 @@
 
       <div class="dc-slide">
         <div class="dc-media" style="background-image:url('images/dr2.webp');">
-          <div class="dc-product-card">
+          <a class="dc-product-card" href="product.html?id=%D8%AF%D8%B1%D9%8A%D8%B3%D9%86%D8%AC-%D8%B1%D9%88%D9%85-%D8%A8%D9%84%D8%A7%D9%83-szh1">
             <img src="images/dr2.webp" alt="دريسنج روم بلاك SZH1">
             <div class="dc-product-info">
-              <h4>دريسنج روم بلاك — SZH1</h4>
+              <h4>دريسنج روم بلاك SZH1</h4>
               <div class="dc-price"><span class="dc-old">38,400 ج.م</span><span class="dc-now">32,499 ج.م</span></div>
             </div>
-          </div>
+          </a>
           <span class="dc-save-badge">وفّر 5,901 ج.م</span>
         </div>
         <div class="dc-content">
@@ -1135,9 +1149,22 @@
   </a>
   <a href="cart.html" class="bn-item" data-page="cart">
     <span class="bn-icon-wrap">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag w-10 h-10 text-muted-foreground" aria-hidden="true"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>
-      <span class="bn-count cart-count">0</span>
-    </span>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="#000"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+    </svg>
+
+    <span class="bn-count cart-count">0</span>
+</span>
     <span class="bn-label">السلة</span>
   </a>
 </nav>
